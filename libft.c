@@ -113,16 +113,16 @@ char	*ft_itoa(int n1)
 	return (arr);
 }
 
-void	ft_lstadd_back(t_list **Astack, t_list *new)
+void	ft_lstadd_back(t_list **list, t_list *new)
 {
 	t_list	*current;
 
-	if (!Astack || !*Astack)
+	if (!list || !*list)
 	{
-		*Astack = new;
+		*list = new;
 		return ;
 	}
-	current = *Astack;
+	current = *list;
 	while (current->next)
 		current = current->next;
 	current->next = new;

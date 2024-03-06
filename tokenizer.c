@@ -61,30 +61,30 @@ void ft_add_word(char *line, int *i, t_list **list, t_list *node)
 
 void ft_token(t_list **list)
 {
-	char *line;
-	int i;
-	t_list *node;
+	t_list	*node;
+	char	*line;
+	int		i;
 
 	node = NULL;
-	i = 0;
 	line = readline("minishell :");
-	if(!line)
-		exit(1);
-	// while(line)
-	// {
+	while(line)
+	{
+		i = 0;
+		if(!line)
+			exit(1);
 		while (line[i])
 		{
 			if (ft_check(&line[i]) == 1)
 				ft_add_special_character(node, &line[i], list, &i);
-			// else if (ft_check(&line[i]) != 1 && ft_check(&line[i]) != 3)
-			// 	ft_add_word(line, &i, list, node);
 			else
 				ft_add_word(line, &i, list, node);
 			i++;
 		}
-		// free(line);
-	// 	line = readline("minishell :");
-	// }
+		free(line);
+		ft_parsing(*list);
+		list = NULL;
+		line = readline("minishell :");
+	}
 }
 
 void ft_print(t_list *list)
