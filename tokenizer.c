@@ -12,11 +12,13 @@ int ft_check(char *c)
 		return (4);
 	return (0);
 }
-void ft_add_special_character(t_list *node, char *c, t_list **list, int *i)
+void	ft_add_special_character(t_list *node, char *c, t_list **list, int *i)
 {
 	node = ft_lstnew(c);
 	if (*c == ' ' || *c == '\t')
+	{
 		(node->type = SPACE_, node->value = " ");
+	}
 	else if (*c == '>' &&  *(c+1) == '>')
 		(node->type = APPEND, node->value = ">>", (*i)++);
 	else if (*c == '<' && *(c+1)  == '<')
@@ -65,26 +67,32 @@ void ft_token(t_list **list)
 	char	*line;
 	int		i;
 
-	node = NULL;
 	line = readline("minishell :");
-	while(line)
-	{
+	// while(line)
+	// {
+		*list = NULL;
+		node = NULL;
 		i = 0;
 		if(!line)
 			exit(1);
 		while (line[i])
 		{
-			if (ft_check(&line[i]) == 1)
+			if (line[i] == 32)
+			{
 				ft_add_special_character(node, &line[i], list, &i);
-			else
+				while (line[i] == ' ')
+					i++;	
+			}
+			if (line[i] && ft_check(&line[i]) == 1)
+				ft_add_special_character(node, &line[i], list, &i);
+			else if (line[i])
 				ft_add_word(line, &i, list, node);
 			i++;
 		}
-		free(line);
-		ft_parsing(*list);
-		list = NULL;
-		line = readline("minishell :");
-	}
+		// free(line);
+		// ft_parsing(*list);
+		// line = readline("minishell :");
+	// }
 }
 
 void ft_print(t_list *list)

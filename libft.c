@@ -113,20 +113,35 @@ char	*ft_itoa(int n1)
 	return (arr);
 }
 
-void	ft_lstadd_back(t_list **list, t_list *new)
+// void	ft_lstadd_back(t_list **list, t_list *new)
+// {
+// 	t_list	*current;
+
+// 	if (!list || !*list)
+// 	{
+// 		*list = new;
+// 		return ;
+// 	}
+// 	current = *list;
+// 	while (current->next)
+// 		current = current->next;
+// 	current->next = new;
+// }
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*current;
 
-	if (!list || !*list)
+	if (!lst || !*lst)
 	{
-		*list = new;
+		*lst = new;
 		return ;
 	}
-	current = *list;
-	while (current->next)
+	current = *lst;
+	while (current->next != NULL)
 		current = current->next;
 	current->next = new;
 }
+
 
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {

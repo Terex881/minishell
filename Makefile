@@ -4,7 +4,7 @@ CC = cc -g -fsanitize=address
 
 # FLAGS = -Wall -Werror -Wextra  
 
-OBJ = minishell.o libft.o tokenizer.o
+OBJ = main.o libft.o tokenizer.o
 
 all : $(NAME)
 

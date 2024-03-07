@@ -7,6 +7,7 @@
 #include <libc.h>
 #include <stdlib.h>
 // syscall
+//  echo yassi" ne 
 typedef enum 
 {
     WORD,           // 0   
@@ -52,11 +53,11 @@ int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 
 
-int ft_check(char *c);
-void ft_add_special_character(t_list *node, char *c, t_list **list, int *i);
-void ft_add_word(char *line, int *i, t_list **list, t_list *node);
-void ft_token(t_list **list);
-void ft_print(t_list *list);
+int     ft_check(char *c);
+void    ft_add_special_character(t_list *node, char *c, t_list **list, int *i);
+void    ft_add_word(char *line, int *i, t_list **list, t_list *node);
+void    ft_token(t_list **list);
+void    ft_print(t_list *list);
 
 
 void ft_parsing(t_list *list);
