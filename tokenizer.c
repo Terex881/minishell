@@ -57,6 +57,7 @@ void ft_add_word(char *line, int *i, t_list **list, t_list *node)
 		node->type = VARIABLE;
 	else
 		node->type= WORD;
+	
 	ft_lstadd_back(list, node);
 	(*i)--;
 }
@@ -68,8 +69,8 @@ void ft_token(t_list **list)
 	int		i;
 
 	line = readline("minishell :");
-	// while(line)
-	// {
+	while(line)
+	{
 		*list = NULL;
 		node = NULL;
 		i = 0;
@@ -80,7 +81,7 @@ void ft_token(t_list **list)
 			if (line[i] == 32)
 			{
 				ft_add_special_character(node, &line[i], list, &i);
-				while (line[i] == ' ')
+				while (line[i] == ' ' || line[i] == '\t')
 					i++;	
 			}
 			if (line[i] && ft_check(&line[i]) == 1)
@@ -89,19 +90,19 @@ void ft_token(t_list **list)
 				ft_add_word(line, &i, list, node);
 			i++;
 		}
-		// free(line);
-		// ft_parsing(*list);
-		// line = readline("minishell :");
-	// }
+		free(line);
+		ft_parsing(*list);
+		line = readline("minishell :");
+	}
 }
 
 void ft_print(t_list *list)
 {
 	while (list)
 	{
-		if (list->type==WORD)
+		if (list->type == WORD)
 			printf("Word   %s\n", list->value);
-		if (list->type==PIPE)
+		if (list->type == PIPE)
 			printf("pipe   %s\n", list->value);
 		if (list->type==HER_DOC)
 			printf("here_doc   %s\n", list->value);
