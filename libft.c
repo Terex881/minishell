@@ -113,20 +113,7 @@ char	*ft_itoa(int n1)
 	return (arr);
 }
 
-// void	ft_lstadd_back(t_list **list, t_list *new)
-// {
-// 	t_list	*current;
 
-// 	if (!list || !*list)
-// 	{
-// 		*list = new;
-// 		return ;
-// 	}
-// 	current = *list;
-// 	while (current->next)
-// 		current = current->next;
-// 	current->next = new;
-// }
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*current;
@@ -152,6 +139,12 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 	}
 }
 
+int	ft_isalpha(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
+		return (1);
+	return (0);
+}
 
 
 
