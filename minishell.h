@@ -44,8 +44,8 @@ int		ft_atoi(const char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *str1, char sep);
 t_list	*ft_lstnew(void *content);
-void	ft_lstadd_front(t_list **lst, t_list *new);
-void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstadd_front(t_list **lst, t_list *new1);
+void	ft_lstadd_back(t_list **lst, t_list *new1);
 void	ft_lstdelone(t_list *lst);
 void	ft_lstclear(t_list **lst);
 // void	ft_lstiter(t_list *lst, void (*f)(void *));
@@ -61,7 +61,11 @@ void	ft_token(t_list **list);
 void	ft_print(t_list *list);
 
 
-void	ft_sysntax_error(t_list *list);
+void	ft_syntax_error(t_list *list);
+int     ft_return(t_list *lst);
+
+
+void ft_expand(t_list **list);
 
 
 #endif

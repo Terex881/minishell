@@ -4,7 +4,7 @@ CC = cc -g
 
 # FLAGS = -Wall -Werror -Wextra  
 
-OBJ = main.o libft.o tokenizer.o
+OBJ = main.o libft.o tokenizer.o syntax_error.o
 
 all : $(NAME)
 
@@ -17,8 +17,7 @@ $(NAME) : $(OBJ)
 clean :
 	rm -rf $(OBJ)
 
-fclean : clean
+fclean: clean
 	rm -rf $(NAME)
 
-re :
-	fclean all
+re: fclean all

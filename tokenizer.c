@@ -1,8 +1,6 @@
 #include "minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
 
-int ft_check(char *c)
+int	ft_check(char *c)
 {
 	if (*c == ' '  || *c == '>' || *c == '<' || *c == '|' || *c == '\t')
 		return (1);
@@ -38,22 +36,21 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 	j = *i;
 	c = line[*i];
 	(*i)++;
-	while (line[*i] && line[*i] != c)
+	while(line[*i] && line[*i] != c)
 		(*i)++;
 	tmp = ft_substr(line, j, (*i - j) + 1);
 	if(!tmp)
-		return (NULL);
+		return(NULL);
 	node = ft_lstnew(tmp);
-	// free(tmp);
-	if (line[j] == '\"' && line[*i] == '\0')
+	node->value = tmp;
+	free(tmp);
+	if ((line[j] == '\"' || line[j] == '\'') && line[*i] == '\0')
 		perror("3");
-	if (line[j] == '\'' && line[*i] == '\0')
-		perror("4");
 	if (line[j] == '\"')
 		node->type = D_Q;
 	else if (line[j] == '\'')
 		node->type = S_Q;
-	return (node);
+	return(node);
 }
 t_list	*ft_add_word(char *line, int *i, t_list *node)
 {
@@ -62,33 +59,32 @@ t_list	*ft_add_word(char *line, int *i, t_list *node)
 	char *tmp;
 
 	if (ft_check(&line[*i]) == 2)
-		return (ft_add_douple_single(line, i, node));
+		return(ft_add_douple_single(line, i, node));
 	else
-		while (line[*i+1] && (ft_check(&line[*i+1]) == 0))
+		while(line[*i+1] && (ft_check(&line[*i+1]) == 0))
 			(*i)++;
 	tmp = ft_substr(line, j, (*i - j) + 1);
 	if (!tmp)
-		return (NULL);
+		return(NULL);
 	node = ft_lstnew(tmp);
-	// free(tmp);
 	node->value = tmp;
+	free(tmp);
 	if ((line[j]) == '$' && ft_isalpha(line[j+1]))
 		node->type = VARIABLE;
 	else
-		node->type= WORD;
-	return (node);
+		node->type = WORD;
+	return(node);
 }
 
-
-void ft_token(t_list **list)
+void	ft_token(t_list **list)
 {
 	t_list	*node;
 	char	*line;
 	int		i;
 
 	line = readline("minishell :");
-	while(line)
-	{
+	// while(line)
+	// {
 		*list = NULL;
 		node = NULL;
 		i = 0;
@@ -97,7 +93,7 @@ void ft_token(t_list **list)
 		while (line[i])
 		{
 			if (line[i] == ' ' || line[i] == '\t')
-				while (line[i+1] && (line[i+1] == ' ' || line[i+1] == '\t'))
+				while (line[i + 1] && (line[i + 1] == ' ' || line[i + 1] == '\t'))
 					i++;
 			if (line[i] && ft_check(&line[i]) == 1)
 				ft_lstadd_back(list, ft_add_special_character(node, &line[i], &i));
@@ -105,9 +101,12 @@ void ft_token(t_list **list)
 				ft_lstadd_back(list, ft_add_word(line, &i, node));
 			i++;
 		}
-		ft_sysntax_error(*list);
-		line = readline("minishell :");
-	}
+		// ft_syntax_error(*list);
+		// free(line);
+		ft_expand(list);
+		// ft_lstclear(list);
+		// line = readline("minishell :");
+	// }
 }
 
 void ft_print(t_list *list)
@@ -118,21 +117,21 @@ void ft_print(t_list *list)
 			printf("Word   %s\n", list->value);
 		if (list->type == PIPE)
 			printf("pipe   %s\n", list->value);
-		if (list->type==HER_DOC)
+		if (list->type == HER_DOC)
 			printf("here_doc   %s\n", list->value);
-		if (list->type==R_IN)
+		if (list->type == R_IN)
 			printf("R_IN   %s\n", list->value);
-		if (list->type==R_OUT)
+		if (list->type == R_OUT)
 			printf("R_OUT   %s\n", list->value);
-		if (list->type==SPACE_)
+		if (list->type == SPACE_)
 			printf("space   %s\n", list->value);
-		if (list->type==APPEND)
+		if (list->type == APPEND)
 			printf("append   %s\n", list->value);
-		if (list->type==D_Q)
+		if (list->type == D_Q)
 			printf("D_Q   %s\n", list->value);
-		if (list->type==S_Q)
+		if (list->type == S_Q)
 			printf("S_Q   %s\n", list->value);
-		if (list->type==VARIABLE)
+		if (list->type == VARIABLE)
 			printf("variable   %s\n", list->value);
 		list = list->next;
 	}

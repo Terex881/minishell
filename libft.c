@@ -50,68 +50,11 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-void	*ft_calloc(size_t num, size_t size)
-{
-	char	*arr;
-	long	n;
-	long	s;
-
-	s = size;
-	n = num;
-	if (n < 0 || s < 0)
-		return (NULL);
-	arr = malloc (num * size);
-	if (!arr)
-		return (NULL);
-	ft_bzero(arr, (num * size));
-	return (arr);
-}
 
 
 
 
-static	int	counter(int n)
-{
-	int	count;
 
-	count = 0;
-	if (n <= 0)
-		count ++;
-	while (n != 0)
-	{
-		n = n / 10;
-		count ++;
-	}
-	return (count);
-}
-
-char	*ft_itoa(int n1)
-{
-	long int	tmp;
-	int			count;
-	char		*arr;
-
-	tmp = n1;
-	count = counter(tmp);
-	arr = malloc(count + 1);
-	if (!arr)
-		return (NULL);
-	arr[count] = '\0';
-	if (tmp < 0)
-	{
-		arr[0] = '-';
-		tmp = -tmp;
-	}
-	else if (tmp == 0)
-		arr[0] = '0';
-	while (tmp != 0)
-	{
-		count--;
-		arr[count] = (tmp % 10) + '0';
-		tmp = tmp / 10;
-	}
-	return (arr);
-}
 
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
@@ -271,110 +214,10 @@ void	*ft_memmove(void *dest1, const void *src1, size_t n)
 
 
 
-void	*ft_memset(void *dest, int c, size_t len)
-{
-	size_t	i;
-	char	*str;
-
-	i = 0;
-	str = dest;
-	while (i < len)
-	{
-		str[i] = (unsigned char)c;
-		i++;
-	}
-	return (str);
-}
 
 
 
 
-static int	count_word(const char *str, char sep)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		while (str[i] && str[i] == sep)
-			i++;
-		if (str[i] && str[i] != sep)
-		{
-			count++;
-			while (str[i] && str[i] != sep)
-				i++;
-		}
-	}
-	return (count);
-}
-
-static char	*length_word(const char **str1, char sep)
-{
-	int			i;
-	int			start;
-	int			j;
-	char		*arr;
-	const char	*str;
-
-	i = 0; 
-	start = 0;
-	j = 0;
-	str = *str1;
-	if (!str || !*str)
-		return (NULL);
-	while (str[i] && str[i] == sep)
-		i++;
-	start = i;
-	while (str[i] && str[i] != sep)
-		i++;
-	arr = (char *)malloc((i - start) + 1);
-	if (!arr)
-		return (NULL);
-	while (start < i)
-		arr[j++] = str[start++];
-	arr[j] = '\0';
-	*str1 = str + i;
-	return (arr);
-}
-
-static void	libre(char **str, int i)
-{
-	while (i >= 0)
-	{
-		free(str[i]);
-		i--;
-	}
-	free(str);
-}
-
-char	**ft_split(const char *str, char sep)
-{
-	int		i;
-	int		count;
-	char	**arr;
-
-	i = 0;
-	if (!str)
-		return (NULL);
-	count = count_word(str, sep);
-	arr = malloc(sizeof(char *) * (count + 1));
-	if (!arr)
-		return (NULL);
-	arr[count] = NULL;
-	while (i < count)
-	{
-		arr[i] = length_word(&str, sep);
-		if (!arr[i])
-		{
-			libre(arr, i);
-			return (NULL);
-		}
-		i++;
-	}
-	return (arr);
-}
 
 char	*ft_strchr(const char *s, int chr)
 {
@@ -503,27 +346,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strmapi(char const *str, char (*f)(unsigned int, char))
-{
-	unsigned int	i;
-	size_t			len;
-	char			*arr;
 
-	i = 0;
-	if (!str || !f)
-		return (NULL);
-	len = ft_strlen(str);
-	arr = malloc(len +1);
-	if (!arr)
-		return (NULL);
-	while (str[i])
-	{
-		arr[i] = f(i, (str[i]));
-		i++;
-	}
-	arr[i] = '\0';
-	return (arr);
-}
 
 int	ft_strncmp(const char *str1, const char *str2, size_t n)
 {
@@ -636,31 +459,6 @@ char	*ft_substr(const char *str, unsigned int start, size_t len)
 	return (arr);
 }
 
-int	ft_tolower(int c)
-{
-	unsigned char	s;
-
-	s = (unsigned char)c;
-	if (s >= 'A' && s <= 'Z')
-	{
-		s = s + 32;
-		return ((int)s);
-	}
-	return (c);
-}
-
-int	ft_toupper(int c)
-{
-	unsigned char	s;
-
-	s = (unsigned char)c;
-	if (s >= 'a' && s <= 'z')
-	{
-		s = s - 32;
-		return ((int)s);
-	}
-	return (c);
-}
 
 
 
@@ -675,13 +473,10 @@ void	ft_lstclear(t_list **lst)
 	while (*lst)
 	{
 		tmp = (*lst)->next;
-		ft_lstdelone(*lst);
+		if (*lst)
+			free(*lst);
 		*lst = tmp;
 	}
+	// free(lst);
 }
-void	ft_lstdelone(t_list *lst)
-{
-	if (!lst)
-		return ;
-	free (lst);
-}
+
