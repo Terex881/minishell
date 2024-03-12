@@ -29,6 +29,9 @@ typedef struct s_list
     struct s_list *next;
 } t_list;
 
+
+
+
 char	*ft_substr(const char *str, unsigned int start, size_t len);
 char	*ft_strrchr(const char *s, int chr);
 char	*ft_strnstr(const char *s1, const char *s2, size_t size);
@@ -61,11 +64,11 @@ void	ft_token(t_list **list);
 void	ft_print(t_list *list);
 
 
-void	ft_syntax_error(t_list *list);
+void	ft_syntax_error(t_list **list);
 int     ft_return(t_list *lst);
 
 
-void ft_expand(t_list **list);
+void ft_expand(t_list *list);
 
 
 #endif

@@ -43,7 +43,7 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 		return(NULL);
 	node = ft_lstnew(tmp);
 	node->value = tmp;
-	free(tmp);
+	// free(tmp);
 	if ((line[j] == '\"' || line[j] == '\'') && line[*i] == '\0')
 		perror("3");
 	if (line[j] == '\"')
@@ -68,7 +68,7 @@ t_list	*ft_add_word(char *line, int *i, t_list *node)
 		return(NULL);
 	node = ft_lstnew(tmp);
 	node->value = tmp;
-	free(tmp);
+	// free(tmp);
 	if ((line[j]) == '$' && ft_isalpha(line[j+1]))
 		node->type = VARIABLE;
 	else
@@ -83,10 +83,10 @@ void	ft_token(t_list **list)
 	int		i;
 
 	line = readline("minishell :");
-	// while(line)
-	// {
-		*list = NULL;
+	while(line)
+	{
 		node = NULL;
+		*list = NULL;
 		i = 0;
 		if(!line)
 			exit(1);
@@ -101,12 +101,11 @@ void	ft_token(t_list **list)
 				ft_lstadd_back(list, ft_add_word(line, &i, node));
 			i++;
 		}
-		// ft_syntax_error(*list);
-		// free(line);
-		ft_expand(list);
-		// ft_lstclear(list);
-		// line = readline("minishell :");
-	// }
+		free(line);
+		ft_syntax_error(list);
+		ft_lstclear(list);	
+		line = readline("minishell :");
+	}
 }
 
 void ft_print(t_list *list)
