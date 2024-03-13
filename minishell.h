@@ -55,9 +55,10 @@ void	ft_lstclear(t_list **lst);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 int     ft_isalpha(int c);
+char	*ft_strtrim(char const *str, char const *set);
 
 
-int		ft_check(char *c);
+int		ft_check(char c);
 t_list	*ft_add_special_character(t_list *node, char *c, int *i);
 t_list	*ft_add_word(char *line, int *i, t_list *node);
 void	ft_token(t_list **list);

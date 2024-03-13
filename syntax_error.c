@@ -33,7 +33,7 @@ void    ft_syntax_error(t_list **list)
 	tmp = *list;
 	while (tmp) 
 	{
-		if(tmp->type == D_Q)
+		if(tmp->type == D_Q || tmp->type == VARIABLE)
 			ft_expand(tmp);
 		tmp = tmp->next;
 	}

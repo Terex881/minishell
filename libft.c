@@ -1,40 +1,5 @@
 #include "minishell.h"
 
-static	const char	*skip(const char *str)
-{
-	while (*str == ' ' || (*str >= 9 && *str <= 13))
-		str++;
-	return (str);
-}
-
-int	ft_atoi(const char *str)
-{
-	int		sign;
-	long	res;
-	long	res1;
-
-	sign = 1;
-	res = 0;
-	res1 = 0;
-	str = skip (str);
-	if (*str == '-' || *str == '+' )
-	{
-		if (*str == '-')
-			sign *= -1 ;
-		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-	{
-		res = 10 * res + (*str - '0');
-		if (res < res1 && sign == -1)
-			return (0);
-		if (res < res1 && sign == 1)
-			return (-1);
-		res1 = res;
-		str++;
-	}
-	return ((int)res * sign);
-}
 
 void	ft_bzero(void *s, size_t n)
 {
@@ -49,13 +14,6 @@ void	ft_bzero(void *s, size_t n)
 		i++;
 	}
 }
-
-
-
-
-
-
-
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
@@ -88,10 +46,6 @@ int	ft_isalpha(int c)
 		return (1);
 	return (0);
 }
-
-
-
-
 
 t_list	*ft_lstlast(t_list *lst)
 {
@@ -458,11 +412,6 @@ char	*ft_substr(const char *str, unsigned int start, size_t len)
 	arr[j] = '\0';
 	return (arr);
 }
-
-
-
-
-
 
 void	ft_lstclear(t_list **lst)
 {

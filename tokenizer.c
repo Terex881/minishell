@@ -1,11 +1,13 @@
 #include "minishell.h"
 
-int	ft_check(char *c)
+int	ft_check(char c)
 {
-	if (*c == ' '  || *c == '>' || *c == '<' || *c == '|' || *c == '\t')
+	if (c == ' '  || c == '>' || c == '<' || c == '|' || c == '\t')
 		return (1);
-	if (*c == '\"' || *c == '\'')
+	if (c == '\"' || c == '\'')
 		return (2);
+	if (c == '$')
+		return (3);
 	return (0);
 }
 t_list	*ft_add_special_character(t_list *node, char *c, int *i)
@@ -42,7 +44,7 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 	if(!tmp)
 		return(NULL);
 	node = ft_lstnew(tmp);
-	node->value = tmp;
+	node->value =  ft_strtrim(tmp, "\"");
 	// free(tmp);
 	if ((line[j] == '\"' || line[j] == '\'') && line[*i] == '\0')
 		perror("3");
@@ -52,16 +54,17 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 		node->type = S_Q;
 	return(node);
 }
+
 t_list	*ft_add_word(char *line, int *i, t_list *node)
 {
 	int j;
 	j = *i;
 	char *tmp;
 
-	if (ft_check(&line[*i]) == 2)
+	if (ft_check(line[*i]) == 2)
 		return(ft_add_douple_single(line, i, node));
 	else
-		while(line[*i+1] && (ft_check(&line[*i+1]) == 0))
+		while(line[*i+1] && (ft_check(line[*i+1]) == 0))
 			(*i)++;
 	tmp = ft_substr(line, j, (*i - j) + 1);
 	if (!tmp)
@@ -82,9 +85,10 @@ void	ft_token(t_list **list)
 	char	*line;
 	int		i;
 
-	line = readline("minishell :");
-	while(line)
+	while(1)
 	{
+		line = readline("minishell :");
+		add_history(line);
 		node = NULL;
 		*list = NULL;
 		i = 0;
@@ -95,7 +99,7 @@ void	ft_token(t_list **list)
 			if (line[i] == ' ' || line[i] == '\t')
 				while (line[i + 1] && (line[i + 1] == ' ' || line[i + 1] == '\t'))
 					i++;
-			if (line[i] && ft_check(&line[i]) == 1)
+			if (line[i] && ft_check(line[i]) == 1)
 				ft_lstadd_back(list, ft_add_special_character(node, &line[i], &i));
 			else if (line[i])
 				ft_lstadd_back(list, ft_add_word(line, &i, node));
@@ -104,7 +108,6 @@ void	ft_token(t_list **list)
 		free(line);
 		ft_syntax_error(list);
 		ft_lstclear(list);	
-		line = readline("minishell :");
 	}
 }
 
@@ -135,3 +138,4 @@ void ft_print(t_list *list)
 		list = list->next;
 	}
 }
+ 
