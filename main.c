@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void ft_get_variable(char *str)
+char *ft_get_variable(char *str)
 {
 	int i;
 	int index;
@@ -8,10 +8,11 @@ void ft_get_variable(char *str)
 
 	i = 0;
 	int j = i;
-	while (str[i] && ft_check(str[i]) == 0)
+	// opendir()
+	while (str[i] && ft_isalpha(str[i]) != 0 && ft_check(str[i]) == 0)
 		i++;
 	index = i - j ;
-	printf("===> %d\n", index);
+	return (ft_substr(str, j, i- j));
 
 }
 void ft_expand(t_list *list)
@@ -28,17 +29,18 @@ void ft_expand(t_list *list)
 	{
 		if(*str == '$')
 		{
-			// str++;
+			str++;
 			if (ft_isalpha(*str) == 1)
-	 			ft_get_variable(str);
-				// printf("%s\n", getenv(str));
+			{
+	 			char *tt = ft_get_variable(str);
+				printf("%s\n", getenv(tt));
+
+			}
 		}
 		str++;
 	}
 }
 
-// 0x0000602 00 0 0 0 0 2 b 0
-// 0x0000602 00 0 0 0 0 2 b 1
 int main ()
 {
 	t_list *list;	
