@@ -56,7 +56,7 @@ int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 int     ft_isalpha(int c);
 char	*ft_strtrim(char const *str, char const *set);
-
+void	ft_putstr_fd(char *s, int fd);
 
 int		ft_check(char c);
 t_list	*ft_add_special_character(t_list *node, char *c, int *i);
@@ -69,7 +69,7 @@ void	ft_syntax_error(t_list **list);
 int     ft_return(t_list *lst);
 
 
-void ft_expand(t_list *list);
+void    ft_expand(t_list *list);
 
 
 #endif

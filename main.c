@@ -1,43 +1,40 @@
 #include "minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-char *ft_get_variable(char *str)
+char *ft_get_variable(char *str, int *i)
 {
-	int i;
-	int index;
-	char c;
 
-	i = 0;
-	int j = i;
-	// opendir()
-	while (str[i] && ft_isalpha(str[i]) != 0 && ft_check(str[i]) == 0)
-		i++;
-	index = i - j ;
-	return (ft_substr(str, j, i- j));
-
+	int j = *i;
+	while (str[*i] && ft_isalpha(str[*i]) != 0)
+		(*i)++;
+	return (ft_substr(str, j, *i - j));
 }
-void ft_expand(t_list *list)
+void	ft_expand(t_list *list)
 {
 	char *str;
 	char *tmp;
-	t_list *node;
 	int i;
 
 	i = 0;
 	str = list->value;
-	
-	while (*str)
+	while (str[i])
 	{
-		if(*str == '$')
+		if(str[i] == '$')
 		{
-			str++;
-			if (ft_isalpha(*str) == 1)
+			i++;
+			if (ft_isalpha(str[i]) == 1)
 			{
-	 			char *tt = ft_get_variable(str);
-				printf("%s\n", getenv(tt));
-
+				tmp = ft_get_variable(str, &i);
+				char *tt =  getenv(tmp);
+				if (!tt)
+					return (free(tmp));		
+				printf("%s",tt);
+				free(tmp);
 			}
 		}
-		str++;
+		else
+			(printf("%c", str[i]), i++);
 	}
 }
 

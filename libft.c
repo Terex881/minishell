@@ -304,62 +304,7 @@ size_t	ft_strlen(const char *s)
 
 
 
-int	ft_strncmp(const char *str1, const char *str2, size_t n)
-{
-	size_t				i;
-	const unsigned char	*s1;
-	const unsigned char	*s2;
 
-	s1 = (const unsigned char *)str1;
-	s2 = (const unsigned char *)str2;
-	i = 0;
-	while (i < n && (s1[i] || s2[i]))
-	{
-		if (s1[i] != s2[i])
-			return (s1[i] - s2[i]);
-		i++;
-	}
-	return (0);
-}
-
-char	*ft_strnstr(const char *s1, const char *s2, size_t size)
-{
-	size_t	len;
-
-	if (!*s2)
-		return ((char *)s1);
-	len = ft_strlen(s2);
-	if (!s1 && size == 0)
-		return (NULL);
-	while (*s1 && size >= len)
-	{
-		if (ft_strncmp(s1, s2, len) == 0)
-			return ((char *)s1);
-		s1++;
-		size--;
-	}
-	return (NULL);
-}
-
-char	*ft_strrchr(const char *s, int chr)
-{
-	int		i;
-	char	*str;
-	char	c;
-
-	str = (char *)s;
-	c = (char) chr;
-	i = ft_strlen(str);
-	while (i > 0)
-	{
-		if (str[i] == c)
-			return (&str[i]);
-		i--;
-	}
-	if (str[i] == c)
-		return (&str[i]);
-	return (NULL);
-}
 
 char	*ft_strtrim(char const *str, char const *set)
 {
@@ -425,9 +370,26 @@ void	ft_lstclear(t_list **lst)
 	{
 		tmp = (*lst)->next;
 		if (*lst)
+		{
+			free((*lst)->value);
 			free(*lst);
+		}
+			
 		*lst = tmp;
 	}
 	// free(lst);
 }
 
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (fd >= 0 && s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+}

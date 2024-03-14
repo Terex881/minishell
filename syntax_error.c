@@ -22,12 +22,13 @@ void    ft_syntax_error(t_list **list)
 	if (!tmp)
 		return ; 
 	if (tmp->type == PIPE || ft_return(ft_lstlast(tmp)) == 2)
-		return(perror("33"));
+		return(ft_putstr_fd("11\n", 2));
 	while (tmp)
 	{
 		if (ft_return(tmp) == 2 && ft_return(tmp->next) != 3 
 			&& ft_return(tmp->next->next) != 3)
-			return (perror("44"));
+				return(ft_putstr_fd("22\n", 2));
+
 		tmp = tmp->next;
 	}
 	tmp = *list;
@@ -35,6 +36,9 @@ void    ft_syntax_error(t_list **list)
 	{
 		if(tmp->type == D_Q || tmp->type == VARIABLE)
 			ft_expand(tmp);
+		else
+			printf("%s", tmp->value);
 		tmp = tmp->next;
 	}
+	printf("\n");
 }

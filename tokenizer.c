@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <unistd.h>
 
 int	ft_check(char c)
 {
@@ -16,17 +17,17 @@ t_list	*ft_add_special_character(t_list *node, char *c, int *i)
 	if (!node)
 		return (NULL);
 	if (*c == ' ' || *c == '\t')
-		(node->type = SPACE_, node->value = " ");
+		(node->type = SPACE_, node->value = NULL);
 	else if (*c == '>' &&  *(c+1) == '>')
-		(node->type = APPEND, node->value = ">>", (*i)++);
+		(node->type = APPEND, node->value = NULL, (*i)++);
 	else if (*c == '<' && *(c+1)  == '<')
-		(node->type = HER_DOC, node->value = "<<", (*i)++);
+		(node->type = HER_DOC, node->value = NULL, (*i)++);
 	else if (*c == '>')
-		(node->type = R_OUT, node->value = ">");
+		(node->type = R_OUT, node->value = NULL);
 	else if (*c == '<')
-		(node->type = R_IN, node->value = "<");
+		(node->type = R_IN, node->value = NULL);
 	else if (*c == '|')
-		(node->type = PIPE, node->value = "|");
+		(node->type = PIPE, node->value = NULL);
 	return (node);
 }
 t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
@@ -34,6 +35,7 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 	int		j;
 	char	*tmp;
 	char	c;
+	char	*str;
 
 	j = *i;
 	c = line[*i];
@@ -42,12 +44,14 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 		(*i)++;
 	tmp = ft_substr(line, j, (*i - j) + 1);
 	if(!tmp)
-		return(NULL);
+		return(free(tmp), NULL);
+	str = tmp;
+	tmp = ft_strtrim(tmp, "\"");
 	node = ft_lstnew(tmp);
-	node->value =  ft_strtrim(tmp, "\"");
-	// free(tmp);
+	node->value =  tmp;
+	free(str);
 	if ((line[j] == '\"' || line[j] == '\'') && line[*i] == '\0')
-		perror("3");
+		return(ft_putstr_fd("33\n", 2), free(tmp), NULL);
 	if (line[j] == '\"')
 		node->type = D_Q;
 	else if (line[j] == '\'')
@@ -66,12 +70,11 @@ t_list	*ft_add_word(char *line, int *i, t_list *node)
 	else
 		while(line[*i+1] && (ft_check(line[*i+1]) == 0))
 			(*i)++;
-	tmp = ft_substr(line, j, (*i - j) + 1);
+	tmp = ft_substr(line, j, (*i - j) + 1); // check +1
 	if (!tmp)
 		return(NULL);
 	node = ft_lstnew(tmp);
 	node->value = tmp;
-	// free(tmp);
 	if ((line[j]) == '$' && ft_isalpha(line[j+1]))
 		node->type = VARIABLE;
 	else
@@ -85,8 +88,8 @@ void	ft_token(t_list **list)
 	char	*line;
 	int		i;
 
-	while(1)
-	{
+	// while(1)
+	// {
 		line = readline("minishell :");
 		add_history(line);
 		node = NULL;
@@ -100,15 +103,18 @@ void	ft_token(t_list **list)
 				while (line[i + 1] && (line[i + 1] == ' ' || line[i + 1] == '\t'))
 					i++;
 			if (line[i] && ft_check(line[i]) == 1)
-				ft_lstadd_back(list, ft_add_special_character(node, &line[i], &i));
+				node = ft_add_special_character(node, &line[i], &i);
 			else if (line[i])
-				ft_lstadd_back(list, ft_add_word(line, &i, node));
+				node = ft_add_word(line, &i, node);
+			if(!node)
+				ft_lstclear(list);
+			ft_lstadd_back(list, node);
 			i++;
 		}
-		free(line);
-		ft_syntax_error(list);
-		ft_lstclear(list);	
-	}
+	// 	free(line);
+	// 	ft_syntax_error(list);
+	// 	ft_lstclear(list);	
+	// }
 }
 
 void ft_print(t_list *list)
