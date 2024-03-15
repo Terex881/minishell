@@ -51,7 +51,7 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 	node->value =  tmp;
 	free(str);
 	if ((line[j] == '\"' || line[j] == '\'') && line[*i] == '\0')
-		return(ft_putstr_fd("33\n", 2), free(tmp), NULL);
+		return(ft_putstr_fd("33\n", 2), free(tmp), free(node), NULL);
 	if (line[j] == '\"')
 		node->type = D_Q;
 	else if (line[j] == '\'')
@@ -88,8 +88,8 @@ void	ft_token(t_list **list)
 	char	*line;
 	int		i;
 
-	// while(1)
-	// {
+	while(1)
+	{
 		line = readline("minishell :");
 		add_history(line);
 		node = NULL;
@@ -100,7 +100,7 @@ void	ft_token(t_list **list)
 		while (line[i])
 		{
 			if (line[i] == ' ' || line[i] == '\t')
-				while (line[i + 1] && (line[i + 1] == ' ' || line[i + 1] == '\t'))
+				while (line[i + 1] && (line[i + 1] == 32 || line[i + 1] == 9))
 					i++;
 			if (line[i] && ft_check(line[i]) == 1)
 				node = ft_add_special_character(node, &line[i], &i);
@@ -111,10 +111,11 @@ void	ft_token(t_list **list)
 			ft_lstadd_back(list, node);
 			i++;
 		}
-	// 	free(line);
-	// 	ft_syntax_error(list);
-	// 	ft_lstclear(list);	
-	// }
+		free(line);
+		ft_syntax_error(list);
+		// ft_youchen(list);
+		ft_lstclear(list);	
+	}
 }
 
 void ft_print(t_list *list)

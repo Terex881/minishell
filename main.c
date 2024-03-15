@@ -1,41 +1,16 @@
 #include "minishell.h"
 #include <stdio.h>
-#include <stdlib.h>
 
-char *ft_get_variable(char *str, int *i)
+void ft_youchen(t_list **list)
 {
+	t_list *tmp;
+	t_list *tmp1;
 
-	int j = *i;
-	while (str[*i] && ft_isalpha(str[*i]) != 0)
-		(*i)++;
-	return (ft_substr(str, j, *i - j));
-}
-void	ft_expand(t_list *list)
-{
-	char *str;
-	char *tmp;
-	int i;
-
-	i = 0;
-	str = list->value;
-	while (str[i])
-	{
-		if(str[i] == '$')
-		{
-			i++;
-			if (ft_isalpha(str[i]) == 1)
-			{
-				tmp = ft_get_variable(str, &i);
-				char *tt =  getenv(tmp);
-				if (!tt)
-					return (free(tmp));		
-				printf("%s",tt);
-				free(tmp);
-			}
-		}
-		else
-			(printf("%c", str[i]), i++);
-	}
+	tmp = *list;
+	while (tmp && tmp->type != PIPE)
+		tmp = tmp->next;
+	
+	
 }
 
 int main ()
@@ -45,7 +20,7 @@ int main ()
 	list = NULL;
 
 	ft_token(&list);
-	ft_print(list);
+	// ft_print(list);
 
 	// ft_lstclear(&list);
 }

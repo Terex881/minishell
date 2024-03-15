@@ -8,6 +8,7 @@
 #include <stdlib.h>
 // syscall
 //  echo yassi" ne 
+// handl echo -nnnnn  "$USER".$USER
 typedef enum 
 {
     WORD,           // 0   
@@ -28,6 +29,17 @@ typedef struct s_list
     int     type;
     struct s_list *next;
 } t_list;
+
+typedef struct s_var
+{
+    int out;
+    int in;
+    char **arg;
+    struct s_var *next;
+    
+} t_var;
+
+
 
 
 
@@ -51,7 +63,7 @@ void	ft_lstadd_front(t_list **lst, t_list *new1);
 void	ft_lstadd_back(t_list **lst, t_list *new1);
 void	ft_lstdelone(t_list *lst);
 void	ft_lstclear(t_list **lst);
-// void	ft_lstiter(t_list *lst, void (*f)(void *));
+
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 int     ft_isalpha(int c);
@@ -64,12 +76,12 @@ t_list	*ft_add_word(char *line, int *i, t_list *node);
 void	ft_token(t_list **list);
 void	ft_print(t_list *list);
 
-
 void	ft_syntax_error(t_list **list);
 int     ft_return(t_list *lst);
 
-
 void    ft_expand(t_list *list);
+char    *ft_get_variable(char *str, int *i);
 
+void    ft_youchen(t_list **list);
 
 #endif

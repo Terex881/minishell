@@ -1,10 +1,10 @@
 NAME = minishell
 
-CC = cc -g #-fsanitize=address
+CC = cc #-g -fsanitize=address
 
 # FLAGS = -Wall -Werror -Wextra  
 
-OBJ = main.o libft.o tokenizer.o syntax_error.o
+OBJ = main.o libft.o tokenizer.o syntax_error.o expand.o
 
 all : $(NAME)
 
