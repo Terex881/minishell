@@ -13,7 +13,7 @@ typedef enum
 {
     WORD,           // 0   
     PIPE,           // 1
-    R_OUT,          // 2 
+    R_OUT,          // 2 2
     R_IN,           // 3
     HER_DOC,        // 4
     D_Q,            // 5
@@ -25,8 +25,9 @@ typedef enum
 
 typedef struct s_list
 {
-    char *value;
+    char    *value;
     int     type;
+    void    *var;
     struct s_list *next;
 } t_list;
 
@@ -34,13 +35,27 @@ typedef struct s_var
 {
     int out;
     int in;
-    char **arg;
-    struct s_var *next;
-    
+    char **arg;    
 } t_var;
 
 
+// t_list{
 
+//     void *;
+//     next;
+// }
+
+
+// t_var{
+//     enum,
+//     value,
+// }
+
+// t_exec{
+//     in;
+//     out;
+//     char ** args;
+// }
 
 
 
@@ -85,3 +100,4 @@ char    *ft_get_variable(char *str, int *i);
 void    ft_youchen(t_list **list);
 
 #endif
+

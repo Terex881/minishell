@@ -17,17 +17,17 @@ t_list	*ft_add_special_character(t_list *node, char *c, int *i)
 	if (!node)
 		return (NULL);
 	if (*c == ' ' || *c == '\t')
-		(node->type = SPACE_, node->value = NULL);
+		(node->type = SPACE_, node->value = " ");
 	else if (*c == '>' &&  *(c+1) == '>')
-		(node->type = APPEND, node->value = NULL, (*i)++);
+		(node->type = APPEND, node->value = ">>", (*i)++);
 	else if (*c == '<' && *(c+1)  == '<')
-		(node->type = HER_DOC, node->value = NULL, (*i)++);
+		(node->type = HER_DOC, node->value = "<<", (*i)++);
 	else if (*c == '>')
-		(node->type = R_OUT, node->value = NULL);
+		(node->type = R_OUT, node->value = ">");
 	else if (*c == '<')
-		(node->type = R_IN, node->value = NULL);
+		(node->type = R_IN, node->value = "<");
 	else if (*c == '|')
-		(node->type = PIPE, node->value = NULL);
+		(node->type = PIPE, node->value = "|");
 	return (node);
 }
 t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
@@ -113,7 +113,7 @@ void	ft_token(t_list **list)
 		}
 		free(line);
 		ft_syntax_error(list);
-		// ft_youchen(list);
+		ft_youchen(list);
 		ft_lstclear(list);	
 	}
 }

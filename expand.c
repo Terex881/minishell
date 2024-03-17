@@ -2,7 +2,6 @@
 
 char *ft_get_variable(char *str, int *i)
 {
-
 	int j = *i;
 	while (str[*i] && ft_isalpha(str[*i]) != 0)
 		(*i)++;
