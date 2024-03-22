@@ -1,12 +1,12 @@
 NAME = minishell
 
-CC = cc -g #-fsanitize=address
+CC = cc -g -fsanitize=address
 
 # FLAGS = -Wall -Werror -Wextra  
 
-OBJ = main.o libft.o tokenizer.o syntax_error.o expand.o
+OBJ = main.o libft.o tokenizer.o syntax_error.o expand.o open_file.o
 
-all : $(NAME)
+all : $(NAME) 
 
 $(NAME) : $(OBJ)
 	$(CC) $(OBJ) -o $(NAME) -lreadline
@@ -20,4 +20,5 @@ clean :
 fclean: clean
 	rm -rf $(NAME)
 
-re: fclean all
+re: fclean all 
+

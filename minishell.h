@@ -6,58 +6,59 @@
 #include <readline/history.h>
 #include <libc.h>
 #include <stdlib.h>
+#include <stdbool.h>
 // syscall
 //  echo yassi" ne 
 // handl echo -nnnnn  "$USER".$USER
+// bash-3.2$ echo '$USER."'$USER'"'$0
+// $USER."sdemnati"bash
+// bash-3.2$ echo '$USER."'$USER'"'$1
+// $USER."sdemnati"
+
+// bash-3.2$ echo '$USER'
+// $USER
+
+// minishell :$USER_d                       $USER
+//  sdemnati
+// minishell :
+
+
+
+
+//////////////////////////////////PROTECTION?/////////
+
+
 typedef enum 
 {
-    WORD,           // 0   
-    PIPE,           // 1
-    R_OUT,          // 2 2
-    R_IN,           // 3
-    HER_DOC,        // 4
-    D_Q,            // 5
-    S_Q,            // 6
-    SPACE_,         // 7
-    VARIABLE,       // 8
-    APPEND,         // 9
+	WORD,           // 0   
+	PIPE,           // 1
+	R_OUT,          // 2 
+	R_IN,           // 3
+	HER_DOC,        // 4
+	D_Q,            // 5
+	S_Q,            // 6
+	SPACE_,         // 7
+	VARIABLE,       // 8
+	APPEND,         // 9
 }t_type;
 
-typedef struct s_list
+typedef struct s_list 
 {
-    char    *value;
-    int     type;
-    void    *var;
-    struct s_list *next;
-} t_list;
+	char	*value;
+	t_type	type;
+	bool skip;
+	struct s_list *next;	
+
+}t_list;
+
 
 typedef struct s_var
 {
-    int out;
-    int in;
-    char **arg;    
+	int f_out;
+	int f_in;
+	char **arg;
+	struct s_var *next;
 } t_var;
-
-
-// t_list{
-
-//     void *;
-//     next;
-// }
-
-
-// t_var{
-//     enum,
-//     value,
-// }
-
-// t_exec{
-//     in;
-//     out;
-//     char ** args;
-// }
-
-
 
 char	*ft_substr(const char *str, unsigned int start, size_t len);
 char	*ft_strrchr(const char *s, int chr);
@@ -76,8 +77,9 @@ char	**ft_split(char const *str1, char sep);
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new1);
 void	ft_lstadd_back(t_list **lst, t_list *new1);
-void	ft_lstdelone(t_list *lst);
+
 void	ft_lstclear(t_list **lst);
+void	ft_lstdelone(t_list **lst);
 
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
@@ -97,7 +99,25 @@ int     ft_return(t_list *lst);
 void    ft_expand(t_list *list);
 char    *ft_get_variable(char *str, int *i);
 
-void    ft_youchen(t_list **list);
+void	ft_open_files(t_list **list, t_var *exec);
+t_var	*ft_new(void *value);
+
+t_var	*ft_sakawi(void *value);
+void	ft_lstadd_var(t_var **lst, t_var *new1);
+int		ft_size(t_var *lst); // remove
+
+
+
+t_var	*ft_get_number_of_pipe(t_list **list);
+void	ft_lstadd_var(t_var **lst, t_var *new1);
+char	*ft_name_of_file(t_list *tmp);
+t_var	*ft_allocate_for_new_node(void *value);
+void	ft_print_var(t_var *list);
+
+
+
+void ft_call(t_list **list, t_var *var);
+
 
 #endif
 

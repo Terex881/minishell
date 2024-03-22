@@ -1,5 +1,5 @@
 #include "minishell.h"
-#include <stdio.h>
+
 
 int ft_return(t_list *lst)
 {
@@ -9,7 +9,8 @@ int ft_return(t_list *lst)
 	if(lst->type == R_OUT || lst->type == R_IN || lst->type == HER_DOC 
 		|| lst->type == APPEND || lst->type == PIPE)
 		return (2);
-	if (lst->type == WORD || lst->type == D_Q || lst->type == S_Q || lst->type == VARIABLE)
+	if (lst->type == WORD || lst->type == D_Q 
+		|| lst->type == S_Q || lst->type == VARIABLE)
 		return (3);
 	return 0;
 }

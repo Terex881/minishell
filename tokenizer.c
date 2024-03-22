@@ -1,5 +1,4 @@
 #include "minishell.h"
-#include <unistd.h>
 
 int	ft_check(char c)
 {
@@ -17,17 +16,17 @@ t_list	*ft_add_special_character(t_list *node, char *c, int *i)
 	if (!node)
 		return (NULL);
 	if (*c == ' ' || *c == '\t')
-		(node->type = SPACE_, node->value = " ");
+		(node->type = SPACE_, node->value = NULL);
 	else if (*c == '>' &&  *(c+1) == '>')
-		(node->type = APPEND, node->value = ">>", (*i)++);
+		(node->type = APPEND, node->value = NULL, (*i)++);
 	else if (*c == '<' && *(c+1)  == '<')
-		(node->type = HER_DOC, node->value = "<<", (*i)++);
+		(node->type = HER_DOC, node->value = NULL, (*i)++);
 	else if (*c == '>')
-		(node->type = R_OUT, node->value = ">");
+		(node->type = R_OUT, node->value = NULL);
 	else if (*c == '<')
-		(node->type = R_IN, node->value = "<");
+		(node->type = R_IN, node->value = NULL);
 	else if (*c == '|')
-		(node->type = PIPE, node->value = "|");
+		(node->type = PIPE, node->value = NULL);
 	return (node);
 }
 t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
@@ -44,9 +43,9 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 		(*i)++;
 	tmp = ft_substr(line, j, (*i - j) + 1);
 	if(!tmp)
-		return(free(tmp), NULL);
+		return(free(tmp), NULL); 
 	str = tmp;
-	tmp = ft_strtrim(tmp, "\"");
+	tmp = ft_strtrim(tmp, &line[j]); // remove single
 	node = ft_lstnew(tmp);
 	node->value =  tmp;
 	free(str);
@@ -85,9 +84,11 @@ t_list	*ft_add_word(char *line, int *i, t_list *node)
 void	ft_token(t_list **list)
 {
 	t_list	*node;
+	t_var	*exec;
 	char	*line;
 	int		i;
 
+	exec = NULL;
 	while(1)
 	{
 		line = readline("minishell :");
@@ -113,7 +114,9 @@ void	ft_token(t_list **list)
 		}
 		free(line);
 		ft_syntax_error(list);
-		ft_youchen(list);
+		exec = ft_get_number_of_pipe(list);
+		// ft_open_files(list, exec);
+		ft_call(list, exec);
 		ft_lstclear(list);	
 	}
 }
@@ -122,25 +125,28 @@ void ft_print(t_list *list)
 {
 	while (list)
 	{
-		if (list->type == WORD)
+		if(!list)
+			printf("salah\n");
+		// printf("====%s====\n", list->value);
+		if (list && list->type == WORD)
 			printf("Word   %s\n", list->value);
-		if (list->type == PIPE)
+		else if (list && list->type == PIPE)
 			printf("pipe   %s\n", list->value);
-		if (list->type == HER_DOC)
+		else if (list && list->type == HER_DOC)
 			printf("here_doc   %s\n", list->value);
-		if (list->type == R_IN)
+		else if (list && list->type == R_IN)
 			printf("R_IN   %s\n", list->value);
-		if (list->type == R_OUT)
+		else if (list && list->type == R_OUT)
 			printf("R_OUT   %s\n", list->value);
-		if (list->type == SPACE_)
+		else if (list && list->type == SPACE_)
 			printf("space   %s\n", list->value);
-		if (list->type == APPEND)
+		else if (list && list->type == APPEND)
 			printf("append   %s\n", list->value);
-		if (list->type == D_Q)
+		else if (list && list->type == D_Q)
 			printf("D_Q   %s\n", list->value);
-		if (list->type == S_Q)
+		else if (list && list->type == S_Q)
 			printf("S_Q   %s\n", list->value);
-		if (list->type == VARIABLE)
+		else if (list && list->type == VARIABLE)
 			printf("variable   %s\n", list->value);
 		list = list->next;
 	}

@@ -1,19 +1,17 @@
 #include "minishell.h"
 
 
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-	char	*str;
+// void	ft_lstdelone(t_list **lst)
+// {
 
-	i = 0;
-	str = s;
-	while (i < n)
-	{
-		str[i] = 0;
-		i++;
-	}
-}
+// 	if (!lst || !*lst)
+// 		return ;
+
+// 	(*lst)->prev->next = (*lst)->next;
+// 	(*lst)->next->prev = (*lst)->prev;
+// 	free((*lst)->value);
+// 	free(*lst);
+// }
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
@@ -29,7 +27,6 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		current = current->next;
 	current->next = new;
 }
-
 
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {
@@ -67,12 +64,35 @@ t_list	*ft_lstnew(void *value)
 	node = malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
-	node->value = value;
+	node->value = (value);
+	node->next = NULL;
+	return (node);
+}
+t_var	*ft_new(void *value)
+{
+	t_var	*node;
+
+	node = malloc(sizeof(t_var));
+	if (!node)
+		return (NULL);
+	*node->arg = ft_strdup(value);
 	node->next = NULL;
 	return (node);
 }
 
 int	ft_lstsize(t_list *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
+}
+int	ft_size(t_var *lst)
 {
 	int	i;
 
@@ -167,13 +187,6 @@ void	*ft_memmove(void *dest1, const void *src1, size_t n)
 	else
 		return (ft_memcpy(dest, src, n));
 }
-
-
-
-
-
-
-
 
 char	*ft_strchr(const char *s, int chr)
 {
@@ -297,6 +310,8 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
+	if(!s || s[i] == '\0')
+		return 0;
 	while (s[i])
 		i++;
 	return (i);

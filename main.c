@@ -1,47 +1,103 @@
 #include "minishell.h"
+#include <stdio.h>
 
 
-void ft_youchen(t_list **list)
+void ft_open_files(t_list **list, t_var *var)
 {
-	t_list *tmp;
-	tmp = *list;
-	t_list *current;
-	current = *list;
-	t_var node;
-	int i;
-	i = 0;
+	t_list	*tmp;
 
-	while (tmp)
+	tmp = *list;
+	while (tmp)	
 	{
+		if (tmp->type == PIPE)
+			var = var->next;
 		if (tmp->type == R_IN)
 		{
-			char *name = tmp->next->next->value;
-			node.in = open(name, O_CREAT | O_RDWR, 0644);
-			tmp = current;
-			while (tmp->next && tmp->next->type != R_IN)
-			{
-				if(tmp->type == SPACE_)
-				{
-					current = current->next;
-					tmp = tmp->next;
-				}
-				else
-				{
-					node.arg = malloc(sizeof(char *) * 50);
-					node.arg[i] = tmp->value;
-					printf("--->%s\n", node.arg[i]);
-					i++;
-					tmp = tmp->next;
-					current = current->next;
-				}
-				printf("****\n");
-			}
+			var->f_in = open(ft_name_of_file(tmp->next), O_RDWR);
+			tmp->skip = true;		
+			if (var->f_in == -1)
+				write(1, "555\n", 4);
+		}
+		else if (tmp->type == R_OUT)
+		{
+			var->f_out = open(ft_name_of_file(tmp->next), O_CREAT | O_RDWR , 0644);
+			tmp->skip = true;	
+			if (var->f_out == -1)
+				write(1, "666\n", 4);
 		}
 		tmp = tmp->next;
 	}
 }
 
+char *ft_len_of_arg(t_list *tmp, t_var *var)
+{
+	size_t len;
+	char *str;
+	int i;
 
+	str = NULL;
+	i = 0;
+	len = ft_strlen(tmp->value);
+	str = malloc(len + 1);
+	if (!str)
+		return NULL; // check this
+	while (tmp->value[i])
+	{
+		str[i] = tmp->value[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+int ft_return_n(t_list **list)
+{
+	t_list *tmp;
+	int n = 0;
+	tmp = *list;
+
+	while (tmp)
+	{
+		if (tmp && tmp->type == WORD && tmp->skip == false)
+			n++;
+		tmp = tmp->next;
+	}
+	return n;
+}
+void ft_call(t_list **list, t_var *var)
+{
+	char *cmd;
+	t_list *tmp;
+	t_var *exec;
+	int n;
+	int i;
+
+	tmp = *list;
+	i = 0;
+	n = 0;
+	ft_open_files(list, var);
+	n = ft_return_n(list);
+	exec->arg = malloc(sizeof(char *) * (n + 1));
+	printf("-->%p\n", exec->arg[i]);
+	if(!exec->arg)
+		return;
+	// exec->arg[n + 1] = NULL;
+	// while (tmp)
+	// {
+	// 	if (tmp->type == PIPE)
+	// 		var = var->next;
+	// 	if (tmp->type == WORD && tmp->skip == false)
+	// 	{
+	// 		cmd = ft_len_of_arg(tmp, var);
+	// 		exec->arg[i] = malloc(ft_strlen(cmd) + 1);
+	// 		exec->arg[i] = cmd;
+	// 		i++;
+	// 		tmp->skip = true;
+	// 	}
+	// 	tmp = tmp->next;
+	// }
+
+
+}
 
 int main ()
 {
