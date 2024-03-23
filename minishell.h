@@ -21,11 +21,14 @@
 // minishell :$USER_d                       $USER
 //  sdemnati
 // minishell :
+// minishell :> 
+// 22
+// [1]    50640 segmentation fault  ./minishell
 
-
-
+// #define malloc(x) NULL
 
 //////////////////////////////////PROTECTION?/////////
+
 
 
 typedef enum 
@@ -108,12 +111,12 @@ int		ft_size(t_var *lst); // remove
 
 
 
-t_var	*ft_get_number_of_pipe(t_list **list);
+t_var	*ft_allocate_for_list(t_list **list);
 void	ft_lstadd_var(t_var **lst, t_var *new1);
 char	*ft_name_of_file(t_list *tmp);
 t_var	*ft_allocate_for_new_node(void *value);
 void	ft_print_var(t_var *list);
-
+void	ft_lstclear_var(t_var **lst);
 
 
 void ft_call(t_list **list, t_var *var);

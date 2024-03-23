@@ -64,7 +64,7 @@ t_list	*ft_lstnew(void *value)
 	node = malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
-	node->value = (value);
+	node->value = value;
 	node->next = NULL;
 	return (node);
 }
@@ -377,22 +377,46 @@ char	*ft_substr(const char *str, unsigned int start, size_t len)
 
 void	ft_lstclear(t_list **lst)
 {
-	// t_list	*tmp;
+	t_list	*tmp;
 
-	// if (!lst || !(*lst))
-	// 	return ;
-	// while (*lst)
-	// {
-	// 	tmp = (*lst)->next;
-	// 	if (*lst)
-	// 	{
-	// 		// free((*lst)->value);
-	// 		free(*lst);
-	// 	}
+	if (!lst || !(*lst))
+		return ;
+	while (*lst)
+	{
+		tmp = (*lst)->next;
+		if (*lst)
+		{
+			free((*lst)->value);
+			free(*lst);
+		}
 			
-	// 	*lst = tmp;
-	// }
+		*lst = tmp;
+	}
 	// free(lst);
+}
+void	ft_lstclear_var(t_var **exec)
+{
+	t_var	*tmp;
+	int i;
+
+	if (!exec || !(*exec))
+		return ;
+	while (*exec)
+	{
+		tmp = (*exec)->next;
+		if (*exec)
+		{
+			i = 0;
+			while ((*exec)->arg[i])
+			{
+				printf("%p\n", (*exec)->arg[i]);
+				free((*exec)->arg[i]);
+				i++;
+			}
+			free(*exec);
+		}
+		*exec = tmp;
+	}
 }
 
 void	ft_putstr_fd(char *s, int fd)

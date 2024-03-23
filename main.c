@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 
+
 void ft_open_files(t_list **list, t_var *var)
 {
 	t_list	*tmp;
@@ -49,54 +50,52 @@ char *ft_len_of_arg(t_list *tmp, t_var *var)
 	str[i] = '\0';
 	return (str);
 }
-int ft_return_n(t_list **list)
+void ft_return_n(t_list **list, t_var *exec)
 {
 	t_list *tmp;
 	int n = 0;
 	tmp = *list;
 
-	while (tmp)
+	while (tmp && tmp->type != PIPE)
 	{
 		if (tmp && tmp->type == WORD && tmp->skip == false)
 			n++;
 		tmp = tmp->next;
 	}
-	return n;
+	(exec)->arg = malloc(sizeof(char *) * (n + 1));
+	(exec)->arg[n] = NULL;
+	
 }
-void ft_call(t_list **list, t_var *var)
+void ft_call(t_list **list, t_var *exec)
 {
 	char *cmd;
 	t_list *tmp;
-	t_var *exec;
-	int n;
 	int i;
 
 	tmp = *list;
 	i = 0;
-	n = 0;
-	ft_open_files(list, var);
-	n = ft_return_n(list);
-	exec->arg = malloc(sizeof(char *) * (n + 1));
-	printf("-->%p\n", exec->arg[i]);
-	if(!exec->arg)
-		return;
-	// exec->arg[n + 1] = NULL;
-	// while (tmp)
-	// {
-	// 	if (tmp->type == PIPE)
-	// 		var = var->next;
-	// 	if (tmp->type == WORD && tmp->skip == false)
-	// 	{
-	// 		cmd = ft_len_of_arg(tmp, var);
-	// 		exec->arg[i] = malloc(ft_strlen(cmd) + 1);
-	// 		exec->arg[i] = cmd;
-	// 		i++;
-	// 		tmp->skip = true;
-	// 	}
-	// 	tmp = tmp->next;
-	// }
-
-
+	ft_open_files(list, exec);
+	ft_return_n(&tmp, exec);
+	
+	while (tmp)
+	{
+		if (tmp->type == PIPE)
+		{
+			i = 0;
+			exec = exec->next;
+			ft_return_n(&tmp->next, exec);
+		}
+		else if (tmp->type == WORD && tmp->skip == false)
+		{
+			cmd = ft_len_of_arg(tmp, exec);
+			exec->arg[i] = malloc(ft_strlen(cmd));
+			printf("===>%p\n", exec->arg[i]);
+			exec->arg[i] = cmd;
+			i++;
+			tmp->skip = true;
+		}
+		tmp = tmp->next;
+	}
 }
 
 int main ()

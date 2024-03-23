@@ -114,10 +114,11 @@ void	ft_token(t_list **list)
 		}
 		free(line);
 		ft_syntax_error(list);
-		exec = ft_get_number_of_pipe(list);
-		// ft_open_files(list, exec);
+		exec = ft_allocate_for_list(list);
 		ft_call(list, exec);
+		ft_print_var(exec);
 		ft_lstclear(list);	
+		ft_lstclear_var(&exec);
 	}
 }
 
@@ -125,9 +126,6 @@ void ft_print(t_list *list)
 {
 	while (list)
 	{
-		if(!list)
-			printf("salah\n");
-		// printf("====%s====\n", list->value);
 		if (list && list->type == WORD)
 			printf("Word   %s\n", list->value);
 		else if (list && list->type == PIPE)

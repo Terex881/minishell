@@ -26,11 +26,11 @@ void	ft_expand(t_list *list)
 				char *tt =  getenv(tmp);
 				if (!tt)
 					return (free(tmp));		
-				printf("%s",tt);
+				// printf("%s",tt);
 				free(tmp);
 			}
 		}
-		else
-			(printf("%c", str[i]), i++);
+		// else
+			// (printf("%c", str[i]), i++);
 	}
 }

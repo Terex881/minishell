@@ -1,26 +1,30 @@
 #include "minishell.h"
+#include <stdio.h>
 
 void ft_print_var(t_var *list)
 {
-	int i = 0;
 	while (list)
 	{
+		int i = 0;
 		printf("f_in is : %d\n", list->f_in);
 		printf("f_out is : %d\n", list->f_out);
-		// printf("f_arg is : %s\n", list->arg[i]);
-		i++;
+		while(list->arg[i])
+		{
+			printf("f_arg is : %s\n", list->arg[i]);
+			i++;
+		}
 		list = list->next;
 	}
 }
-t_var *ft_get_number_of_pipe(t_list **list)
+t_var *ft_allocate_for_list(t_list **list)
 {
 	t_list *tmp;
 	t_var *exec;
-
-	exec = NULL;
+	t_var *node;
 	int n;
 	int i;
 
+	exec = NULL;
 	i = 0;
 	n = 1;
 	tmp = *list;
@@ -28,15 +32,18 @@ t_var *ft_get_number_of_pipe(t_list **list)
 	{
 		if (tmp->type == PIPE)
 			n++;
-		tmp->skip = false;
 		tmp = tmp->next;
 	}
 	while (i < n)
 	{
-		ft_lstadd_var(&exec,ft_allocate_for_new_node(&i));
+		node = ft_allocate_for_new_node(&i);
+		if(!node)
+			return (ft_lstclear_var(&exec),free(node),  NULL);
+		ft_lstadd_var(&exec,node);
+
 		i++;
 	}
-	return  (exec);
+	return (exec);
 }
 
 void	ft_lstadd_var(t_var **lst, t_var *new)

@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <stdbool.h>
 
 
 int ft_return(t_list *lst)
@@ -29,7 +30,7 @@ void    ft_syntax_error(t_list **list)
 		if (ft_return(tmp) == 2 && ft_return(tmp->next) != 3 
 			&& ft_return(tmp->next->next) != 3)
 				return(ft_putstr_fd("22\n", 2));
-
+		tmp->skip = false;
 		tmp = tmp->next;
 	}
 	tmp = *list;
@@ -37,9 +38,9 @@ void    ft_syntax_error(t_list **list)
 	{
 		if(tmp->type == D_Q || tmp->type == VARIABLE)
 			ft_expand(tmp);
-		else
-			printf("%s", tmp->value);
+		// else
+		// 	printf("%s", tmp->value);
 		tmp = tmp->next;
 	}
-	printf("\n");
+	// printf("\n");
 }
