@@ -115,6 +115,7 @@ void	ft_token(t_list **list)
 		free(line);
 		ft_syntax_error(list);
 		exec = ft_allocate_for_list(list);
+		// while(1);
 		ft_call(list, exec);
 		ft_print_var(exec);
 		ft_lstclear(list);	

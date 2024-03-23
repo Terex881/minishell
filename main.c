@@ -1,9 +1,6 @@
 #include "minishell.h"
-#include <stdio.h>
 
-
-
-void ft_open_files(t_list **list, t_var *var)
+void	ft_open_files(t_list **list, t_var *var)
 {
 	t_list	*tmp;
 
@@ -30,26 +27,7 @@ void ft_open_files(t_list **list, t_var *var)
 	}
 }
 
-char *ft_len_of_arg(t_list *tmp, t_var *var)
-{
-	size_t len;
-	char *str;
-	int i;
 
-	str = NULL;
-	i = 0;
-	len = ft_strlen(tmp->value);
-	str = malloc(len + 1);
-	if (!str)
-		return NULL; // check this
-	while (tmp->value[i])
-	{
-		str[i] = tmp->value[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
 void ft_return_n(t_list **list, t_var *exec)
 {
 	t_list *tmp;
@@ -62,13 +40,12 @@ void ft_return_n(t_list **list, t_var *exec)
 			n++;
 		tmp = tmp->next;
 	}
-	(exec)->arg = malloc(sizeof(char *) * (n + 1));
-	(exec)->arg[n] = NULL;
+	exec->arg = malloc(sizeof(char *) * (n + 1));
+	exec->arg[n] = NULL;
 	
 }
 void ft_call(t_list **list, t_var *exec)
 {
-	char *cmd;
 	t_list *tmp;
 	int i;
 
@@ -76,7 +53,6 @@ void ft_call(t_list **list, t_var *exec)
 	i = 0;
 	ft_open_files(list, exec);
 	ft_return_n(&tmp, exec);
-	
 	while (tmp)
 	{
 		if (tmp->type == PIPE)
@@ -87,10 +63,7 @@ void ft_call(t_list **list, t_var *exec)
 		}
 		else if (tmp->type == WORD && tmp->skip == false)
 		{
-			cmd = ft_len_of_arg(tmp, exec);
-			exec->arg[i] = malloc(ft_strlen(cmd));
-			printf("===>%p\n", exec->arg[i]);
-			exec->arg[i] = cmd;
+			exec->arg[i] = tmp->value;
 			i++;
 			tmp->skip = true;
 		}
