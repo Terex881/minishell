@@ -1,14 +1,15 @@
 #include "minishell.h"
-#include <stdio.h>
 
-void ft_print_var(t_var *list)
+void	ft_print_var(t_var *list)
 {
+	int	i;
+
 	while (list)
 	{
-		int i = 0;
+		i = 0;
 		printf("f_in is : %d\n", list->f_in);
 		printf("f_out is : %d\n", list->f_out);
-		while(list->arg[i])
+		while (list->arg[i])
 		{
 			printf("f_arg is : %s\n", list->arg[i]);
 			i++;
@@ -16,13 +17,14 @@ void ft_print_var(t_var *list)
 		list = list->next;
 	}
 }
-t_var *ft_allocate_for_list(t_list **list)
+
+t_var	*ft_allocate_for_list(t_list **list)
 {
-	t_list *tmp;
-	t_var *exec;
-	t_var *node;
-	int n;
-	int i;
+	t_list	*tmp;
+	t_var	*exec;
+	t_var	*node;
+	int		n;
+	int		i;
 
 	exec = NULL;
 	i = 0;
@@ -37,10 +39,11 @@ t_var *ft_allocate_for_list(t_list **list)
 	while (i < n)
 	{
 		node = ft_allocate_for_new_node(&i);
-		if(!node)
-			return (ft_lstclear_var(&exec),free(node),  NULL);
-		ft_lstadd_var(&exec,node);
-
+		if (!node)
+		{
+			return (ft_lstclear_var(&exec), free(node), NULL);
+		}
+		ft_lstadd_var(&exec, node);
 		i++;
 	}
 	return (exec);
@@ -61,22 +64,23 @@ void	ft_lstadd_var(t_var **lst, t_var *new)
 	current->next = new;
 }
 
-char *ft_name_of_file(t_list *tmp)
+char	*ft_name_of_file(t_list *tmp)
 {
-	char *name;
-	if(!tmp)
+	char	*name;
+
+	if (!tmp)
 		return (NULL);
-	if (tmp->type == SPACE_)
+	if (tmp->next && tmp->type == SPACE_)
 	{
 		tmp->next->skip = true;
- 	    name = tmp->next->value;
+		name = tmp->next->value;
 	}
 	else
 	{
 		tmp->skip = true;
 		name = tmp->value;
 	}
-	return  (name);
+	return (name);
 }
 
 t_var	*ft_allocate_for_new_node(void *value)
@@ -91,4 +95,22 @@ t_var	*ft_allocate_for_new_node(void *value)
 	node->arg = NULL;
 	node->next = NULL;
 	return (node);
+}
+void	ft_return_n(t_list **list, t_var *exec)
+{
+	t_list	*tmp;
+	int		n;
+
+	n = 0;
+	tmp = *list;
+	while (tmp && tmp->type != PIPE)
+	{
+		if (tmp && tmp->type == WORD && tmp->skip == false)
+			n++;
+		tmp = tmp->next;
+	}
+	exec->arg = malloc(sizeof(char *) * (n + 1));
+	if(!exec->arg)
+		return ;
+	exec->arg[n] = NULL;
 }

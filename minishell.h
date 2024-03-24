@@ -25,24 +25,22 @@
 // 22
 // [1]    50640 segmentation fault  ./minishell
 
-// #define malloc(x) NULL
+#define malloc(x) NULL
 
-//////////////////////////////////PROTECTION?/////////
-
-
+///////////PROTECTION?/////////
 
 typedef enum 
 {
-	WORD,           // 0   
-	PIPE,           // 1
-	R_OUT,          // 2 
-	R_IN,           // 3
-	HER_DOC,        // 4
-	D_Q,            // 5
-	S_Q,            // 6
-	SPACE_,         // 7
-	VARIABLE,       // 8
-	APPEND,         // 9
+	WORD,
+	PIPE,
+	R_OUT,
+	R_IN,
+	HER_DOC,
+	D_Q,
+	S_Q,
+	SPACE_,
+	VARIABLE,
+	APPEND,
 }t_type;
 
 typedef struct s_list 
@@ -53,7 +51,6 @@ typedef struct s_list
 	struct s_list *next;	
 
 }t_list;
-
 
 typedef struct s_var
 {
@@ -66,7 +63,7 @@ typedef struct s_var
 char	*ft_substr(const char *str, unsigned int start, size_t len);
 char	*ft_strrchr(const char *s, int chr);
 char	*ft_strnstr(const char *s1, const char *s2, size_t size);
-int		ft_strncmp(const char *str1, const char *str2, size_t n);
+int		ft_strncmp(const char *str1, const char *str2);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *str);
 char	*ft_strchr(const char *s, int chr);
@@ -110,7 +107,6 @@ void	ft_lstadd_var(t_var **lst, t_var *new1);
 int		ft_size(t_var *lst); // remove
 
 
-
 t_var	*ft_allocate_for_list(t_list **list);
 void	ft_lstadd_var(t_var **lst, t_var *new1);
 char	*ft_name_of_file(t_list *tmp);
@@ -119,7 +115,8 @@ void	ft_print_var(t_var *list);
 void	ft_lstclear_var(t_var **lst);
 
 
-void ft_call(t_list **list, t_var *var);
+void	ft_call(t_list **list, t_var *var);
+void	ft_return_n(t_list **list, t_var *exec);
 
 
 #endif

@@ -1,5 +1,23 @@
 #include "minishell.h"
 
+
+int	ft_strncmp(const char *str1, const char *str2)
+{
+	size_t				i;
+	const unsigned char	*s1;
+	const unsigned char	*s2;
+
+	s1 = (const unsigned char *)str1;
+	s2 = (const unsigned char *)str2;
+	i = 0;
+	while ((s1[i] || s2[i]))
+	{
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		i++;
+	}
+	return (0);
+}
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*current;
@@ -372,6 +390,7 @@ void	ft_lstclear(t_list **lst)
 		}
 		*lst = tmp;
 	}
+	lst = NULL;
 }
 
 void	ft_lstclear_var(t_var **exec)
@@ -391,6 +410,7 @@ void	ft_lstclear_var(t_var **exec)
 		}
 		*exec = tmp;
 	}
+	exec = NULL;
 }
 
 void	ft_putstr_fd(char *s, int fd)

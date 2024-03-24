@@ -1,58 +1,84 @@
 #include "minishell.h"
+#include <stdio.h>
 
+
+void ft_IN_OUT(t_list *tmp, t_var *var)
+{
+	if (tmp->type == R_IN)
+	{
+		var->f_in = open(ft_name_of_file(tmp->next), O_RDWR);
+		tmp->skip = true;
+		if (var->f_in == -1)
+			perror(ft_name_of_file(tmp->next));
+	}
+	else if (tmp->type == R_OUT)
+	{
+		var->f_out = open(ft_name_of_file(tmp->next),
+			O_CREAT | O_RDWR, 0644);
+		tmp->skip = true;
+		if (var->f_out == -1)
+			perror(ft_name_of_file(tmp->next));
+	}
+	else if (tmp->type == APPEND)
+	{
+		var->f_out = open(ft_name_of_file(tmp->next), O_CREAT 
+			| O_RDWR | O_APPEND, 0644);
+		tmp->skip = true;
+		if (var->f_out == -1)
+			perror(ft_name_of_file(tmp->next));
+	}
+}
 void	ft_open_files(t_list **list, t_var *var)
 {
 	t_list	*tmp;
 
 	tmp = *list;
-	while (tmp)	
+	while (tmp)
 	{
 		if (tmp->type == PIPE)
-			var = var->next;
-		if (tmp->type == R_IN)
-		{
-			var->f_in = open(ft_name_of_file(tmp->next), O_RDWR);
-			tmp->skip = true;		
-			if (var->f_in == -1)
-				write(1, "555\n", 4);
-		}
-		else if (tmp->type == R_OUT)
-		{
-			var->f_out = open(ft_name_of_file(tmp->next), O_CREAT | O_RDWR , 0644);
-			tmp->skip = true;	
-			if (var->f_out == -1)
-				write(1, "666\n", 4);
-		}
+			var = var->next;		
+		if (tmp->type == R_IN || tmp->type == R_OUT
+			|| tmp->type == APPEND)
+			ft_IN_OUT(tmp, var);
 		tmp = tmp->next;
 	}
 }
 
 
-void ft_return_n(t_list **list, t_var *exec)
+void ft_open_her_doc(t_list **list, t_var *var)
 {
-	t_list *tmp;
-	int n = 0;
+	t_list	*tmp;
+	char	*line;
+
 	tmp = *list;
-
-	while (tmp && tmp->type != PIPE)
+	while (tmp)
 	{
-		if (tmp && tmp->type == WORD && tmp->skip == false)
-			n++;
+		if (tmp->type == PIPE)
+			var = var->next;		
+		if(tmp->type == HER_DOC)
+		{
+			line = readline(">");
+			while (line)
+			{
+				if (ft_strncmp(ft_name_of_file(tmp->next), line) == 0)
+					break;
+				var->f_in = open("test", O_CREAT | O_RDWR | O_TRUNC, 0644);
+				write(var->f_in, line, ft_strlen(line));
+				free(line);
+				line = readline(">");
+			}
+			free(line);
+		}
 		tmp = tmp->next;
 	}
-	exec->arg = malloc(sizeof(char *) * (n + 1));
-	exec->arg[n] = NULL;
-	
 }
-void ft_call(t_list **list, t_var *exec)
+void	ft_full_list(t_list **list, t_var *exec)
 {
-	t_list *tmp;
-	int i;
+	t_list	*tmp;
+	int		i;
 
 	tmp = *list;
 	i = 0;
-	ft_open_files(list, exec);
-	ft_return_n(&tmp, exec);
 	while (tmp)
 	{
 		if (tmp->type == PIPE)
@@ -70,11 +96,20 @@ void ft_call(t_list **list, t_var *exec)
 		tmp = tmp->next;
 	}
 }
-
-int main ()
+void	ft_call(t_list **list, t_var *exec)
 {
-	t_list *list;	
+	ft_open_her_doc(list, exec);
+	ft_open_files(list, exec);
+	ft_return_n(list, exec);
+	ft_full_list(list, exec);
+
+}
+
+int	main(void)
+{
+	t_list	*list;
+
+	// rl_catch_signals = 0;
 	list = NULL;
 	ft_token(&list);
 }
-
