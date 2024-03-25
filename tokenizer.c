@@ -102,43 +102,54 @@ t_list	*ft_add_word(char *line, int *i, t_list *node)
 		node->type = WORD;
 	return (node);
 }
+void ft_token(char *line, t_list *node, t_list **list)
+{
+	int i;
 
-void	ft_token(t_list **list)
+	line = readline("minishell :");
+	add_history(line);
+	node = NULL;
+	*list = NULL;
+	i = 0;
+	// if (!line) // check this
+	// 	return;
+	while (line[i])
+	{
+		if (line[i] == ' ' || line[i] == '\t')
+			while (line[i + 1] && (line[i + 1] == 32 || line[i + 1] == 9))
+				i++;
+		if (line[i] && ft_check(line[i]) == 1)
+			node = ft_add_special_character(node, &line[i], &i);
+		else if (line[i])
+			node = ft_add_word(line, &i, node);
+		if (!node)
+			ft_lstclear(list);
+		ft_lstadd_back(list, node);
+		i++;
+	}
+	free(line);
+}
+
+void	ft_all(t_list **list, char **env)
 {
 	t_list	*node;
 	t_var	*exec;
 	char	*line;
-	int		i;
 
+	line = NULL;
+	node = NULL;
 	exec = NULL;
 	while (1)
 	{
-		line = readline("minishell :");
-		add_history(line);
-		node = NULL;
-		*list = NULL;
-		i = 0;
-		if (!line)
-			exit(1);
-		while (line[i])
-		{
-			if (line[i] == ' ' || line[i] == '\t')
-				while (line[i + 1] && (line[i + 1] == 32 || line[i + 1] == 9))
-					i++;
-			if (line[i] && ft_check(line[i]) == 1)
-				node = ft_add_special_character(node, &line[i], &i);
-			else if (line[i])
-				node = ft_add_word(line, &i, node);
-			if (!node)
-				ft_lstclear(list);
-			ft_lstadd_back(list, node);
-			i++;
-		}
-		free(line);
+		ft_token(line, node, list);
 		ft_syntax_error(list);
 		exec = ft_allocate_list(list);
-		ft_call(list, exec);
+		ft_open_her_doc(list, exec);
+		ft_open_files(list, exec);
+		ft_len_node_elem(list, exec);
+		ft_copy_to_list(list, exec);
 		ft_print_var(exec);
+		ft_execution(exec, env);
 		ft_lstclear(list);
 		ft_lstclear_var(&exec);
 	}

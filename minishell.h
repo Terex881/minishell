@@ -65,25 +65,18 @@ typedef struct s_var
 } t_var;
 
 char	*ft_substr(const char *str, unsigned int start, size_t len);;
-// char	*ft_strnstr(const char *s1, const char *s2, size_t size);
 int		ft_strncmp(char *str1, char *str2);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *str);
 char	*ft_strchr(char *s1, int chr);
-// void	*ft_memset(void *b, int c, size_t len);
-// void	*ft_memmove(void *str1, const void *str2, size_t n);
 void	*ft_memcpy(void *dest1, const void *src1, size_t n);
-// int		ft_memcmp(const void *str1, const void *str2, size_t n);
-// int		ft_atoi(const char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *str1, char sep);
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new1);
 void	ft_lstadd_back(t_list **lst, t_list *new1);
-
 void	ft_lstclear(t_list **lst);
 void	ft_lstdelone(t_list **lst);
-
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 int     ft_isalpha(int c);
@@ -98,7 +91,8 @@ int		ft_check(char c);
 t_list	*ft_add_special_character(t_list *node, char *c, int *i);
 t_list	*ft_add_douple_single(char *line, int *i, t_list *node);
 t_list	*ft_add_word(char *line, int *i, t_list *node);
-void	ft_token(t_list **list);
+void	ft_token(char *line, t_list *node, t_list **list);
+void	ft_all(t_list **list, char **env);
 void	ft_print(t_list *list);
 
 //---------------------OPEN_FILES---------------------
@@ -124,8 +118,11 @@ void	ft_len_node_elem(t_list **list, t_var *exec);
 
 //---------------------SYNTAX_ERROR---------------------
 
+void ft_execution(t_var *exec, char **env);
+
 int		ft_return(t_list *lst);
 void	ft_syntax_error(t_list **list);
+void	ft_copy_to_list(t_list **list, t_var *exec);
 
 
 

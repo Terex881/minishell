@@ -1,6 +1,5 @@
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
+// #include "minishell.h"
+#include <libc.h>
 
 int ft_strlen(char *s)
 {
@@ -80,7 +79,8 @@ void env_(char **env)
 
 int main(int ac, char **av, char **env)
 {
-	char tab[100];
+	// char tab[100];
+
 	if (ac == 1)
 		return (0);
 	if (!ft_strncmp(av[1], "echo", 5))
