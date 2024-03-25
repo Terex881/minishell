@@ -67,7 +67,7 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 	if (!tmp)
 		return (free(tmp), NULL);
 	str = tmp;
-	tmp = ft_strtrim(tmp, &line[j]);
+	tmp = ft_strtrim(tmp, line[j]);
 	node = ft_lstnew(tmp);
 	node->value = tmp;
 	free(str);
@@ -136,7 +136,7 @@ void	ft_token(t_list **list)
 		}
 		free(line);
 		ft_syntax_error(list);
-		exec = ft_allocate_for_list(list);
+		exec = ft_allocate_list(list);
 		ft_call(list, exec);
 		ft_print_var(exec);
 		ft_lstclear(list);

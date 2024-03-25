@@ -4,7 +4,7 @@ void	ft_print_var(t_var *list)
 {
 	int	i;
 
-	while (list)
+	while (list && list->arg)
 	{
 		i = 0;
 		printf("f_in is : %d\n", list->f_in);
@@ -18,7 +18,7 @@ void	ft_print_var(t_var *list)
 	}
 }
 
-t_var	*ft_allocate_for_list(t_list **list)
+t_var	*ft_allocate_list(t_list **list)
 {
 	t_list	*tmp;
 	t_var	*exec;
@@ -34,37 +34,22 @@ t_var	*ft_allocate_for_list(t_list **list)
 	{
 		if (tmp->type == PIPE)
 			n++;
+		if (tmp->type == SPACE_ && tmp->skip == false)
+			tmp->skip = true;
 		tmp = tmp->next;
 	}
 	while (i < n)
 	{
-		node = ft_allocate_for_new_node(&i);
+		node = ft_varnew(&i);
 		if (!node)
-		{
 			return (ft_lstclear_var(&exec), free(node), NULL);
-		}
-		ft_lstadd_var(&exec, node);
+		ft_varadd_back(&exec, node);
 		i++;
 	}
 	return (exec);
 }
 
-void	ft_lstadd_var(t_var **lst, t_var *new)
-{
-	t_var	*current;
-
-	if (!lst || !*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	current = *lst;
-	while (current && current->next)
-		current = current->next;
-	current->next = new;
-}
-
-char	*ft_name_of_file(t_list *tmp)
+char	*ft_file_name(t_list *tmp)
 {
 	char	*name;
 
@@ -83,9 +68,10 @@ char	*ft_name_of_file(t_list *tmp)
 	return (name);
 }
 
-t_var	*ft_allocate_for_new_node(void *value)
+t_var	*ft_varnew(void *value)
 {
 	t_var	*node;
+	(void)value;
 
 	node = malloc(sizeof(t_var));
 	if (!node)
@@ -96,16 +82,18 @@ t_var	*ft_allocate_for_new_node(void *value)
 	node->next = NULL;
 	return (node);
 }
-void	ft_return_n(t_list **list, t_var *exec)
+void	ft_len_node_elem(t_list **list, t_var *exec)
 {
 	t_list	*tmp;
 	int		n;
 
+	if (!exec)
+		return ;
 	n = 0;
 	tmp = *list;
 	while (tmp && tmp->type != PIPE)
 	{
-		if (tmp && tmp->type == WORD && tmp->skip == false)
+		if (tmp && tmp->skip == false)
 			n++;
 		tmp = tmp->next;
 	}

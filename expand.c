@@ -34,7 +34,11 @@ void	ft_expand(t_list *list)
 				free(tmp);
 			}
 		}
+		{
+
 		// else
-			// (printf("%c", str[i]), i++);
+			// printf("%c", str[i]);
+			i++;
+		}
 	}
 }
