@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ft_return(t_list *lst)
+int	ft_type(t_list *lst)
 {
 	if (!lst)
 		return (0);
@@ -20,12 +20,12 @@ void	ft_syntax_error(t_list **list)
 	tmp = *list;
 	if (!tmp)
 		return ;
-	if (tmp->type == PIPE || ft_return(ft_lstlast(tmp)) == 2)
+	if (tmp->type == PIPE || ft_type(ft_lstlast(tmp)) == 2)
 		return (ft_putstr_fd("11\n", 2));
 	while (tmp)
 	{
-		if (ft_return(tmp) == 2 && ft_return(tmp->next) != 3
-			&& ft_return(tmp->next->next) != 3)
+		if (ft_type(tmp) == 2 && ft_type(tmp->next) != 3
+			&& ft_type(tmp->next->next) != 3)
 				return (ft_putstr_fd("22\n", 2));
 		tmp->skip = false;
 		tmp = tmp->next;
