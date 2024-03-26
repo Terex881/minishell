@@ -79,7 +79,7 @@ void env_(char **env)
 
 int main(int ac, char **av, char **env)
 {
-	// char tab[100];
+	char tab[100];
 
 	if (ac == 1)
 		return (0);

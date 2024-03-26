@@ -9,13 +9,15 @@
 #include <stdbool.h>
 // syscall
 //  echo yassi" ne 
-// handl echo -nnnnn  "$USER".$USER
-// bash-3.2$ echo '$USER."'$USER'"'$0
-// $USER."sdemnati"bash
-// bash-3.2$ echo '$USER."'$USER'"'$1
+
+// handl echo -nnnnn  "$USER".$USER   ====> DONE!
+
+// bash-3.2$ echo '$USER."'$USER'"'$0 ======> DONE!
+
+// bash-3.2$ echo '$USER."'$USER'"'$1 ===> DONE!
 // $USER."sdemnati"
 
-// bash-3.2$ echo '$USER'
+// bash-3.2$ echo '$USER' ===> DONE!
 // $USER
 
 // minishell :$USER_d                       $USER
@@ -32,6 +34,10 @@
 
 // minishell :ls > "ls"
 // ---->(")
+
+
+
+// control D
 
 typedef enum 
 {
@@ -63,9 +69,10 @@ typedef struct s_var
 	char **arg;
 	struct s_var *next;
 } t_var;
+//-----------------------LIBFT---------------------
 
 char	*ft_substr(const char *str, unsigned int start, size_t len);;
-int		ft_strncmp(char *str1, char *str2);
+int		ft_strcmp(char *str1, char *str2);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *str);
 char	*ft_strchr(char *s1, int chr);
@@ -107,6 +114,8 @@ void	ft_call(t_list **list, t_var *exec);
 
 char	*ft_get_variable(char *str, int *i);
 void	ft_expand(t_list *list);
+char	*ft_charjoin(char const *s1, char  s2);
+char *ft_expand_her_doc(char *str);
 
 // ---------------------CREAtE_NEW_LIST---------------------
 
@@ -118,11 +127,19 @@ void	ft_len_node_elem(t_list **list, t_var *exec);
 
 //---------------------SYNTAX_ERROR---------------------
 
-void ft_execution(t_var *exec, char **env);
+void	ft_execution(t_var *exec, char **env);
 
 int		ft_return(t_list *lst);
 void	ft_syntax_error(t_list **list);
 void	ft_copy_to_list(t_list **list, t_var *exec);
+
+//---------------------SYNTAX_ERROR---------------------
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int	check_n(char *s);
+void echo_(char **arg);
+void pwd_(char *arg);
+void env_(char **env);
 
 
 

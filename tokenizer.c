@@ -111,8 +111,8 @@ void ft_token(char *line, t_list *node, t_list **list)
 	node = NULL;
 	*list = NULL;
 	i = 0;
-	// if (!line) // check this
-	// 	return;
+	if (!line) // check this
+		return;
 	while (line[i])
 	{
 		if (line[i] == ' ' || line[i] == '\t')
@@ -148,7 +148,7 @@ void	ft_all(t_list **list, char **env)
 		ft_open_files(list, exec);
 		ft_len_node_elem(list, exec);
 		ft_copy_to_list(list, exec);
-		ft_print_var(exec);
+		// ft_print_var(exec);
 		ft_execution(exec, env);
 		ft_lstclear(list);
 		ft_lstclear_var(&exec);
