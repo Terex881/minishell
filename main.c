@@ -12,6 +12,6 @@ int	main(int ac, char **av, char **env)
 	t_list	*list;
 	
 	// rl_catch_signals = 0;
-	list = NULL;
+	// list = NULL;
 	ft_all(&list, env);
 }

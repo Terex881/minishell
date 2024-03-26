@@ -34,20 +34,12 @@ void	ft_syntax_error(t_list **list)
 	while (tmp)
 	{
 		if (tmp->type == D_Q || tmp->type == VARIABLE)
-		{
 			ft_expand(tmp);
-			tmp = tmp->next;
-		}
 		else if(tmp->type == SPACE_)
-		{
 			printf(" ");
-			tmp = tmp->next;
-		}
 		else
-		{
 			printf("%s", tmp->value);
-			tmp = tmp->next;
-		}
+		tmp = tmp->next;	
 	}
 	printf("\n");
 }
