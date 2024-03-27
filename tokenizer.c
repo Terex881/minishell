@@ -146,11 +146,13 @@ void	ft_all(t_list **list, char **env)
 		{
 			exec = ft_allocate_list(list);
 			ft_open_her_doc(list, exec);
-			ft_open_files(list, exec);
-			ft_len_node_elem(list, exec);
-			ft_copy_to_list(list, exec);
-			// ft_print_var(exec);
-			ft_execution(exec, env);
+			if (ft_open_files(list, exec) == 0)
+			{
+				ft_len_node_elem(list, exec);
+				ft_copy_to_list(list, exec);
+				// ft_print_var(exec);
+				ft_execution(exec, env);
+			}
 		}
 		ft_lstclear(list);
 		ft_lstclear_var(&exec);

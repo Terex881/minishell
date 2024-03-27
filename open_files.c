@@ -2,14 +2,14 @@
 #include <stdio.h>
 
 
-void ft_IN_OUT(t_list *tmp, t_var *var)
+int ft_IN_OUT(t_list *tmp, t_var *var)
 {
 	if (tmp->type == R_IN)
 	{
 		var->f_in = open(ft_file_name(tmp->next), O_RDWR);
 		tmp->skip = true;
 		if (var->f_in == -1)
-			perror(ft_file_name(tmp->next));
+			return (perror(ft_file_name(tmp->next)), 1);
 	}
 	else if (tmp->type == R_OUT)
 	{
@@ -17,7 +17,8 @@ void ft_IN_OUT(t_list *tmp, t_var *var)
 			O_CREAT | O_RDWR, 0644);
 		tmp->skip = true;
 		if (var->f_out == -1)
-			perror(ft_file_name(tmp->next));
+			return (perror(ft_file_name(tmp->next)), 1);
+
 	}
 	else if (tmp->type == APPEND)
 	{
@@ -25,11 +26,12 @@ void ft_IN_OUT(t_list *tmp, t_var *var)
 			| O_RDWR | O_APPEND, 0644);
 		tmp->skip = true;
 		if (var->f_out == -1)
-			perror(ft_file_name(tmp->next));
+			return (perror(ft_file_name(tmp->next)), 1);
 	}
+	return (0);
 }
 
-void	ft_open_files(t_list **list, t_var *var)
+int	ft_open_files(t_list **list, t_var *var)
 {
 	t_list	*tmp;
 
@@ -38,11 +40,14 @@ void	ft_open_files(t_list **list, t_var *var)
 	{
 		if (tmp->type == PIPE)
 			var = var->next;
-		if (tmp->type == R_IN || tmp->type == R_OUT
-			|| tmp->type == APPEND)
-			ft_IN_OUT(tmp, var);
+		if (tmp->type == R_IN || tmp->type == R_OUT || tmp->type == APPEND)
+		{
+			if (ft_IN_OUT(tmp, var) == 1)
+				return (1);
+		}
 		tmp = tmp->next;
 	}
+	return (0);
 }
 
 

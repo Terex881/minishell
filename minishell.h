@@ -69,6 +69,26 @@ typedef struct s_var
 	char **arg;
 	struct s_var *next;
 } t_var;
+
+typedef struct s_var1
+{
+	int		f_in;
+	int		f_out;
+	pid_t	cp1;
+	int		end[2];
+	char	*path;
+	char	*tmp1;
+	char	**arr;
+	char	**cmd_args;
+	size_t	len;
+	int		pos;
+	ssize_t	by;
+	char	*str;
+	int		index;
+	char	*sub_line;
+	char	*tmp;
+}	t_var1;
+
 //-----------------------LIBFT---------------------
 
 char	*ft_substr(const char *str, unsigned int start, size_t len);;
@@ -105,8 +125,8 @@ void	ft_print(t_list *list);
 
 //---------------------OPEN_FILES---------------------
 
-void	ft_IN_OUT(t_list *tmp, t_var *exec);
-void	ft_open_files(t_list **list, t_var *exec);
+int		ft_IN_OUT(t_list *tmp, t_var *exec);
+int		ft_open_files(t_list **list, t_var *exec);
 void	ft_open_her_doc(t_list **list, t_var *exec);
 void	ft_full_list(t_list **list, t_var *exec);
 void	ft_call(t_list **list, t_var *exec);
@@ -130,10 +150,10 @@ void	ft_len_node_elem(t_list **list, t_var *exec);
 
 int		ft_execution(t_var *exec, char **env);//🌸
 int		ft_return(t_list *lst);
-int	ft_syntax_error(t_list **list);
+int		ft_syntax_error(t_list **list);
 void	ft_copy_to_list(t_list **list, t_var *exec);
 
-//---------------------SYNTAX_ERROR---------------------
+//---------------------BUILTS_IN---------------------
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 int	check_n(char *s);
