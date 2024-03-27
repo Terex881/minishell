@@ -50,17 +50,15 @@ int ft_execution(t_var *exec, char **env)
         return (perror("fork error!\n"), 0);
     if (pid == 0)
     {
+        if (dup2(exec->f_in, 0) == -1)
+            return (perror("dup2 error!\n"), 0);
         if (dup2(exec->f_out, 1) == -1)
             return (perror("dup2 error!\n"), 0);
         if (execve(path, exec->arg, env) == -1)
             return (perror("execv error!\n"), 0);
     }
     else
-    {
-        if (dup2(exec->f_in, 0) == -1)
-            return (perror("dup2 error!\n"), 0);
         waitpid(pid, NULL, 0);
-    }
     return (1);
 }
-//fix here_doc and redirection in
+
