@@ -16,7 +16,7 @@ t_list	*ft_add_special_character(t_list *node, char *c, int *i)
 	node = ft_lstnew(c);
 	if (!node)
 		return (NULL);
-	if (*c == ' ' || *c == '\t')
+	if (*c == 32 || (*c >= 9 && *c <= 32))
 	{
 		node->type = SPACE_;
 		node->value = NULL;
@@ -116,7 +116,7 @@ void ft_token(char *line, t_list *node, t_list **list)
 	while (line[i])
 	{
 		if (line[i] == ' ' || line[i] == '\t')
-			while (line[i + 1] && (line[i + 1] == 32 || line[i + 1] == 9))
+			while (line[i + 1] && line[i + 1] == 32 || (line[i + 1] >= 9 && line[i + 1] <= 13))
 				i++;
 		if (line[i] && ft_check(line[i]) == 1)
 			node = ft_add_special_character(node, &line[i], &i);
@@ -142,14 +142,16 @@ void	ft_all(t_list **list, char **env)
 	while (1)
 	{
 		ft_token(line, node, list);
-		ft_syntax_error(list);
-		exec = ft_allocate_list(list);
-		ft_open_her_doc(list, exec);
-		ft_open_files(list, exec);
-		ft_len_node_elem(list, exec);
-		ft_copy_to_list(list, exec);
-		ft_print_var(exec);
-		ft_execution(exec, env);
+		if (ft_syntax_error(list) == 0)
+		{
+			exec = ft_allocate_list(list);
+			ft_open_her_doc(list, exec);
+			ft_open_files(list, exec);
+			ft_len_node_elem(list, exec);
+			ft_copy_to_list(list, exec);
+			// ft_print_var(exec);
+			ft_execution(exec, env);
+		}
 		ft_lstclear(list);
 		ft_lstclear_var(&exec);
 	}

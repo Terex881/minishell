@@ -130,7 +130,7 @@ void	ft_len_node_elem(t_list **list, t_var *exec);
 
 int		ft_execution(t_var *exec, char **env);//🌸
 int		ft_return(t_list *lst);
-void	ft_syntax_error(t_list **list);
+int	ft_syntax_error(t_list **list);
 void	ft_copy_to_list(t_list **list, t_var *exec);
 
 //---------------------SYNTAX_ERROR---------------------
