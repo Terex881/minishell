@@ -40,11 +40,25 @@ static char *valid_path(char *cmd, char **env)
 int ft_execution(t_var *exec, char **env)
 {
     char    *path;
+    pid_t   pid;
 
     path = valid_path(exec->arg[0], env);
     if (!path)
         return (perror("Invalid path!\n"), 0);
-    if (execve(path, exec->arg, env) == -1)
-        return (perror("execv error!\n"), 0);
+    pid = fork();
+    if (pid == -1)
+        return (perror("fork error!\n"), 0);
+    if (pid == 0)
+    {
+        if (dup2(exec->f_in, 0) == -1)
+            return (perror("dup2 error!\n"), 0);
+        if (dup2(exec->f_out, 1) == -1)
+            return (perror("dup2 error!\n"), 0);
+        if (execve(path, exec->arg, env) == -1)
+            return (perror("execv error!\n"), 0);
+    }
+    else
+        waitpid(pid, NULL, 0);
     return (1);
 }
+
