@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-void ft_execution(t_var *exec, char **env)
-{
-
-}
+// void ft_execution(t_var *exec, char **env)
+// {
+//
+// }
 
 int	main(int ac, char **av, char **env)
 {
