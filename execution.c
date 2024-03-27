@@ -1,6 +1,6 @@
-#include "minishell.h" //🌸
+#include "minishell.h"
 
-static char	**ft_free(char **p, int i)
+static char **ft_free(char **p, int i)
 {
 	while (p[i])
 	{
@@ -24,15 +24,19 @@ static char **get_paths(char **env)
         i++;
     while (env[i][j] != '\n' && env[i][j] != '\0')
         j++;
-    tmp = ft_substr(env[i], 5, --j);//if !tmp
-    paths = ft_split(tmp, ':');//if !paths
+    tmp = ft_substr(env[i], 5, --j);
+    if (!tmp)
+        return (NULL);
+    paths = ft_split(tmp, ':');
+    if (!paths)
+        return (NULL);
     free(tmp);
     return (paths);
 }
 
 static char *valid_path(char *cmd, char **env)
 {
-    int     i = 0;
+    int     i;
     char    *path;
     char    *tmp;
     char    **paths;
@@ -42,6 +46,7 @@ static char *valid_path(char *cmd, char **env)
     paths = get_paths(env);
     if (!paths)
         return (perror("env failed!"), NULL);
+    i = 0;
     while (paths[i])
     {
         tmp = ft_strjoin(paths[i], "/");
@@ -56,12 +61,30 @@ static char *valid_path(char *cmd, char **env)
     return (free(paths), NULL);
 }
 
+int check_builtin(t_var *exec, char **env)
+{
+    if (!ft_strncmp(exec->arg[0], "echo", 5))
+        return (ft_echo(exec->arg + 1), 1);
+    if (!ft_strncmp(exec->arg[0], "pwd", 4))
+        return (ft_pwd(exec->arg[0]), 1);
+    if (!ft_strncmp(exec->arg[0], "env", 4))
+    {
+		if (exec->arg[1])
+			return (perror(exec->arg[1]), 1);
+		else
+			return (ft_env(env), 1);
+	}
+    return (0);
+}
 int ft_execution(t_var *exec, char **env)
 {
     char    *path;
     pid_t   pid;
+
     if (exec->arg[0] == NULL)
         return (0);
+    if (check_builtin(exec, env))
+        return (1);
     path = valid_path(exec->arg[0], env);
     if (!path)
         return (perror(exec->arg[0]), 0);
@@ -79,7 +102,6 @@ int ft_execution(t_var *exec, char **env)
     }
     else
         waitpid(pid, NULL, 0);
-    free(path);
-    return (1);
+    return (free(path), 1);
 }
 

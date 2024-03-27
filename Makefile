@@ -18,8 +18,8 @@ OBJ = main.o                tokenizer.o             syntax_error.o expand.o \
     libft/ft_lstnew.o       libft/ft_lstadd_front.o  \
     libft/ft_lstdelone.o    libft/ft_putstr_fd.o    libft/ft_newvar.o  \
     libft/ft_lstclear.o     libft/ft_lstiter.o      libft/ft_lstsize.o \
-    libft/ft_lstlast.o      libft/ft_strncmp.o      execution.o
-    # builtins.o
+    libft/ft_lstlast.o      libft/ft_strncmp.o      execution.o\
+    builtins.o
 
 all : $(NAME) 
 

@@ -92,7 +92,7 @@ typedef struct s_var1
 //-----------------------LIBFT---------------------
 
 char	*ft_substr(const char *str, unsigned int start, size_t len);;
-int		ft_strncmp(const char *s1, const char *s2, size_t n);//🌸
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strcmp(char *str1, char *str2);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *str);
@@ -151,7 +151,7 @@ void ft_join(t_list **list, t_var *exec);
 
 //---------------------SYNTAX_ERROR---------------------
 
-int		ft_execution(t_var *exec, char **env);//🌸
+int		ft_execution(t_var *exec, char **env);
 int		ft_return(t_list *lst);
 int		ft_syntax_error(t_list **list);
 void	ft_copy_to_list(t_list **list, t_var *exec);
@@ -159,10 +159,9 @@ void	ft_copy_to_list(t_list **list, t_var *exec);
 //---------------------BUILTS_IN---------------------
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
-int	check_n(char *s);
-void echo_(char **arg);
-void pwd_(char *arg);
-void env_(char **env);
+void ft_echo(char **arg);
+void ft_pwd(char *arg);
+void ft_env(char **env);
 
 
 
