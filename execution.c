@@ -64,7 +64,7 @@ int ft_execution(t_var *exec, char **env)
         return (0);
     path = valid_path(exec->arg[0], env);
     if (!path)
-        return (perror("Invalid path!\n"), 0);
+        return (perror(exec->arg[0]), 0);
     pid = fork();
     if (pid == -1)
         return (perror("fork error!\n"), 0);
@@ -75,7 +75,7 @@ int ft_execution(t_var *exec, char **env)
         if (dup2(exec->f_out, 1) == -1)
             return (perror("dup2 error!\n"), 0);
         if (execve(path, exec->arg, env) == -1)
-            return (perror("execv error!\n"), 0);
+            return (perror(exec->arg[0]), 0);
     }
     else
         waitpid(pid, NULL, 0);

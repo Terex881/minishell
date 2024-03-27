@@ -149,8 +149,8 @@ void	ft_all(t_list **list, char **env)
 			if (ft_open_files(list, exec) == 0)
 			{
 				ft_len_node_elem(list, exec);
-				ft_copy_to_list(list, exec);
-				// ft_print_var(exec);
+				// ft_copy_to_list(list, exec);
+				ft_join(list, exec);
 				ft_execution(exec, env);
 			}
 		}

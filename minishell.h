@@ -138,13 +138,16 @@ void	ft_expand(t_list *list);
 char	*ft_charjoin(char const *s1, char  s2);
 char *ft_expand_her_doc(char *str);
 
-// ---------------------CREAtE_NEW_LIST---------------------
+// ---------------------CREATE_NEW_LIST---------------------
 
 void	ft_print_var(t_var *list);
 t_var	*ft_allocate_list(t_list **list);
 char	*ft_file_name(t_list *tmp);
 t_var	*ft_varnew(void *value);
 void	ft_len_node_elem(t_list **list, t_var *exec);
+
+void ft_join(t_list **list, t_var *exec);
+
 
 //---------------------SYNTAX_ERROR---------------------
 

@@ -70,6 +70,7 @@ void	ft_copy_to_list(t_list **list, t_var *exec)
 		}
 		else if (tmp->skip == false)
 		{
+			
 			exec->arg[i] = tmp->value;
 			i++;
 			tmp->skip = true;
