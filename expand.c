@@ -35,7 +35,6 @@ char *ft_help(char *str)
 		else
 			i++;
 	}
-	printf("--> %s\n", tt);
 	return (tt);
 }
 

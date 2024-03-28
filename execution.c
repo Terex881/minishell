@@ -83,8 +83,8 @@ int ft_execution(t_var *exec, char **env)
 
     if (exec->arg[0] == NULL)
         return (0);
-    // if (check_builtin(exec, env))
-    //     return (1);
+    if (check_builtin(exec, env))
+        return (1);
     path = valid_path(exec->arg[0], env);
     if (!path)
         return (perror(exec->arg[0]), 0);

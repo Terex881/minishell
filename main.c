@@ -8,7 +8,7 @@ char	*ft_varjoin(t_list **tmp)
 	while (*tmp && (*tmp)->next && (*tmp)->next->skip == false)
 	{
 		// free(str);
-		str = ft_strjoin((*tmp)->value, (*tmp)->next->value);
+		str = ft_strjoin(str, (*tmp)->next->value);
 		(*tmp)->skip = true;
 		*tmp = (*tmp)->next;
 	}
