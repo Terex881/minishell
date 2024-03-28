@@ -51,33 +51,33 @@ int	ft_open_files(t_list **list, t_var *var)
 }
 
 
-void	ft_copy_to_list(t_list **list, t_var *exec)
-{
-	t_list	*tmp;
-	int		i;
+// void	ft_copy_to_list(t_list **list, t_var *exec)
+// {
+// 	t_list	*tmp;
+// 	int		i;
 
-	if(!exec->arg)
-		return;
-	tmp = *list;
-	i = 0;
-	while (tmp)
-	{
-		if (tmp->type == PIPE)
-		{
-			i = 0;
-			exec = exec->next;
-			ft_len_node_elem(&tmp->next, exec);
-		}
-		else if (tmp->skip == false)
-		{
+// 	if(!exec->arg)
+// 		return;
+// 	tmp = *list;
+// 	i = 0;
+// 	while (tmp)
+// 	{
+// 		if (tmp->type == PIPE)
+// 		{
+// 			i = 0;
+// 			exec = exec->next;
+// 			ft_len_node_elem(&tmp->next, exec);
+// 		}
+// 		else if (tmp->skip == false)
+// 		{
 			
-			exec->arg[i] = tmp->value;
-			i++;
-			tmp->skip = true;
-		}
-		tmp = tmp->next;
-	}
-}
+// 			exec->arg[i] = tmp->value;
+// 			i++;
+// 			tmp->skip = true;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// }
 
 void ft_open_her_doc(t_list **list, t_var *var)
 {

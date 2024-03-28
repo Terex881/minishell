@@ -1,4 +1,6 @@
 #include "minishell.h"
+#include <stdbool.h>
+#include <stdio.h>
 
 void	ft_print_var(t_var *list)
 {
@@ -9,11 +11,12 @@ void	ft_print_var(t_var *list)
 		i = 0;
 		printf("f_in is : %d\n", list->f_in);
 		printf("f_out is : %d\n", list->f_out);
-		while (list->arg[i])
-		{
-			printf("f_arg is : %s\n", list->arg[i]);
-			i++;
-		}
+		// printf("--> %p\n", list->arg[0]);
+		// while (list->arg[i])
+		// {
+		// 	printf("f_arg is : %s\n", list->arg[i]);
+		// 	i++;
+		// }
 		list = list->next;
 	}
 }
@@ -32,7 +35,7 @@ t_var	*ft_allocate_list(t_list **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if (tmp->type == PIPE)
+		if (tmp->type == PIPE)// check if pipe is true or false
 			n++;
 		if (tmp->type == SPACE_ && tmp->skip == false)
 			tmp->skip = true;
@@ -76,7 +79,7 @@ t_var	*ft_varnew(void *value)
 	node = malloc(sizeof(t_var));
 	if (!node)
 		return (NULL);
-	node->f_in = 0;
+	node->f_in = 0; // move this
 	node->f_out = 1;
 	node->arg = NULL;
 	node->next = NULL;
@@ -91,8 +94,11 @@ void	ft_len_node_elem(t_list **list, t_var *exec)
 		return ;
 	n = 0;
 	tmp = *list;
-	while (tmp && tmp->type != PIPE)
+	while (tmp &&   tmp->type != PIPE)
 	{
+		while(tmp && tmp->next &&  tmp->next->skip == false)
+			tmp =  tmp->next;
+		
 		if (tmp && tmp->skip == false)
 			n++;
 		tmp = tmp->next;

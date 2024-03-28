@@ -4,8 +4,8 @@ CC = cc -g -fsanitize=address
 
 # FLAGS = -Wall -Werror -Wextra  
 
-READLINE_L = $(shell brew --prefix readline)/lib
-READLINE_I = $(shell brew --prefix readline)/include
+# READLINE_L = $(shell brew --prefix readline)/lib
+# READLINE_I = $(shell brew --prefix readline)/include
 
 OBJ = main.o                tokenizer.o             syntax_error.o expand.o \
     allocate_list.o         open_files.o \

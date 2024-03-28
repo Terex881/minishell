@@ -23,21 +23,21 @@
 // minishell :$USER_d                       $USER
 //  sdemnati
 // minishell :
-// minishell :> 
-// 22
-// [1]    50640 segmentation fault  ./minishell
+
 // #define malloc(x) NULL
+
 ///////////PROTECTION?/////////
-// remove unused function of libft
+
 
 // $$$$$$$$$$$$$$$$$$$$6
 
-// minishell :ls > "ls"
-// ---->(")
 
 
 
-// control D
+
+// minishell :echo -nnnnnnnnnnnnnnnnnnnn
+// -nnnnnnnnnnnnnnnnnnnn chofi hadi f echo 
+
 
 typedef enum 
 {
@@ -69,25 +69,6 @@ typedef struct s_var
 	char **arg;
 	struct s_var *next;
 } t_var;
-
-typedef struct s_var1
-{
-	int		f_in;
-	int		f_out;
-	pid_t	cp1;
-	int		end[2];
-	char	*path;
-	char	*tmp1;
-	char	**arr;
-	char	**cmd_args;
-	size_t	len;
-	int		pos;
-	ssize_t	by;
-	char	*str;
-	int		index;
-	char	*sub_line;
-	char	*tmp;
-}	t_var1;
 
 //-----------------------LIBFT---------------------
 
@@ -128,15 +109,15 @@ void	ft_print(t_list *list);
 int		ft_IN_OUT(t_list *tmp, t_var *exec);
 int		ft_open_files(t_list **list, t_var *exec);
 void	ft_open_her_doc(t_list **list, t_var *exec);
-void	ft_full_list(t_list **list, t_var *exec);
-void	ft_call(t_list **list, t_var *exec);
+// void	ft_full_list(t_list **list, t_var *exec);
+// void	ft_call(t_list **list, t_var *exec);
 
 //---------------------EXPAND---------------------
 
 char	*ft_get_variable(char *str, int *i);
-void	ft_expand(t_list *list);
+void	ft_expand(t_list **list, char **env);
 char	*ft_charjoin(char const *s1, char  s2);
-char *ft_expand_her_doc(char *str);
+char	*ft_expand_her_doc(char *str);
 
 // ---------------------CREATE_NEW_LIST---------------------
 
@@ -145,16 +126,18 @@ t_var	*ft_allocate_list(t_list **list);
 char	*ft_file_name(t_list *tmp);
 t_var	*ft_varnew(void *value);
 void	ft_len_node_elem(t_list **list, t_var *exec);
-
-void ft_join(t_list **list, t_var *exec);
-
+char	*ft_varjoin(t_list **tmp);
+void	ft_copy_to_list(t_list **list, t_var *exec);
 
 //---------------------SYNTAX_ERROR---------------------
 
-int		ft_execution(t_var *exec, char **env);
-int		ft_return(t_list *lst);
 int		ft_syntax_error(t_list **list);
-void	ft_copy_to_list(t_list **list, t_var *exec);
+int		ft_type(t_list *lst);
+
+// int		ft_return(t_list *lst);
+//---------------------EXECUTION---------------------
+
+int		ft_execution(t_var *exec, char **env);
 
 //---------------------BUILTS_IN---------------------
 

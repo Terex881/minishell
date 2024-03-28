@@ -1,7 +1,21 @@
 #include "minishell.h"
-#include <stdbool.h>
 
-void ft_join(t_list **list, t_var *exec)
+char	*ft_varjoin(t_list **tmp)
+{
+	char *str;
+
+	str = (*tmp)->value;
+	while (*tmp && (*tmp)->next && (*tmp)->next->skip == false)
+	{
+		// free(str);
+		str = ft_strjoin((*tmp)->value, (*tmp)->next->value);
+		(*tmp)->skip = true;
+		*tmp = (*tmp)->next;
+	}
+	return str;
+}
+
+void ft_copy_to_list(t_list **list, t_var *exec)
 {
 	t_list	*tmp;
 	int		i;
@@ -18,26 +32,13 @@ void ft_join(t_list **list, t_var *exec)
 			exec = exec->next;
 			ft_len_node_elem(&tmp->next, exec);
 		}
-		else if (tmp->skip == false)
-		{
-			if(tmp->skip == false && tmp->next->type == SPACE_)
-			{
-				exec->arg[i] = tmp->value;
-			}
-			else if (tmp->skip == false && tmp->next->type != SPACE_)
-			{
-				exec->arg[i] = ft_strjoin(tmp->value, tmp->next->value);
-				i++;
-				tmp->skip = true;
-				tmp->next->skip = true;
-				tmp = tmp->next;
-				
-			}
-
-
+		if (tmp->skip == false)
+		{			
+			exec->arg[i] = ft_varjoin(&tmp);
+			i++;
+			tmp->skip = true;
 		}
-		else
-			tmp = tmp->next;
+		tmp = tmp->next;
 	}
 }
 

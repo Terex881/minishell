@@ -10,15 +10,13 @@ char	*ft_get_variable(char *str, int *i)
 	return (ft_substr(str, j, *i - j));
 }
 
-void	ft_expand(t_list *list)
+char *ft_help(char *str)
 {
-	char	*str;
 	char	*tmp;
 	char	*tt;
 	int		i;
-
 	i = 0;
-	str = list->value;
+	
 	while (str[i])
 	{
 		if (str[i] == '$')
@@ -31,17 +29,31 @@ void	ft_expand(t_list *list)
 				tmp = ft_get_variable(str, &i);
 				tt = getenv(tmp);
 				if (!tt)
-					return (free(tmp));		
-				printf("%s",tt);
-				free(tmp);
+					return (ft_strdup(""));		
 			}
 		}
-		else if(str[i] == 32 || str[i] == 9)
-			i++;
 		else
-			(printf("%c", str[i]), i++);
+			i++;
+	}
+	printf("--> %s\n", tt);
+	return (tt);
+}
+
+void	ft_expand(t_list **list, char **env)
+{
+	t_list *tmp;
+
+	tmp  = *list;
+	while(tmp)
+	{
+		if(tmp->type == D_Q || tmp->type == VARIABLE)
+		{
+			tmp->value = ft_help(tmp->value);
+		}
+		tmp = tmp->next;
 	}
 }
+
 
 char	*ft_charjoin(char const *s1, char s2)
 {

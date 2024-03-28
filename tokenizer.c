@@ -144,18 +144,20 @@ void	ft_all(t_list **list, char **env)
 		ft_token(line, node, list);
 		if (ft_syntax_error(list) == 0)
 		{
+			ft_expand(list,  env); // fix vraiable
 			exec = ft_allocate_list(list);
 			ft_open_her_doc(list, exec);
 			if (ft_open_files(list, exec) == 0)
 			{
 				ft_len_node_elem(list, exec);
-				// ft_copy_to_list(list, exec);
-				ft_join(list, exec);
+				ft_copy_to_list(list, exec);
 				ft_execution(exec, env);
 			}
 		}
-		ft_lstclear(list);
-		ft_lstclear_var(&exec);
+		// ft_print_var(exec);
+		// ft_print(*list);
+		// ft_lstclear(list);
+		// ft_lstclear_var(&exec);
 	}
 }
 
@@ -183,6 +185,8 @@ void	ft_print(t_list *list)
 			printf("S_Q   %s\n", list->value);
 		else if (list && list->type == VARIABLE)
 			printf("variable   %s\n", list->value);
+		
+
 		list = list->next;
 	}
 }
