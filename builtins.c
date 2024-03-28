@@ -55,3 +55,14 @@ void ft_env(char **env)
 	}
 }
 
+void ft_cd(char *path)
+{
+	if (!path || (ft_strlen(path) == 1 && path[0] == '~'))
+	{
+		if (chdir(getenv("HOME")) < 0)
+			return (perror(NULL));
+	}
+	else if (chdir(path) < 0)
+		return (perror(NULL));
+}
+
