@@ -5,6 +5,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <libc.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <sys/signal.h>
@@ -66,6 +67,20 @@ typedef struct s_var
 	struct s_var *next;
 	
 } t_var;
+
+typedef struct  s_env//🌸
+{
+    char    *line;
+    struct s_env *next;
+}   t_env;
+
+typedef struct s_data
+{
+	t_env *env;
+	char *path;
+	char *old_pwd;
+}	t_data;
+
 
 //-----------------------LIBFT---------------------
 
@@ -132,23 +147,34 @@ int		ft_type(t_list *lst);
 
 //---------------------EXECUTION---------------------
 
-int		ft_execution(t_var *exec, char **env, t_exit info);
+int		ft_execution(t_var *exec, char **env, t_exit info, t_data *data);
 static char **ft_free(char **p, int i);
 static char **get_paths(char **env);
 static char *valid_path(char *cmd, char **env);
-int check_builtin(t_var *exec, char **env);
+int check_builtin(t_var *exec, char **env, t_data *data);
 
 //---------------------BUILTS_IN---------------------
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-void ft_echo(char **arg);
-void ft_pwd(char *arg);
-void ft_env(char **env);
-void ft_cd(char *path);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+void	ft_pwd(t_env *env, t_data *data);
+void	ft_env(t_var *exec, t_data *data);
+void	ft_cd(char *path, t_data *data);
+void	ft_echo(char **arg);
+void	ft_exit();
 
 //---------------------SIGNALS---------------------
 
 void ft_signal();
+
+//---------------------ENVIRONMENT---------------------
+t_env   *ft_get_env(char **env);
+char	*ft_get_line(t_data *data, char *line, int i);
+void	ft_lstclear_env(t_env **env);
+void	ft_lstdelone_env(t_env *env);
+void	ft_lstadd_back_env(t_env **env, t_env *p);
+t_env	*ft_lstfind_env(t_env **env, char *line, char *new_line);
+t_env	*ft_lstlast_env(t_env *env);
+t_env	*ft_lstnew_env(char *line);
 
 
 
