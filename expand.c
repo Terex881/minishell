@@ -22,6 +22,8 @@ char *ft_help(char *str)
 		if (str[i] == '$')
 		{
 			i++;
+			if(!str[i])
+				return (ft_strdup(&str[i-1]));
 			if (ft_isalpha(str[i]) == 2)
 				i++;
 			else if (ft_isalpha(str[i]) == 1)
@@ -29,7 +31,10 @@ char *ft_help(char *str)
 				tmp = ft_get_variable(str, &i);
 				tt = getenv(tmp);
 				if (!tt)
-					return (ft_strdup(""));		
+					return (ft_strdup(""));
+				tt = ft_strdup(tt);		
+				printf("--> %p\n", tmp);
+							
 			}
 		}
 		else

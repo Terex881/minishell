@@ -10,15 +10,7 @@
 // syscall
 //  echo yassi" ne 
 
-// handl echo -nnnnn  "$USER".$USER   ====> DONE!
 
-// bash-3.2$ echo '$USER."'$USER'"'$0 ======> DONE!
-
-// bash-3.2$ echo '$USER."'$USER'"'$1 ===> DONE!
-// $USER."sdemnati"
-
-// bash-3.2$ echo '$USER' ===> DONE!
-// $USER
 
 // minishell :$USER_d                       $USER
 //  sdemnati
@@ -31,12 +23,9 @@
 
 // $$$$$$$$$$$$$$$$$$$$6
 
+// minishell :echo {$USER;$USER}
+// {sdemnati;sdemnati}
 
-
-
-
-// minishell :echo -nnnnnnnnnnnnnnnnnnnn
-// -nnnnnnnnnnnnnnnnnnnn chofi hadi f echo 
 
 
 typedef enum 
@@ -68,6 +57,7 @@ typedef struct s_var
 	int f_in;
 	char **arg;
 	struct s_var *next;
+	
 } t_var;
 
 //-----------------------LIBFT---------------------
@@ -100,7 +90,7 @@ int		ft_check(char c);
 t_list	*ft_add_special_character(t_list *node, char *c, int *i);
 t_list	*ft_add_douple_single(char *line, int *i, t_list *node);
 t_list	*ft_add_word(char *line, int *i, t_list *node);
-void	ft_token(char *line, t_list *node, t_list **list);
+int	ft_token(char *line, t_list *node, t_list **list);
 void	ft_all(t_list **list, char **env);
 void	ft_print(t_list *list);
 
@@ -109,8 +99,6 @@ void	ft_print(t_list *list);
 int		ft_IN_OUT(t_list *tmp, t_var *exec);
 int		ft_open_files(t_list **list, t_var *exec);
 void	ft_open_her_doc(t_list **list, t_var *exec);
-// void	ft_full_list(t_list **list, t_var *exec);
-// void	ft_call(t_list **list, t_var *exec);
 
 //---------------------EXPAND---------------------
 
@@ -134,7 +122,6 @@ void	ft_copy_to_list(t_list **list, t_var *exec);
 int		ft_syntax_error(t_list **list);
 int		ft_type(t_list *lst);
 
-// int		ft_return(t_list *lst);
 //---------------------EXECUTION---------------------
 
 int		ft_execution(t_var *exec, char **env);

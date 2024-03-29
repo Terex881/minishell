@@ -1,6 +1,6 @@
 #include "minishell.h"
 #include <stdbool.h>
-#include <stdio.h>
+
 
 void	ft_print_var(t_var *list)
 {
@@ -52,25 +52,42 @@ t_var	*ft_allocate_list(t_list **list)
 	return (exec);
 }
 
+// char	*ft_file_name(t_list *tmp)
+// {
+// 	char	*name;
+
+// 	if (!tmp)
+// 		return (NULL);
+// 	if (tmp->next && tmp->type == SPACE_)
+// 	{
+// 		tmp->next->skip = true;
+// 		name = tmp->next->value;
+// 	}
+// 	else
+// 	{
+// 		tmp->skip = true;
+// 		name = tmp->value;
+// 	}
+// 	return (name);
+// }
 char	*ft_file_name(t_list *tmp)
 {
-	char	*name;
+	char *str;
 
-	if (!tmp)
-		return (NULL);
-	if (tmp->next && tmp->type == SPACE_)
+	if (tmp->type == SPACE_)
+		tmp = tmp->next;
+	str = tmp->value;
+
+	while (tmp && tmp->next && !tmp->next->skip)
 	{
-		tmp->next->skip = true;
-		name = tmp->next->value;
-	}
-	else
-	{
+		free(str);
+		str = ft_strjoin(str, tmp->next->value);
 		tmp->skip = true;
-		name = tmp->value;
+		tmp = tmp->next;
 	}
-	return (name);
+	tmp->skip = true;
+	return str;
 }
-
 t_var	*ft_varnew(void *value)
 {
 	t_var	*node;
@@ -79,7 +96,7 @@ t_var	*ft_varnew(void *value)
 	node = malloc(sizeof(t_var));
 	if (!node)
 		return (NULL);
-	node->f_in = 0; // move this
+	node->f_in = 0; // move this function
 	node->f_out = 1;
 	node->arg = NULL;
 	node->next = NULL;
@@ -107,4 +124,45 @@ void	ft_len_node_elem(t_list **list, t_var *exec)
 	if(!exec->arg)
 		return ;
 	exec->arg[n] = NULL;
+}
+char	*ft_varjoin(t_list **tmp)
+{
+	char *str;
+
+	str = (*tmp)->value;
+	while (*tmp && (*tmp)->next && (*tmp)->next->skip == false)
+	{
+		free(str);
+		str = ft_strjoin(str, (*tmp)->next->value);
+		(*tmp)->skip = true;
+		*tmp = (*tmp)->next;
+	}
+	return str;
+}
+
+void ft_copy_to_list(t_list **list, t_var *exec)
+{
+	t_list	*tmp;
+	int		i;
+
+	if(!exec->arg)
+		return;
+	tmp = *list;
+	i = 0;
+	while (tmp)
+	{
+		if (tmp->type == PIPE)
+		{
+			i = 0;
+			exec = exec->next;
+			ft_len_node_elem(&tmp->next, exec);
+		}
+		if (tmp->skip == false)
+		{			
+			exec->arg[i] = ft_varjoin(&tmp);
+			i++;
+			tmp->skip = true;
+		}
+		tmp = tmp->next;
+	}
 }

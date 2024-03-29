@@ -11,6 +11,7 @@ void	ft_lstclear(t_list **lst)
 		tmp = (*lst)->next;
 		if (*lst)
 		{
+			// printf("-%p\n", (*lst)->value);
 			free((*lst)->value);
 			free(*lst);
 		}

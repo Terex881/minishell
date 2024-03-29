@@ -63,10 +63,10 @@ static char *valid_path(char *cmd, char **env)
 
 int check_builtin(t_var *exec, char **env)
 {
-    if (!ft_strncmp(exec->arg[0], "echo", 5))
-        return (ft_echo(exec->arg + 1), 1);
     if (!ft_strncmp(exec->arg[0], "pwd", 4))
         return (ft_pwd(exec->arg[0]), 1);
+    if (!ft_strncmp(exec->arg[0], "echo", 5))
+        return (ft_echo(exec->arg + 1), 1);
     if (!ft_strncmp(exec->arg[0], "env", 4))
     {
 		if (exec->arg[1])
@@ -83,6 +83,7 @@ int ft_execution(t_var *exec, char **env)
 
     if (exec->arg[0] == NULL)
         return (0);
+    
     if (check_builtin(exec, env))
         return (1);
     path = valid_path(exec->arg[0], env);

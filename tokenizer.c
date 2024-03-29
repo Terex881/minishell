@@ -69,7 +69,7 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 	str = tmp;
 	tmp = ft_strtrim(tmp, line[j]);
 	node = ft_lstnew(tmp);
-	node->value = tmp;
+	// node->value = tmp;
 	free(str);
 	if ((line[j] == '\"' || line[j] == '\'') && line[*i] == '\0')
 		return (ft_putstr_fd("33\n", 2), free(tmp), free(node), NULL);
@@ -80,6 +80,25 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 	return (node);
 }
 
+t_list *ft_add_var(char *line, int *i, t_list *node)
+{
+	int j;
+	char *tmp;
+	j = *i;
+
+	while(line[*i+1] && ft_isalpha(line[*i+1]) != 0)
+		(*i)++;
+	tmp = ft_substr(line, j, (*i - j) + 1);
+	if (!tmp)
+		return (NULL);
+	node = ft_lstnew(tmp);
+	// node->value = tmp;
+	if ((line[j]) == '$' && ft_isalpha(line[j + 1]) == 1)
+		node->type = VARIABLE;
+	else
+	 	node->type = WORD;
+	return node;
+}
 t_list	*ft_add_word(char *line, int *i, t_list *node)
 {
 	int		j;
@@ -88,6 +107,8 @@ t_list	*ft_add_word(char *line, int *i, t_list *node)
 	j = *i;
 	if (ft_check(line[*i]) == 2)
 		return (ft_add_douple_single(line, i, node));
+	else if (ft_check(line[*i]) == 3)
+		return (ft_add_var(line, i, node));
 	else
 		while (line[*i + 1] && (ft_check(line[*i + 1]) == 0))
 			(*i)++;
@@ -95,28 +116,27 @@ t_list	*ft_add_word(char *line, int *i, t_list *node)
 	if (!tmp)
 		return (NULL);
 	node = ft_lstnew(tmp);
-	node->value = tmp;
-	if ((line[j]) == '$' && ft_isalpha(line[j + 1]))
-		node->type = VARIABLE;
-	else
-		node->type = WORD;
+	// node->value = tmp;
+	node->type = WORD;
 	return (node);
 }
-void ft_token(char *line, t_list *node, t_list **list)
+int ft_token(char *line, t_list *node, t_list **list)
 {
 	int i;
 
 	line = readline("minishell :");
+	if (line == NULL)
+		return (0);
 	add_history(line);
 	node = NULL;
 	*list = NULL;
 	i = 0;
-	if (!line) // check this
-		return;
+	// if (!line) // check this
+	// 	return;
 	while (line[i])
 	{
 		if (line[i] == ' ' || line[i] == '\t')
-			while (line[i + 1] && line[i + 1] == 32 || (line[i + 1] >= 9 && line[i + 1] <= 13))
+			while (line[i + 1] && (line[i + 1] == 32 || (line[i + 1] >= 9 && line[i + 1] <= 13)))
 				i++;
 		if (line[i] && ft_check(line[i]) == 1)
 			node = ft_add_special_character(node, &line[i], &i);
@@ -128,6 +148,7 @@ void ft_token(char *line, t_list *node, t_list **list)
 		i++;
 	}
 	free(line);
+	return (1);
 }
 
 void	ft_all(t_list **list, char **env)
@@ -141,10 +162,11 @@ void	ft_all(t_list **list, char **env)
 	exec = NULL;
 	while (1)
 	{
-		ft_token(line, node, list);
+		if(!ft_token(line, node, list))
+			return (ft_lstclear(list));
 		if (ft_syntax_error(list) == 0)
 		{
-			ft_expand(list,  env); // fix vraiable
+			// ft_expand(list, env); // fix vraiable
 			exec = ft_allocate_list(list);
 			ft_open_her_doc(list, exec);
 			if (ft_open_files(list, exec) == 0)
@@ -156,8 +178,8 @@ void	ft_all(t_list **list, char **env)
 		}
 		// ft_print_var(exec);
 		// ft_print(*list);
-		// ft_lstclear(list);
-		// ft_lstclear_var(&exec);
+		ft_lstclear(list);
+		ft_lstclear_var(&exec);
 	}
 }
 
