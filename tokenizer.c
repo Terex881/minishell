@@ -153,6 +153,7 @@ void	ft_all(t_list **list, char **env, t_exit info)
 {
 	t_list	*node;
 	t_var	*exec;
+	t_data	*data;;
 	// t_exit *info;
 	// info->exitstat = 0;
 	char	*line;
@@ -160,6 +161,13 @@ void	ft_all(t_list **list, char **env, t_exit info)
 	line = NULL;
 	node = NULL;
 	exec = NULL;
+	/***************************************/ // add function ft_fill_data 
+	data = (t_data *)malloc(sizeof(t_data));
+	data->env = ft_get_env(env);
+	data->path = ft_get_line(data, "PATH", 5);
+	// printf("path = %s\n", data->path);
+	data->old_pwd = ft_get_line(data, "PWD", 4);
+	/***************************************/
 	while (1)
 	{
 		ft_signal();
@@ -174,7 +182,7 @@ void	ft_all(t_list **list, char **env, t_exit info)
 			{
 				ft_len_node_elem(list, exec);
 				ft_copy_to_list(list, exec);
-				ft_execution(exec, env, info);
+				ft_execution(exec, env, info, data);
 				printf("==> %d\n", info.exitstat);
 
 			}
