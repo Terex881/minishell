@@ -74,6 +74,8 @@ int check_builtin(t_var *exec, char **env)
 		else
 			return (ft_env(env), 1);
 	}
+    if (!ft_strncmp(exec->arg[0], "cd", 3))
+        return (ft_cd(exec->arg[1]), 1);
     return (0);
 }
 int ft_execution(t_var *exec, char **env)

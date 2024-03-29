@@ -132,7 +132,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n);
 void ft_echo(char **arg);
 void ft_pwd(char *arg);
 void ft_env(char **env);
-
+void ft_cd(char *path);
 
 
 #endif
