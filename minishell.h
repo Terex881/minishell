@@ -7,6 +7,8 @@
 #include <libc.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <sys/signal.h>
+
 // syscall
 //  echo yassi" ne 
 
@@ -25,8 +27,13 @@
 
 // minishell :echo {$USER;$USER}
 // {sdemnati;sdemnati}
+// secure PATH
 
-
+typedef struct s_exit
+{
+	int exitstat;
+	
+} t_exit;
 
 typedef enum 
 {
@@ -91,8 +98,9 @@ t_list	*ft_add_special_character(t_list *node, char *c, int *i);
 t_list	*ft_add_douple_single(char *line, int *i, t_list *node);
 t_list	*ft_add_word(char *line, int *i, t_list *node);
 int	ft_token(char *line, t_list *node, t_list **list);
-void	ft_all(t_list **list, char **env);
+void	ft_all(t_list **list, char **env, t_exit info);
 void	ft_print(t_list *list);
+t_list *ft_add_var(char *line, int *i, t_list *node);
 
 //---------------------OPEN_FILES---------------------
 
@@ -124,7 +132,11 @@ int		ft_type(t_list *lst);
 
 //---------------------EXECUTION---------------------
 
-int		ft_execution(t_var *exec, char **env);
+int		ft_execution(t_var *exec, char **env, t_exit info);
+static char **ft_free(char **p, int i);
+static char **get_paths(char **env);
+static char *valid_path(char *cmd, char **env);
+int check_builtin(t_var *exec, char **env);
 
 //---------------------BUILTS_IN---------------------
 
@@ -133,6 +145,11 @@ void ft_echo(char **arg);
 void ft_pwd(char *arg);
 void ft_env(char **env);
 void ft_cd(char *path);
+
+//---------------------SIGNALS---------------------
+
+void ft_signal();
+
 
 
 #endif

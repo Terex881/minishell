@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <stdio.h>
 
 int	ft_check(char c)
 {
@@ -124,15 +125,13 @@ int ft_token(char *line, t_list *node, t_list **list)
 {
 	int i;
 
+	node = NULL;
+	*list = NULL;
+	i = 0;
 	line = readline("minishell :");
 	if (line == NULL)
 		return (0);
 	add_history(line);
-	node = NULL;
-	*list = NULL;
-	i = 0;
-	// if (!line) // check this
-	// 	return;
 	while (line[i])
 	{
 		if (line[i] == ' ' || line[i] == '\t')
@@ -147,14 +146,15 @@ int ft_token(char *line, t_list *node, t_list **list)
 		ft_lstadd_back(list, node);
 		i++;
 	}
-	free(line);
-	return (1);
+	return (free(line), 1);
 }
 
-void	ft_all(t_list **list, char **env)
+void	ft_all(t_list **list, char **env, t_exit info)
 {
 	t_list	*node;
 	t_var	*exec;
+	// t_exit *info;
+	// info->exitstat = 0;
 	char	*line;
 
 	line = NULL;
@@ -162,8 +162,9 @@ void	ft_all(t_list **list, char **env)
 	exec = NULL;
 	while (1)
 	{
+		ft_signal();
 		if(!ft_token(line, node, list))
-			return (ft_lstclear(list));
+			return (printf("exit") ,ft_lstclear(list));
 		if (ft_syntax_error(list) == 0)
 		{
 			// ft_expand(list, env); // fix vraiable
@@ -173,7 +174,9 @@ void	ft_all(t_list **list, char **env)
 			{
 				ft_len_node_elem(list, exec);
 				ft_copy_to_list(list, exec);
-				ft_execution(exec, env);
+				ft_execution(exec, env, info);
+				printf("==> %d\n", info.exitstat);
+
 			}
 		}
 		// ft_print_var(exec);
@@ -207,8 +210,6 @@ void	ft_print(t_list *list)
 			printf("S_Q   %s\n", list->value);
 		else if (list && list->type == VARIABLE)
 			printf("variable   %s\n", list->value);
-		
-
 		list = list->next;
 	}
 }

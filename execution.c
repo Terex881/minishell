@@ -78,7 +78,7 @@ int check_builtin(t_var *exec, char **env)
         return (ft_cd(exec->arg[1]), 1);
     return (0);
 }
-int ft_execution(t_var *exec, char **env)
+int ft_execution(t_var *exec, char **env, t_exit info)
 {
     char    *path;
     pid_t   pid;
@@ -104,7 +104,7 @@ int ft_execution(t_var *exec, char **env)
             return (perror(exec->arg[0]), 0);
     }
     else
-        waitpid(pid, NULL, 0);
+        waitpid(pid, &info.exitstat, 0);
     return (free(path), 1);
 }
 

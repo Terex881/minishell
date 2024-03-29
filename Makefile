@@ -1,18 +1,18 @@
 NAME = minishell
 
-CC = cc -g #-fsanitize=address
+CC = cc -g -fsanitize=address
 
 # FLAGS = -Wall -Werror -Wextra  
 
-# READLINE_L = $(shell brew --prefix readline)/lib
-# READLINE_I = $(shell brew --prefix readline)/include
+READLINE_L = $(shell brew --prefix readline)/lib
+READLINE_I = $(shell brew --prefix readline)/include
 
 OBJ = main.o                tokenizer.o             syntax_error.o expand.o \
     allocate_list.o         open_files.o \
     libft/ft_isalpha.o      libft/ft_varclear.o     libft/ft_varadd_back.o  \
     libft/ft_strlen.o       libft/ft_memcpy.o \
     libft/ft_strchr.o       libft/ft_split.o   \
-    libft/ft_strcmp.o      libft/ft_lstadd_back.o \
+    libft/ft_strcmp.o       libft/ft_lstadd_back.o \
     libft/ft_strdup.o       libft/ft_substr.o   \
     libft/ft_strjoin.o      libft/ft_strtrim.o   \
     libft/ft_lstnew.o       libft/ft_lstadd_front.o  \
@@ -24,12 +24,12 @@ OBJ = main.o                tokenizer.o             syntax_error.o expand.o \
 all : $(NAME) 
 
 $(NAME) : $(OBJ)
-	$(CC) $(OBJ)  -o  $(NAME) -lreadline
-#$(CC) $(OBJ) -L $(READLINE_L) -o  $(NAME) -lreadline
+	$(CC) $(OBJ) -L $(READLINE_L) -o  $(NAME) -lreadline
+# $(CC) $(OBJ)  -o  $(NAME) -lreadline
 
 %.o : %.c minishell.h 
-	$(CC) -o $@ -c $(FLAGS) $< 
-# $(CC) -o $@ -c -I $(READLINE_I) $(FLAGS) $< 
+	$(CC) -o $@ -c -I $(READLINE_I) $(FLAGS) $< 
+# $(CC) -o $@ -c $(FLAGS) $< 
 
 clean :
 	rm -rf $(OBJ)
