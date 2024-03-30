@@ -29,22 +29,13 @@ void	ft_echo(char **arg,t_var *exec )
 		return ;
     while (arg[i])
     {
-<<<<<<< HEAD
 		write(exec->f_out, arg[i], ft_strlen(arg[i])); 
 		// ft_putstr_fd(arg[i], exec->f_out); // i added this 
-=======
-		write(exec->f_out, arg[i], ft_strlen(arg[i]));
-		// ft_putstr_fd(arg[i], exec->f_out); // i added this
->>>>>>> 65a30a145e3999c30748e3c2df8a3134faab1b2f
         if (arg[i + 1])
         	write(exec->f_out, " ", 1);
         i++;
     }
-<<<<<<< HEAD
-    if (!n && exec->f_out == 1)
-=======
     if (!n)
->>>>>>> 65a30a145e3999c30748e3c2df8a3134faab1b2f
         write(exec->f_out, "\n", 1);
 }
 

@@ -27,12 +27,9 @@ $(NAME) : $(OBJ)
 	$(CC) $(OBJ) -L $(READLINE_L) -o  $(NAME) -lreadline
 # $(CC) $(OBJ)  -o  $(NAME) -lreadline
 
-# <<<<<<< HEAD
-# %.o : %.c minishell.h Makefile
-# =======
+
 %.o : %.c minishell.h Makefile # check this
 	$(CC) -o $@ -c -I $(READLINE_I) $(FLAGS) $< 
-# >>>>>>> 65a30a145e3999c30748e3c2df8a3134faab1b2f
 # $(CC) -o $@ -c $(FLAGS) $< 
 
 clean :
