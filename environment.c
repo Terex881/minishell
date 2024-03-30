@@ -36,7 +36,7 @@ t_env	*ft_lstfind_env(t_env **env, char *line, char *new_line)
         {
             if (!new_line || !*new_line)
                 return (tmp);
-            free(tmp -> line);
+            // free(tmp -> line); // ++>
             tmp -> line = ft_strdup(new_line);
             // tmp -> line = ft_strdup(new_line);
             // free(new_line);
@@ -55,7 +55,7 @@ char	*ft_get_line(t_data *data, char *line, int i)
 	while (tmp)
 	{
 		if (ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0)
-			return (tmp -> line + i);
+			return (tmp->line + i);
 		tmp = tmp -> next;
 	}
 	return (NULL);
@@ -209,9 +209,19 @@ t_env   *ft_get_env(char **env)
     t_env   *p;
 
     p = NULL;
+	int i= 0;
+	if (!env || !*env)
+	{
+		// env[0] = ft_strdup("PWD=/Users/sdemnati/Desktop/mini_shell_1");
+		// env[2] = ft_strdup("_=/usr/bin/env");
+		env[0] = ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+		env[2] = ft_strdup("SHLVL=1"); // check this
+		env[1] = NULL;
+	}
+
     while (*env)
 	{
-		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup(*env)));
+		ft_lstadd_back_env(&p, ft_lstnew_env(*env));
 		env++;
 	}
     return (p);

@@ -11,10 +11,6 @@ char	*ft_sub_variable(char *str, int *i)
 	return (ft_substr(str, j, *i - j));
 }
 
-
-
-
-
 char	*ft_charjoin(char const *s1, char s2)
 {
 	char	*x;

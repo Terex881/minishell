@@ -150,10 +150,10 @@ int		ft_type(t_list *lst);
 //---------------------EXECUTION---------------------
 
 int		ft_execution(t_var *exec, char **env, t_data *data);
-static char **ft_free(char **p, int i);
-static char **get_paths(char **env);
-static char *valid_path(char *cmd, char **env);
-int check_builtin(t_var *exec, char **env, t_data *data);
+char	**ft_free(char **p, int i);
+char	**get_paths(char **env);
+char	*valid_path(char *cmd, char **env);
+int		check_builtin(t_var *exec, char **env, t_data *data);
 
 //---------------------BUILTS_IN---------------------
 
@@ -168,7 +168,7 @@ void	ft_exit(t_data **data);
 
 //---------------------SIGNALS---------------------
 
-void ft_signal();
+void	ft_signal();
 
 //---------------------ENVIRONMENT---------------------
 t_env   *ft_get_env(char **env);
