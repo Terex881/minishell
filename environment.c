@@ -85,6 +85,89 @@ void	ft_lstadd_back_env(t_env **env, t_env *new)
 // 	return (count);
 // }
 
+t_env	*ft_lstcpy_env(t_env *env)
+{
+	t_env	*copy;
+	t_env	*tmp;
+
+	copy = NULL;
+	while (env)
+	{
+		tmp = ft_lstnew_env(ft_strdup(env -> line));
+		if (!tmp)
+		{
+			ft_lstclear_env(&copy);
+			return (NULL);
+		}
+		ft_lstadd_back_env(&copy, tmp);
+		env = env -> next;
+	}
+	return (copy);
+}
+
+t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *))
+{
+	t_env	*tmp;
+	t_env	*t;
+	char	*m;
+
+	if (!env || !cmp)
+		return ((t_env *){0});
+	tmp = env;
+	while (tmp && tmp->next)
+	{
+		t = tmp -> next;
+		while (t)
+		{
+			if (cmp(tmp -> line, t -> line) > 0)
+			{
+				m = tmp -> line;
+				tmp -> line = t -> line;
+				t -> line = m;
+			}
+			t = t -> next;
+		}
+		// printf("declare -x %s\n", tmp -> line);
+		tmp = tmp -> next;
+	}
+	tmp = env;
+	while (tmp)
+	{
+		printf("declare -x %s\n", tmp -> line);
+		tmp = tmp -> next;
+	}
+	return (env);
+}
+// t_env	*sort_list_env(t_env *env, int (*cmp)(char *, char *))
+// {
+// 	t_env	*tmp;
+// 	t_env	*t;
+// 	char	*m;
+
+// 	if (!env || !cmp)
+// 		return ((t_env *){0});
+// 	tmp = env;
+// 	while (tmp -> next)
+// 	{
+// 		t = tmp -> next;
+// 		while (t -> next)
+// 		{
+// 			if (cmp(tmp -> line, t -> line) > 0)
+// 			{
+// 				m = tmp -> line;
+// 				tmp -> line = t -> line;
+// 				t -> line = m;
+// 				// (1) && (t -> line = ft_strdup(m), free(m));
+
+// 			}
+// 			t = t -> next;
+// 		}
+// 		printf("declare -x %s\n", tmp -> line);
+// 		tmp = tmp -> next;
+// 	}
+// 	return (env);
+// }
+
 void	ft_lstdelone_env(t_env *env)
 {
 	if (env)

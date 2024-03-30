@@ -27,7 +27,7 @@ $(NAME) : $(OBJ)
 	$(CC) $(OBJ) -L $(READLINE_L) -o  $(NAME) -lreadline
 # $(CC) $(OBJ)  -o  $(NAME) -lreadline
 
-%.o : %.c minishell.h 
+%.o : %.c minishell.h Makefile
 	$(CC) -o $@ -c -I $(READLINE_I) $(FLAGS) $< 
 # $(CC) -o $@ -c $(FLAGS) $< 
 
@@ -38,4 +38,4 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all 
-
+#  .SILENT:

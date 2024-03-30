@@ -79,7 +79,7 @@ int check_builtin(t_var *exec, char **env, t_data *data)
     if (!ft_strncmp(exec->arg[0], "exit", 5))
         return (ft_exit(&data), 1);
     if (!ft_strncmp(exec->arg[0], "export", 7))
-        return (ft_export(exec, data, exec->arg[1]), 1);
+        return (ft_export(exec, data, exec->arg[1], env), 1);
     if (!ft_strncmp(exec->arg[0], "unset", 6))
         return (ft_unset(exec, data, exec->arg[1]), 1);
     return (0);

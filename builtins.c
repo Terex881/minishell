@@ -20,21 +20,21 @@ void	ft_echo(char **arg,t_var *exec )
 	char *var;
 
 	if (!arg || !*arg)
-		return ((void)write(1, "\n", 1));
+		return ((void)write(exec->f_out, "\n", 1));
 	if (check_n(arg[0]))
-        (1) && (n = 1, i = 1);
+        (n = 1, i = 1);
 	if (!arg[i])
 		return ;
     while (arg[i])
     {
-		// write(1, arg[i], ft_strlen(arg[i])); 
-		ft_putstr_fd(arg[i], exec->f_out); // i added this 
+		write(exec->f_out, arg[i], ft_strlen(arg[i])); 
+		// ft_putstr_fd(arg[i], exec->f_out); // i added this 
         if (arg[i + 1])
-        	write(1, " ", 1);
+        	write(exec->f_out, " ", 1);
         i++;
     }
-    if (!n)
-        write(1, "\n", 1);
+    if (!n && exec->f_out == 1)
+        write(exec->f_out, "\n", 1);
 }
 
 // static char	*old_pwd(char **env)//🌸
@@ -198,6 +198,8 @@ char *ft_varname(char *line)
 
 	while (line[i] && line[i] != '=')
 		i++;
+	if (line[i - 1] == '+')
+		i--;
 	return (ft_substr(line, 0, i));
 }
 
@@ -224,13 +226,19 @@ char *ft_removeplus(char *line)
 	return (line);
 }
 
-void	ft_export(t_var *exec, t_data *data, char *line)
+void	ft_export(t_var *exec, t_data *data, char *line, char **env)
 {
 	char *tmp;
 	char *var;
+	t_env *env_cpy;
 
-	if (!line)//print sorted env
+	if (!line)
+	{
+		env_cpy = ft_lstcpy_env(data->env);
+		ft_sort_env(env_cpy, ft_strcmp);
+		ft_lstclear_env(&env_cpy);
 		return ;
+	}
 	tmp = ft_strchr(line, '=');
 	var = NULL;
 	// printf("tmp = %s\n", tmp);
@@ -238,13 +246,17 @@ void	ft_export(t_var *exec, t_data *data, char *line)
 	{
 		if (ft_lstfind_env(&data->env, ft_varname(line), NULL))
 			var = ft_lstfind_env(&data->env, ft_varname(line), NULL)->line;
+		// printf("var = %s  %s\n", var, ft_varname(line));
 		// printf("tmp = %s   %d\n", tmp - 1, ft_strncmp(tmp - 1, "+=", 2));
 		//if var doesnt exist and += is found put only =
 		if (!var && !ft_strncmp(tmp - 1, "+=", 2))
+		{
 			ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(ft_removeplus(line))));
+		}
 		else if (var && !ft_strncmp(tmp - 1, "+=", 2))
 		{
 			// printf("i am here\n");
+			// printf("%s\n", ft_varname(line));
 			ft_lstfind_env(&data->env, ft_varname(line), ft_strjoin(var, tmp + 1));
 		}
 		else if (var)
@@ -279,8 +291,11 @@ void	ft_unset(t_var *exec, t_data *data, char *line)// to fix
 
 void	ft_exit(t_data **data)//🌸
 {
-	(void)data;
 	// clear data before exit
+	(void)data;
+	// ft_lstclear_env(&(*data)->env);
+	// free((*data)->path);
+	// free(*data);
 	write(1, "exit\n", 5);
 	exit(0);
 }

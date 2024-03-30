@@ -162,7 +162,7 @@ void	ft_pwd(t_env *env, t_data *data);
 void	ft_env(t_var *exec, t_data *data);
 void	ft_cd(char *path, t_data *data);
 void	ft_echo(char **arg, t_var *exec);
-void	ft_export(t_var *exec, t_data *data, char *line);
+void	ft_export(t_var *exec, t_data *data, char *line, char **env);
 void	ft_unset(t_var *exec, t_data *data, char *line);
 void	ft_exit(t_data **data);
 
@@ -177,8 +177,10 @@ void	ft_lstclear_env(t_env **env);
 void	ft_lstdelone_env(t_env *env);
 void	ft_lstadd_back_env(t_env **env, t_env *p);
 t_env	*ft_lstfind_env(t_env **env, char *line, char *new_line);
+t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *));
 t_env	*ft_lstlast_env(t_env *env);
 t_env	*ft_lstnew_env(char *line);
+t_env	*ft_lstcpy_env(t_env *env);
 
 
 
