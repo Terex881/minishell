@@ -162,11 +162,11 @@ void	ft_all(t_list **list, char **env)
 	node = NULL;
 	exec = NULL;
 	/***************************************/ // add function ft_fill_data 
-	data = (t_data *)malloc(sizeof(t_data));
-	data->env = ft_get_env(env);
-	data->path = ft_get_line(data, "PATH", 5);
-	// printf("path = %s\n", data->path);
-	data->old_pwd = ft_get_line(data, "PWD", 4);
+	// data = (t_data *)malloc(sizeof(t_data));
+	// data->env = ft_get_env(env);
+	// data->path = ft_get_line(data, "PATH", 5);
+	// // printf("path = %s\n", data->path);
+	// data->old_pwd = ft_get_line(data, "PWD", 4);
 	/***************************************/
 	while (1)
 	{

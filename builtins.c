@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <stdio.h>
 
 static int	check_n(char *s)
 {
@@ -12,6 +13,7 @@ static int	check_n(char *s)
 	}
 	return (1);	
 }
+
 void	ft_echo(char **arg,t_var *exec )
 {
     int i = 0;
@@ -20,21 +22,21 @@ void	ft_echo(char **arg,t_var *exec )
 	char *var;
 
 	if (!arg || !*arg)
-		return ((void)write(1, "\n", 1));
+		return ((void)write(exec->f_out, "\n", 1));
 	if (check_n(arg[0]))
-        (1) && (n = 1, i = 1);
+        (n = 1, i = 1);
 	if (!arg[i])
 		return ;
     while (arg[i])
     {
-		// write(1, arg[i], ft_strlen(arg[i])); 
-		ft_putstr_fd(arg[i], exec->f_out); // i added this 
+		write(exec->f_out, arg[i], ft_strlen(arg[i]));
+		// ft_putstr_fd(arg[i], exec->f_out); // i added this
         if (arg[i + 1])
-        	write(1, " ", 1);
+        	write(exec->f_out, " ", 1);
         i++;
     }
     if (!n)
-        write(1, "\n", 1);
+        write(exec->f_out, "\n", 1);
 }
 
 // static char	*old_pwd(char **env)//🌸
@@ -83,7 +85,7 @@ void ft_pwd(t_env *env, t_data *data)//update pwd in env!!🌸
 		{
 			printf("path no longer exist \n");
 			// printf("%s\n", ft_lstfind_env(&env, "PWD", NULL)->line + 4);//pwd or oldpwd? //add /..
-			printf("%s\n", data->old_pwd + 4);//pwd or oldpwd? //add /..
+			printf("%s\n", data->old_pwd);//pwd or oldpwd? //add /..
 			// write(1, "Error\n", 6);
 			return ;
 		}
@@ -171,7 +173,9 @@ void	ft_cd(char *path, t_data *data)
 	
 	tmp = getcwd(NULL, 0);
 	if (tmp)
+	{
 		ft_lstfind_env(&data->env, "OLDPWD", ft_strjoin("OLDPWD=", getcwd(NULL, 0)));
+	}
 	if (!path || (ft_strlen(path) == 1 && path[0] == '~'))
 	{
 		if (chdir(getenv("HOME")) < 0)
@@ -198,6 +202,8 @@ char *ft_varname(char *line)
 
 	while (line[i] && line[i] != '=')
 		i++;
+	if (line[i - 1] == '+')
+		i--;
 	return (ft_substr(line, 0, i));
 }
 
@@ -253,6 +259,7 @@ void	ft_export(t_var *exec, t_data *data, char *line)
 			ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(line)));
 	}
 }
+
 void	ft_unset(t_var *exec, t_data *data, char *line)// to fix
 {
 	t_env *p;

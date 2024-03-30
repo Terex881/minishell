@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char **ft_free(char **p, int i)
+char **ft_free(char **p, int i)
 {
 	while (p[i])
 	{
@@ -11,7 +11,7 @@ static char **ft_free(char **p, int i)
 	return (NULL);
 }
 
-static char **get_paths(char **env)
+char **get_paths(char **env)
 {
     int     i;
     int     j;
@@ -34,7 +34,7 @@ static char **get_paths(char **env)
     return (paths);
 }
 
-static char *valid_path(char *cmd, char **env)
+char *valid_path(char *cmd, char **env)
 {
     int     i;
     char    *path;
