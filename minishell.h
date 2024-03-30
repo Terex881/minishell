@@ -162,7 +162,9 @@ void	ft_pwd(t_env *env, t_data *data);
 void	ft_env(t_var *exec, t_data *data);
 void	ft_cd(char *path, t_data *data);
 void	ft_echo(char **arg, t_var *exec);
-void	ft_exit();
+void	ft_export(t_var *exec, t_data *data, char *line);
+void	ft_unset(t_var *exec, t_data *data, char *line);
+void	ft_exit(t_data **data);
 
 //---------------------SIGNALS---------------------
 
