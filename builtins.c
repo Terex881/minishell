@@ -12,7 +12,7 @@ static int	check_n(char *s)
 	}
 	return (1);	
 }
-void	ft_echo(char **arg)
+void	ft_echo(char **arg,t_var *exec )
 {
     int i = 0;
     int n = 0;
@@ -27,7 +27,8 @@ void	ft_echo(char **arg)
 		return ;
     while (arg[i])
     {
-		write(1, arg[i], ft_strlen(arg[i]));
+		// write(1, arg[i], ft_strlen(arg[i])); 
+		ft_putstr_fd(arg[i], exec->f_out); // i added this 
         if (arg[i + 1])
         	write(1, " ", 1);
         i++;

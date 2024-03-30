@@ -64,7 +64,7 @@ static char *valid_path(char *cmd, char **env)
 int check_builtin(t_var *exec, char **env, t_data *data)
 {
     if (!ft_strncmp(exec->arg[0], "echo", 5))
-        return (ft_echo(exec->arg + 1), 1);
+        return (ft_echo(exec->arg + 1, exec), 1);
     if (!ft_strncmp(exec->arg[0], "pwd", 4))
         return (ft_pwd(data->env, data), 1);
     if (!ft_strncmp(exec->arg[0], "env", 4))
@@ -81,7 +81,7 @@ int check_builtin(t_var *exec, char **env, t_data *data)
     return (0);
 }
 
-int ft_execution(t_var *exec, char **env, t_exit info, t_data *data)
+int ft_execution(t_var *exec, char **env,  t_data *data)
 {
     char    *path;
     pid_t   pid;
@@ -106,7 +106,7 @@ int ft_execution(t_var *exec, char **env, t_exit info, t_data *data)
             return (perror(exec->arg[0]), 0);
     }
     else
-        waitpid(pid, &info.exitstat, 0);
+        waitpid(pid, NULL, 0);
     return (free(path), 1);
 }
 

@@ -11,12 +11,12 @@ void	ft_print_var(t_var *list)
 		i = 0;
 		printf("f_in is : %d\n", list->f_in);
 		printf("f_out is : %d\n", list->f_out);
-		// printf("--> %p\n", list->arg[0]);
-		// while (list->arg[i])
-		// {
-		// 	printf("f_arg is : %s\n", list->arg[i]);
-		// 	i++;
-		// }
+		printf("--> %p\n", list->arg[0]);
+		while (list->arg[i])
+		{
+			printf("f_arg is : %s\n", list->arg[i]);
+			i++;
+		}
 		list = list->next;
 	}
 }
@@ -132,7 +132,7 @@ char	*ft_varjoin(t_list **tmp)
 	str = (*tmp)->value;
 	while (*tmp && (*tmp)->next && (*tmp)->next->skip == false)
 	{
-		free(str);
+		// free(str);
 		str = ft_strjoin(str, (*tmp)->next->value);
 		(*tmp)->skip = true;
 		*tmp = (*tmp)->next;

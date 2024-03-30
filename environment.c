@@ -51,7 +51,7 @@ char	*ft_get_line(t_data *data, char *line, int i)
 {
 	t_env	*tmp;
 
-	tmp = data -> env;
+	tmp = data->env;
 	while (tmp)
 	{
 		if (ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0)

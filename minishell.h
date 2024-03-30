@@ -30,6 +30,8 @@
 // {sdemnati;sdemnati}
 // secure PATH
 
+// echo "sjks fix this necessary
+
 typedef struct s_exit
 {
 	int exitstat;
@@ -113,7 +115,7 @@ t_list	*ft_add_special_character(t_list *node, char *c, int *i);
 t_list	*ft_add_douple_single(char *line, int *i, t_list *node);
 t_list	*ft_add_word(char *line, int *i, t_list *node);
 int	ft_token(char *line, t_list *node, t_list **list);
-void	ft_all(t_list **list, char **env, t_exit info);
+void	ft_all(t_list **list, char **env);
 void	ft_print(t_list *list);
 t_list *ft_add_var(char *line, int *i, t_list *node);
 
@@ -125,8 +127,8 @@ void	ft_open_her_doc(t_list **list, t_var *exec);
 
 //---------------------EXPAND---------------------
 
-char	*ft_get_variable(char *str, int *i);
-void	ft_expand(t_list **list, char **env);
+char	*ft_sub_variable(char *str, int *i);
+void	ft_expand(t_list **list, char **env, t_data *data);
 char	*ft_charjoin(char const *s1, char  s2);
 char	*ft_expand_her_doc(char *str);
 
@@ -147,7 +149,7 @@ int		ft_type(t_list *lst);
 
 //---------------------EXECUTION---------------------
 
-int		ft_execution(t_var *exec, char **env, t_exit info, t_data *data);
+int		ft_execution(t_var *exec, char **env, t_data *data);
 static char **ft_free(char **p, int i);
 static char **get_paths(char **env);
 static char *valid_path(char *cmd, char **env);
@@ -159,7 +161,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_pwd(t_env *env, t_data *data);
 void	ft_env(t_var *exec, t_data *data);
 void	ft_cd(char *path, t_data *data);
-void	ft_echo(char **arg);
+void	ft_echo(char **arg, t_var *exec);
 void	ft_exit();
 
 //---------------------SIGNALS---------------------
@@ -180,3 +182,34 @@ t_env	*ft_lstnew_env(char *line);
 
 #endif
 
+
+
+
+// echo ${USER}
+// echo $USER$'USER'"$USER"
+// echo    "'$'"
+// hi "hello 'world "$USER"   '" "$USER' hello "hello world "'$USER' my world" '" hello $USER"'
+// echo "e"'e'"e"'e'$USER'e'"e"'e'
+// 'world'"e"'e'"$USER'"'e'"e"'e'
+// ""''""''$USER""''""''
+// '$USER'
+// "'$USERdddddd'"
+// "hello"   'world'"e"'e'"$USER'"'e'"e"'e'
+// echo $USER'$USER'
+// echo "$"
+// echo ddd"$USER"
+// echo $USER${USER}
+// Today at 3:02 AM
+// echo "'$'"
+// echo "$USER"$"$USER"
+// echo '"$ddd     "'
+
+
+
+
+
+
+
+// minishell :echo k
+// k
+// minishell :echo k > l

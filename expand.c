@@ -1,6 +1,7 @@
 #include "minishell.h"
+#include <stdio.h>
 
-char	*ft_get_variable(char *str, int *i)
+char	*ft_sub_variable(char *str, int *i)
 {
 	int	j;
 
@@ -10,53 +11,8 @@ char	*ft_get_variable(char *str, int *i)
 	return (ft_substr(str, j, *i - j));
 }
 
-char *ft_help(char *str)
-{
-	char	*tmp;
-	char	*tt;
-	int		i;
-	i = 0;
-	
-	while (str[i])
-	{
-		if (str[i] == '$')
-		{
-			i++;
-			if(!str[i])
-				return (ft_strdup(&str[i-1]));
-			if (ft_isalpha(str[i]) == 2)
-				i++;
-			else if (ft_isalpha(str[i]) == 1)
-			{
-				tmp = ft_get_variable(str, &i);
-				tt = getenv(tmp);
-				if (!tt)
-					return (ft_strdup(""));
-				tt = ft_strdup(tt);		
-				printf("--> %p\n", tmp);
-							
-			}
-		}
-		else
-			i++;
-	}
-	return (tt);
-}
 
-void	ft_expand(t_list **list, char **env)
-{
-	t_list *tmp;
 
-	tmp  = *list;
-	while(tmp)
-	{
-		if(tmp->type == D_Q || tmp->type == VARIABLE)
-		{
-			tmp->value = ft_help(tmp->value);
-		}
-		tmp = tmp->next;
-	}
-}
 
 
 char	*ft_charjoin(char const *s1, char s2)
@@ -104,7 +60,7 @@ char *ft_expand_her_doc(char *str)
 				i++;
 			else if (ft_isalpha(str[i]) == 1)
 			{
-				tmp = ft_get_variable(str, &i);
+				tmp = ft_sub_variable(str, &i);
 				tt = getenv(tmp);
 				if (!tt)
 					return (free(tmp), NULL);	

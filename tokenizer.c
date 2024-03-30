@@ -142,14 +142,14 @@ int ft_token(char *line, t_list *node, t_list **list)
 		else if (line[i])
 			node = ft_add_word(line, &i, node);
 		if (!node)
-			ft_lstclear(list);
+			return(ft_lstclear(list), 1);
 		ft_lstadd_back(list, node);
 		i++;
 	}
 	return (free(line), 1);
 }
 
-void	ft_all(t_list **list, char **env, t_exit info)
+void	ft_all(t_list **list, char **env)
 {
 	t_list	*node;
 	t_var	*exec;
@@ -175,22 +175,20 @@ void	ft_all(t_list **list, char **env, t_exit info)
 			return (printf("exit") ,ft_lstclear(list));
 		if (ft_syntax_error(list) == 0)
 		{
-			// ft_expand(list, env); // fix vraiable
+			// ft_expand(list, env, data); // fix vraiable
 			exec = ft_allocate_list(list);
 			ft_open_her_doc(list, exec);
 			if (ft_open_files(list, exec) == 0)
 			{
 				ft_len_node_elem(list, exec);
 				ft_copy_to_list(list, exec);
-				ft_execution(exec, env, info, data);
-				printf("==> %d\n", info.exitstat);
-
+				ft_execution(exec, env, data);
 			}
 		}
 		// ft_print_var(exec);
 		// ft_print(*list);
-		ft_lstclear(list);
-		ft_lstclear_var(&exec);
+		// ft_lstclear(list);
+		// ft_lstclear_var(&exec);
 	}
 }
 

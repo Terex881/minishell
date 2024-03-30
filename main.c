@@ -27,10 +27,9 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	t_list	*list;
-	t_exit info;
-	info.exitstat = 0;
+
 
 	// rl_catch_signals = 0;
 	list = NULL;
-	ft_all(&list, env, info);
+	ft_all(&list, env);
 }

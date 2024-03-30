@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <sys/fcntl.h>
 
 int ft_IN_OUT(t_list *tmp, t_var *var)
 {
@@ -25,6 +26,7 @@ int ft_IN_OUT(t_list *tmp, t_var *var)
 int	ft_open_files(t_list **list, t_var *var)
 {
 	t_list	*tmp;
+	int check;
 
 	tmp = *list;
 	while (tmp)
@@ -33,7 +35,8 @@ int	ft_open_files(t_list **list, t_var *var)
 			var = var->next;
 		if ((tmp)->type == R_IN || (tmp)->type == R_OUT || (tmp)->type == APPEND)
 		{
-			if (ft_IN_OUT(tmp, var) == 1)
+			check = ft_IN_OUT(tmp, var);
+			if (check == 1)
 				return (1);
 		}
 		tmp = (tmp)->next;
