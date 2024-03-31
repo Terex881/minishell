@@ -40,16 +40,16 @@ typedef struct s_exit
 
 typedef enum 
 {
-	WORD,
-	PIPE,
-	R_OUT,
-	R_IN,
-	HER_DOC,
-	D_Q,
-	S_Q,
-	SPACE_,
-	VARIABLE,
-	APPEND,
+	WORD,		//0
+	PIPE,		//1
+	R_OUT,		//2
+	R_IN,		//3
+	HER_DOC,	//4
+	D_Q,		//5
+	S_Q,		//6
+	SPACE_,		//7
+	VARIABLE,	//8
+	APPEND,		//9
 }t_type;
 
 typedef struct s_list 
@@ -158,13 +158,13 @@ int		check_builtin(t_var *exec, char **env, t_data *data);
 //---------------------BUILTS_IN---------------------
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-void	ft_pwd(t_env *env, t_data *data);
+void	ft_pwd(t_var *exec, t_env *env, t_data *data);
 void	ft_env(t_var *exec, t_data *data);
 void	ft_cd(char *path, t_data *data);
 void	ft_echo(char **arg, t_var *exec);
 void	ft_export(t_var *exec, t_data *data, char *line, char **env);
 void	ft_unset(t_var *exec, t_data *data, char *line);
-void	ft_exit(t_data **data);
+void	ft_exit(t_var *exec, t_data **data);
 
 //---------------------SIGNALS---------------------
 
