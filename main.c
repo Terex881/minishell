@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <stdio.h>
 
 void ft_signal_c(int num)
 {
@@ -18,23 +19,21 @@ void ft_signal()
     signal(SIGQUIT, ft_signal_c);
 }
 
-char *ft_fill_data(t_data *data, char **env)
+void ft_fill_data(t_data **data, char **env)
 {
 
-	data = (t_data *)malloc(sizeof(t_data));
-	if(!data)
-		return (NULL);
-	data->env = ft_get_env(env);
-	// if(!data->env)
-	// 	return NULL;
-	data->path = ft_get_line(data, "PATH", 5);
-	printf("path = %s\n", data->path);
-
+	*data = (t_data *)malloc(sizeof(t_data));
+	if(!*data)
+		return ;
+	(*data)->env = ft_get_env(env);
+	
+	(*data)->path = ft_get_line((*data), "PATH", 5);
+	
 	// if(!data)
 	// 	return (NULL);
 	// data->old_pwd = ft_get_line(data, "PWD", 4);
 	// data->old_pwd = getcwd(NULL, 0);
-	return (data->path);
+	// return ((*data)->path);
 }
 int	main(int ac, char **av, char **env)
 {
@@ -46,7 +45,9 @@ int	main(int ac, char **av, char **env)
 
 	// rl_catch_signals = 0;
 	list = NULL;
-	ft_fill_data(data, env);
+	ft_fill_data(&data, env);
+
 	
-	ft_all(&list, env);
+	
+	ft_all(&list, env, data);
 }

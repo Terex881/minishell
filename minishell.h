@@ -30,7 +30,7 @@
 // {sdemnati;sdemnati}
 // secure PATH
 
-// echo "sjks fix this necessary
+// minishell :export x+
 
 typedef struct s_exit
 {
@@ -115,7 +115,7 @@ t_list	*ft_add_special_character(t_list *node, char *c, int *i);
 t_list	*ft_add_douple_single(char *line, int *i, t_list *node);
 t_list	*ft_add_word(char *line, int *i, t_list *node);
 int	ft_token(char *line, t_list *node, t_list **list);
-void	ft_all(t_list **list, char **env);
+void	ft_all(t_list **list, char **env, t_data	*data);
 void	ft_print(t_list *list);
 t_list *ft_add_var(char *line, int *i, t_list *node);
 
@@ -217,3 +217,4 @@ t_env	*ft_lstcpy_env(t_env *env);
 // minishell :echo k
 // k
 // minishell :echo k > l
+

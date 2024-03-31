@@ -1,6 +1,6 @@
 NAME = minishell
 
-CC = cc -g -fsanitize=address
+CC = cc -g #-fsanitize=address
 
 # FLAGS = -Wall -Werror -Wextra  
 
@@ -28,7 +28,7 @@ $(NAME) : $(OBJ)
 # $(CC) $(OBJ)  -o  $(NAME) -lreadline
 
 
-%.o : %.c minishell.h Makefile # check this
+%.o : %.c minishell.h Makefile
 	$(CC) -o $@ -c -I $(READLINE_I) $(FLAGS) $< 
 # $(CC) -o $@ -c $(FLAGS) $< 
 

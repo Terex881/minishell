@@ -55,8 +55,9 @@ char	*ft_get_line(t_data *data, char *line, int i)
 	while (tmp)
 	{
 		if (ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0)
-			return (tmp->line + i);
-		tmp = tmp -> next;
+			return (tmp->line +i + 1); // added this line
+			// return (tmp->line + i); 
+		tmp = tmp->next;
 	}
 	return (NULL);
 }

@@ -149,25 +149,16 @@ int ft_token(char *line, t_list *node, t_list **list)
 	return (free(line), 1);
 }
 
-void	ft_all(t_list **list, char **env)
+void	ft_all(t_list **list, char **env, t_data	*data)
 {
 	t_list	*node;
 	t_var	*exec;
-	t_data	*data;;
-	// t_exit *info;
-	// info->exitstat = 0;
+	
 	char	*line;
 
 	line = NULL;
 	node = NULL;
 	exec = NULL;
-	/***************************************/ // add function ft_fill_data 
-	// data = (t_data *)malloc(sizeof(t_data));
-	// data->env = ft_get_env(env);
-	// data->path = ft_get_line(data, "PATH", 5);
-	// // printf("path = %s\n", data->path);
-	// data->old_pwd = ft_get_line(data, "PWD", 4);
-	/***************************************/
 	while (1)
 	{
 		ft_signal();
@@ -175,9 +166,9 @@ void	ft_all(t_list **list, char **env)
 			return (printf("exit") ,ft_lstclear(list));
 		if (ft_syntax_error(list) == 0)
 		{
-			// ft_expand(list, env, data); // fix vraiable
+			ft_expand(list, env, data); // fix vraiable
 			exec = ft_allocate_list(list);
-			ft_open_her_doc(list, exec);
+			// ft_open_her_doc(list, exec);
 			if (ft_open_files(list, exec) == 0)
 			{
 				ft_len_node_elem(list, exec);
