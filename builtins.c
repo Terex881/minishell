@@ -39,162 +39,6 @@ void	ft_echo(char **arg,t_var *exec )
         write(exec->f_out, "\n", 1);
 }
 
-// static char	*old_pwd(char **env)//🌸
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (env[i])
-// 	{
-// 		if (ft_strncmp(env[i], "OLDPWD", 6) == 0)//pwd
-// 			return (env[i] + 7);
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
-
-
-
-// void ft_pwd(t_env *env, t_data *data)//update pwd in env!!🌸
-// {
-// 	// char tab[100];
-// 	char	*pwd;
-
-// 	pwd = getcwd(NULL, 0);
-// 	if (!pwd)
-// 	{
-// 		if (errno == ENOENT)
-// 			// printf("path no longer exist \n");
-// 			printf("%s\n", ft_lstfind_env(&env, "PWD", NULL)->line + 4);//pwd or oldpwd? //add /..
-// 		// write(1, "Error\n", 6);
-// 		return ;
-// 	}
-// 	write(1, pwd, ft_strlen(pwd));
-// 	write(1, "\n", 1);
-// }
-
-void ft_pwd(t_env *env, t_data *data)//update pwd in env!!🌸
-{
-	// char tab[100];
-	char	*pwd;
-
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
-	{
-		if (errno == ENOENT)
-		{
-			printf("path no longer exist \n");
-			// printf("%s\n", ft_lstfind_env(&env, "PWD", NULL)->line + 4);//pwd or oldpwd? //add /..
-			printf("%s\n", data->old_pwd);//pwd or oldpwd? //add /..
-			// write(1, "Error\n", 6);
-			return ;
-		}
-	}
-	write(1, pwd, ft_strlen(pwd));
-	write(1, "\n", 1);
-}
-
-// void	ft_env(t_var *exec, t_data *data)
-// {
-// 	t_data *q;
-// 	t_env *p;
-// 	t_env *tmp;
-	
-// 	q = data;
-// 	p = data->env;
-// 	// exec->old_pwd = old_pwd(exec->env);
-// 	if (getcwd(NULL, 0) != NULL)
-// 	{
-// 		// while (q)
-// 		// {
-// 			tmp = ft_lstfind_env(&q->env, "PWD", ft_strjoin("PWD=", getcwd(NULL, 0)));
-// 			q->old_pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
-// 			// printf(" ==> %s\n\n", q->old_pwd);
-// 		// 	q = q->next;
-// 		// }
-// 	}
-// 	// printf("---- %s\n\n", tmp->line);
-// 	// else
-// 		// printf(" ==> %s\n\n", q->old_pwd);
-//     while (p)
-//     {
-//         printf("%s\n", p->line);
-//         p = p->next;
-//     }
-// }
-
-void	ft_env(t_var *exec, t_data *data)
-{
-	t_data *q;
-	t_env *p;
-	t_env *tmp;
-	
-	q = data;
-	p = data->env;
-	// exec->old_pwd = old_pwd(exec->env);
-	if (getcwd(NULL, 0) != NULL)
-	{
-		// while (q)
-		// {
-			tmp = ft_lstfind_env(&q->env, "PWD", ft_strjoin("PWD=", getcwd(NULL, 0)));
-			q->old_pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
-			// printf(" ==> %s\n\n", q->old_pwd);
-		// 	q = q->next;
-		// }
-	}
-	// printf("---- %s\n\n", tmp->line);
-	// else
-		// printf(" ==> %s\n\n", q->old_pwd);
-    while (p)
-    {
-        printf("%s\n", p->line);
-        p = p->next;
-    }
-}
-
-// void	ft_cd(char *path, t_data *data)
-// {
-// 	(void)data;
-// 	if (!path || (ft_strlen(path) == 1 && path[0] == '~'))
-// 	{
-// 		if (chdir(getenv("HOME")) < 0)
-// 			return (perror(NULL));
-// 	}
-// 	else if (chdir(path) < 0)
-// 		return (perror(NULL));
-// }
-
-void	ft_cd(char *path, t_data *data)
-{
-	static int count;
-	(void)data;
-	char *tmp;
-	int i = 0;
-	
-	tmp = getcwd(NULL, 0);
-	if (tmp)
-	{
-		ft_lstfind_env(&data->env, "OLDPWD", ft_strjoin("OLDPWD=", getcwd(NULL, 0)));
-	}
-	if (!path || (ft_strlen(path) == 1 && path[0] == '~'))
-	{
-		if (chdir(getenv("HOME")) < 0)
-		{
-			// data->old_pwd = getcwd(NULL, 0);
-			// printf("%s\n", data->old_pwd);
-			return (perror(NULL));
-		}
-	}
-	if (chdir(path) < 0)
-	{
-		// ft_lstfind_env(&data->env, "OLDPWD", ft_strjoin("OLDPWD=", getcwd(NULL, 0)));
-		// tmp1 = ft_strjoin(tmp1, "/..");
-		data->old_pwd = ft_strjoin(data->old_pwd, "/..");
-		// printf("%s\n", tmp1);
-		return (perror(NULL));
-	}
-}
-
 char *ft_varname(char *line)
 {
 	int i = 0;
@@ -240,29 +84,18 @@ void	ft_export(t_var *exec, t_data *data, char *line, char **env)
 	{
 		env_cpy = ft_lstcpy_env(data->env);
 		ft_sort_env(env_cpy, ft_strcmp);
-		ft_lstclear_env(&env_cpy);
-		return ;
+		return ((void)ft_lstclear_env(&env_cpy));
 	}
 	tmp = ft_strchr(line, '=');
 	var = NULL;
-	// printf("tmp = %s\n", tmp);
 	if (tmp)
 	{
 		if (ft_lstfind_env(&data->env, ft_varname(line), NULL))
 			var = ft_lstfind_env(&data->env, ft_varname(line), NULL)->line;
-		// printf("var = %s  %s\n", var, ft_varname(line));
-		// printf("tmp = %s   %d\n", tmp - 1, ft_strncmp(tmp - 1, "+=", 2));
-		//if var doesnt exist and += is found put only =
 		if (!var && !ft_strncmp(tmp - 1, "+=", 2))
-		{
 			ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(ft_removeplus(line))));
-		}
 		else if (var && !ft_strncmp(tmp - 1, "+=", 2))
-		{
-			// printf("i am here\n");
-			// printf("%s\n", ft_varname(line));
 			ft_lstfind_env(&data->env, ft_varname(line), ft_strjoin(var, tmp + 1));
-		}
 		else if (var)
 			ft_lstfind_env(&data->env, ft_varname(line), line);
 		else
@@ -270,7 +103,7 @@ void	ft_export(t_var *exec, t_data *data, char *line, char **env)
 	}
 }
 
-void	ft_unset(t_var *exec, t_data *data, char *line)// to fix
+void	ft_unset(t_var *exec, t_data *data, char *line)
 {
 	t_env *p;
 	t_env *tmp;
@@ -285,8 +118,7 @@ void	ft_unset(t_var *exec, t_data *data, char *line)// to fix
 				tmp->next = p->next;
 			else
 				data->env = p->next;
-			free(p->line);
-			free(p);
+			ft_lstdelone_env(p);
 			return ;
 		}
 		tmp = p;
@@ -294,14 +126,61 @@ void	ft_unset(t_var *exec, t_data *data, char *line)// to fix
 	}
 }
 
-void	ft_exit(t_data **data)//🌸
+void	ft_exit(t_var *exec, t_data **data)//🌸
 {
 	// clear data before exit
 	(void)data;
 	// ft_lstclear_env(&(*data)->env);
 	// free((*data)->path);
 	// free(*data);
-	write(1, "exit\n", 5);
+	write(exec->f_out, "exit\n", 5);
 	exit(0);
 }
 
+void	ft_cd(char *path, t_data *data)//remove OLDPWD at first use unset and export
+{
+	t_env *tmp;
+	int n;
+	
+	if (!path || !*path || (path[0] == '~' && path[1] == '\0'))
+		path = ft_lstfind_env(&data->env, "HOME", NULL)->line + 5;
+		// path = getenv("HOME");// no tworking if unset env
+	tmp = ft_lstfind_env(&data->env, "PWD", NULL);
+	n = chdir(path);
+	if (!n && getcwd(NULL, 0))
+	{
+		ft_lstfind_env(&data->env, "OLDPWD", ft_strjoin("OLDPWD=", tmp->line + 4));
+		ft_lstfind_env(&data->env, "PWD", ft_strjoin("PWD=", getcwd(NULL, 0)));
+	}
+	else if (!n)
+	{
+		ft_lstfind_env(&data->env, "OLDPWD", ft_strjoin("OLDPWD=", tmp->line + 4));
+		ft_lstfind_env(&data->env, "PWD", ft_strjoin(tmp->line, "/.."));
+	}
+	else
+		perror("chdir");
+	return ;
+}
+
+void	ft_env(t_var *exec, t_data *data)
+{
+	t_env *p;
+
+	p = data->env;
+    while (p)
+    {
+		write(exec->f_out, p->line, ft_strlen(p->line));
+		write(exec->f_out, "\n", 1);
+        p = p->next;
+    }
+}
+
+void ft_pwd(t_var *exec, t_env *env, t_data *data)//romove dataq
+{
+	t_env *tmp;
+
+	tmp = ft_lstfind_env(&env, "PWD", NULL);
+	write(exec->f_out, tmp->line + 4, ft_strlen(tmp->line + 4));
+	write(exec->f_out, "\n", 1);
+	return ;
+}
