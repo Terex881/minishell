@@ -248,3 +248,10 @@ t_env	*ft_lstcpy_env(t_env *env);
 // k
 // minishell :echo k > l
 
+
+
+
+//TO FIX !!!!!!
+//ls > ok | cat
+//leaks
+//env -i ....> ls

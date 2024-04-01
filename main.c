@@ -35,13 +35,18 @@ void ft_signal()
 // 	// data->old_pwd = getcwd(NULL, 0);
 // 	// return ((*data)->path);
 // }
+
+void leaks()
+{
+	system("leaks minishell");
+}
 int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
 	t_list	*list;
 	t_data	*data;
-
+// atexit(leaks);
 
 
 	// rl_catch_signals = 0;//🌸

@@ -48,6 +48,7 @@ int ft_process(t_var *exec, char **env,  t_data *data)
 
 int ft_execute_pipe(t_list *list, t_var *exec, char **env,  t_data *data)
 {
+    int exit_status;
     // int infile;
     // int outfile;
     int pid;
@@ -79,7 +80,7 @@ int ft_execute_pipe(t_list *list, t_var *exec, char **env,  t_data *data)
         ft_execution_(exec, env, data);
     }
     else
-        while(wait(NULL) !=  -1);
+        while(wait(&exit_status) !=  -1);
     // }
     // else
     //     waitpid(pid, NULL, 0);
