@@ -6,5 +6,8 @@ int	ft_isalpha(int c)
 		return (1);
 	if (c >= '0' && c <= '9')
 		return (2);
+	if (c  == '?')
+		return (3);
+	
 	return (0);
 }

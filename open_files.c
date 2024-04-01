@@ -1,5 +1,5 @@
 #include "minishell.h"
-#include <sys/fcntl.h>
+
 
 int ft_IN_OUT(t_list *tmp, t_var *var)
 {
@@ -44,31 +44,55 @@ int	ft_open_files(t_list **list, t_var *var)
 	return (0);
 }
 
-// void ft_open_her_doc(t_list **list, t_var *var)
-// {
-// 	t_list	*tmp;
-// 	char	*line;
+char	*ft_lim_name(t_list *tmp)
+{
+	char	*name;
 
-// 	tmp = *list;
-// 	while (tmp)
-// 	{
-// 		if (tmp->type == PIPE)
-// 			var = var->next;		
-// 		if(tmp->type == HER_DOC)
-// 		{
-// 			line = readline(">");
-// 			while (line)
-// 			{
-// 				if (ft_strcmp(ft_file_name(tmp->next), line) == 0)
-// 					break;
-// 				var->f_in = open("test", O_CREAT | O_RDWR | O_TRUNC, 0644); // hide this file
-// 				char *str = ft_expand_her_doc(line);
-// 				write(var->f_in, str, ft_strlen(str));
-// 				(free(line), free(str));
-// 				line = readline(">");
-// 			}
-// 			free(line);
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// }
+	if (!tmp)
+		return (NULL);
+	if (tmp->next && tmp->type == SPACE_)
+	{
+		tmp->next->skip = true;
+		name = tmp->next->value;
+	}
+	else
+	{
+		tmp->skip = true;
+		name = tmp->value;
+	}
+	return (name);
+}
+
+void ft_open_her_doc(t_list **list, t_var *var, t_data *data)
+{
+	t_list	*tmp;
+	char	*line;
+
+	tmp = *list;
+	while (tmp)
+	{
+		if (tmp->type == PIPE)
+			var = var->next;		
+		if(tmp->type == HER_DOC)
+		{
+			tmp->skip = true;
+			var->f_in = open("test", O_CREAT | O_RDWR | O_TRUNC, 0644); // hide this file
+			line = readline(">");
+			while (line)
+			{
+				if (ft_strcmp(ft_lim_name(tmp->next), line) == 0)
+					break;
+				if(ft_type(tmp->next) != 3 && ft_type(tmp->next->next) != 3)
+					line = ft_expand_her_doc(line, data);
+				write(var->f_in, line, ft_strlen(line));
+				write(var->f_in, "\n", 1);
+				line = readline(">");
+			}
+			free(line);
+			close(var->f_in);
+			var->f_in = open("test", O_RDONLY);
+		}
+		tmp = tmp->next;
+	}
+	unlink("/tmp/test");
+}

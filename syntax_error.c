@@ -4,9 +4,11 @@ int	ft_type(t_list *lst)
 {
 	if (!lst)
 		return (0);
-	if (lst->type == R_OUT || lst->type == R_IN || lst->type == HER_DOC 
+	if (lst->type == R_OUT || lst->type == R_IN || lst->type == HER_DOC
 		|| lst->type == APPEND)
 		return (2);
+	if (lst->type == D_Q || lst->type == S_Q)
+		return  (3);
 	if (lst->type == WORD || lst->type == D_Q
 		|| lst->type == S_Q || lst->type == VARIABLE)
 		return (3);
@@ -15,6 +17,8 @@ int	ft_type(t_list *lst)
 	return (0);
 }
 
+
+
 int	ft_syntax_error(t_list **list)
 {
 	t_list	*tmp;
@@ -22,16 +26,22 @@ int	ft_syntax_error(t_list **list)
 	tmp = *list;
 	if (!tmp)
 		return 1;
-	if (tmp->type == PIPE || ft_type(ft_lstlast(tmp)) == 2 || ft_lstlast(tmp)->type == PIPE)
-		return (write(2, "11\n", 3), 1);
+	if (tmp->type == PIPE || ft_lstlast(tmp)->type == PIPE)
+		return (ft_putstr_fd("syntax error\n", 2), 1);
+	if (ft_type(ft_lstlast(tmp)) == 2 )
+		return (ft_putstr_fd("syntax error\n", 2), 1);
 	while (tmp)
 	{
-		if (ft_type(tmp) == 2 && ft_type(tmp->next) != 3 && ft_type(tmp->next->next) != 3)
-			return (write(2, "11\n", 3), 1);
-		if (ft_type(tmp) == 4 && (ft_type(tmp->next) == 4 || ft_type(tmp->next->next) == 4))
-			return (write(2, "11\n", 3), 1);
+		if (ft_type(tmp) == 2 && ft_type(tmp->next) != 3
+			&& ft_type(tmp->next->next) != 3)
+			return (ft_putstr_fd("syntax error\n", 2), 1);
+		if (ft_type(tmp) == 4 && (ft_type(tmp->next) == 4
+			|| ft_type(tmp->next->next) == 4))
+			return (ft_putstr_fd("syntax error\n", 2), 1); // check PIPE after piep
+		if (tmp->type == PIPE && !tmp->next&& !tmp->next->next)
+			return (ft_putstr_fd("99\n", 2), 1);
 		tmp->skip = false;
 		tmp = tmp->next;
 	}
-	return 0;
+	return (0);
 }

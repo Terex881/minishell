@@ -63,6 +63,7 @@ char *valid_path(char *cmd, char **env)
 
 int check_builtin(t_var *exec, char **env, t_data *data)
 {
+    
     if (!ft_strncmp(exec->arg[0], "echo", 5))
         return (ft_echo(exec->arg + 1, exec), 1);
     if (!ft_strncmp(exec->arg[0], "pwd", 4))
@@ -103,11 +104,11 @@ int ft_execution(t_var *exec, char **env,  t_data *data)
     if (pid == 0)
     {
         if (dup2(exec->f_in, 0) == -1)
-            return (perror("dup2 error!\n"), 0);
+            (perror("dup2 error!\n"), exit(0));
         if (dup2(exec->f_out, 1) == -1)
-            return (perror("dup2 error!\n"), 0);
+            (perror("dup2 error!\n"), exit(0)); // remove return and add exit(0)
         if (execve(path, exec->arg, env) == -1)
-            return (perror(exec->arg[0]), 0);
+            (perror(exec->arg[0]), exit(0));
     }
     else
         waitpid(pid, NULL, 0);

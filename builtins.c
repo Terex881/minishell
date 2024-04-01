@@ -1,5 +1,6 @@
 #include "minishell.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 static int	check_n(char *s)
 {
@@ -18,8 +19,6 @@ void	ft_echo(char **arg,t_var *exec )
 {
     int i = 0;
     int n = 0;
-	int j = 0;
-	char *var;
 
 	if (!arg || !*arg)
 		return ((void)write(exec->f_out, "\n", 1));
@@ -27,11 +26,11 @@ void	ft_echo(char **arg,t_var *exec )
         (n = 1, i = 1);
 	if (!arg[i])
 		return ;
-    while (arg[i])
+
+	while (arg && arg[i])
     {
-		write(exec->f_out, arg[i], ft_strlen(arg[i])); 
-		// ft_putstr_fd(arg[i], exec->f_out); // i added this 
-        if (arg[i + 1])
+		ft_putstr_fd(arg[i], exec->f_out);
+        if (arg[i] && arg[i + 1])
         	write(exec->f_out, " ", 1);
         i++;
     }
@@ -39,10 +38,10 @@ void	ft_echo(char **arg,t_var *exec )
         write(exec->f_out, "\n", 1);
 }
 
+
 char *ft_varname(char *line)
 {
 	int i = 0;
-	char *tmp;
 
 	while (line[i] && line[i] != '=')
 		i++;
@@ -54,7 +53,6 @@ char *ft_varname(char *line)
 char *ft_removeplus(char *line)
 {
 	int i = 0;
-	int j = 0;
 
 	while (line[i])
 	{

@@ -3,14 +3,14 @@
 
 void ft_signal_c(int num)
 {
-    // if (num == SIGINT)
-	// {
-	// 	rl_clear_history();
-	// 	write(1, "\n", 1);
-	// 	rl_on_new_line();
-	// 	rl_replace_line("", 0);
-	// 	rl_redisplay();
-    // }
+    if (num == SIGINT)
+	{
+		rl_clear_history();
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+    }
 }
 
 void ft_signal()
@@ -43,11 +43,9 @@ int	main(int ac, char **av, char **env)
 	t_data	*data;
 
 
-	// rl_catch_signals = 0;
+
+	rl_catch_signals = 0;
 	list = NULL;
 	ft_fill_data(&data, env);
-
-	
-	
 	ft_all(&list, env, data);
 }

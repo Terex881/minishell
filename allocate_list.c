@@ -11,8 +11,7 @@ void	ft_print_var(t_var *list)
 		i = 0;
 		printf("f_in is : %d\n", list->f_in);
 		printf("f_out is : %d\n", list->f_out);
-		printf("--> %p\n", list->arg[0]);
-		while (list->arg[i])
+		while ( list->arg[i])
 		{
 			printf("f_arg is : %s\n", list->arg[i]);
 			i++;
@@ -37,8 +36,8 @@ t_var	*ft_allocate_list(t_list **list)
 	{
 		if (tmp->type == PIPE)// check if pipe is true or false
 			n++;
-		if (tmp->type == SPACE_ && tmp->skip == false)
-			tmp->skip = true;
+		// if (tmp->type == SPACE_ && tmp->skip == false)
+		// 	tmp->skip = true;
 		tmp = tmp->next;
 	}
 	while (i < n)
@@ -52,24 +51,7 @@ t_var	*ft_allocate_list(t_list **list)
 	return (exec);
 }
 
-// char	*ft_file_name(t_list *tmp)
-// {
-// 	char	*name;
 
-// 	if (!tmp)
-// 		return (NULL);
-// 	if (tmp->next && tmp->type == SPACE_)
-// 	{
-// 		tmp->next->skip = true;
-// 		name = tmp->next->value;
-// 	}
-// 	else
-// 	{
-// 		tmp->skip = true;
-// 		name = tmp->value;
-// 	}
-// 	return (name);
-// }
 char	*ft_file_name(t_list *tmp)
 {
 	char *str;
@@ -80,7 +62,6 @@ char	*ft_file_name(t_list *tmp)
 
 	while (tmp && tmp->next && !tmp->next->skip)
 	{
-		free(str);
 		str = ft_strjoin(str, tmp->next->value);
 		tmp->skip = true;
 		tmp = tmp->next;
@@ -111,19 +92,21 @@ void	ft_len_node_elem(t_list **list, t_var *exec)
 		return ;
 	n = 0;
 	tmp = *list;
-	while (tmp &&   tmp->type != PIPE)
+	while (tmp && tmp->type != PIPE)
 	{
-		while(tmp && tmp->next &&  tmp->next->skip == false)
-			tmp =  tmp->next;
-		
+		// while(tmp && tmp->next &&  tmp->next->skip == false)
+		// 	tmp =  tmp->next;
+		// 		tmp->skip = false;
+		if (tmp->type == SPACE_)
+			tmp->skip = true;
 		if (tmp && tmp->skip == false)
 			n++;
 		tmp = tmp->next;
 	}
-	exec->arg = malloc(sizeof(char *) * (n + 1));
+	exec->arg = malloc(sizeof(char *) * (n + 1)); // check this
 	if(!exec->arg)
 		return ;
-	exec->arg[n] = NULL;
+	// exec->arg[n] = NULL;
 }
 char	*ft_varjoin(t_list **tmp)
 {
@@ -155,6 +138,7 @@ void ft_copy_to_list(t_list **list, t_var *exec)
 		{
 			i = 0;
 			exec = exec->next;
+			tmp->skip =true; // for pipe
 			ft_len_node_elem(&tmp->next, exec);
 		}
 		if (tmp->skip == false)
@@ -163,6 +147,7 @@ void ft_copy_to_list(t_list **list, t_var *exec)
 			i++;
 			tmp->skip = true;
 		}
+		exec->arg[i] = NULL;
 		tmp = tmp->next;
 	}
 }

@@ -11,7 +11,7 @@
 #include <sys/signal.h>
 
 // syscall
-//  echo yassi" ne 
+
 
 
 
@@ -23,14 +23,19 @@
 
 ///////////PROTECTION?/////////
 
-
-// $$$$$$$$$$$$$$$$$$$$6
-
-// minishell :echo {$USER;$USER}
-// {sdemnati;sdemnati}
 // secure PATH
 
-// minishell :export x+
+// 'ls -la |  '
+
+// minishell :$fgd
+// minishell :echo :$dfgdfg:
+
+// ls | 
+//echo "dsf""fsf"
+
+
+// minishell :exit 10
+// exit
 
 typedef struct s_exit
 {
@@ -63,6 +68,7 @@ typedef struct s_list
 
 typedef struct s_var
 {
+	int status;
 	int f_out;
 	int f_in;
 	char **arg;
@@ -83,6 +89,27 @@ typedef struct s_data
 	char *old_pwd;
 }	t_data;
 
+
+
+
+typedef struct s_var1
+{
+	int		f_in;
+	int		f_out;
+	pid_t	cp1;
+	int		end[2];
+	char	*path;
+	char	*tmp1;
+	char	**arr;
+	char	**cmd_args;
+	size_t	len;
+	int		pos;
+	ssize_t	by;
+	char	*str;
+	int		index;
+	char	*sub_line;
+	char	*tmp;
+}	t_var1;
 
 //-----------------------LIBFT---------------------
 
@@ -115,7 +142,7 @@ t_list	*ft_add_special_character(t_list *node, char *c, int *i);
 t_list	*ft_add_douple_single(char *line, int *i, t_list *node);
 t_list	*ft_add_word(char *line, int *i, t_list *node);
 int	ft_token(char *line, t_list *node, t_list **list);
-void	ft_all(t_list **list, char **env, t_data	*data);
+int	ft_all(t_list **list, char **env, t_data	*data);
 void	ft_print(t_list *list);
 t_list *ft_add_var(char *line, int *i, t_list *node);
 
@@ -123,14 +150,14 @@ t_list *ft_add_var(char *line, int *i, t_list *node);
 
 int		ft_IN_OUT(t_list *tmp, t_var *exec);
 int		ft_open_files(t_list **list, t_var *exec);
-void	ft_open_her_doc(t_list **list, t_var *exec);
+void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data);
 
 //---------------------EXPAND---------------------
 
 char	*ft_sub_variable(char *str, int *i);
-void	ft_expand(t_list **list, char **env, t_data *data);
+void	ft_expand(t_list **list, t_data *data);
 char	*ft_charjoin(char const *s1, char  s2);
-char	*ft_expand_her_doc(char *str);
+char *ft_expand_her_doc(char *str, t_data *data);
 
 // ---------------------CREATE_NEW_LIST---------------------
 
@@ -150,6 +177,7 @@ int		ft_type(t_list *lst);
 //---------------------EXECUTION---------------------
 
 int		ft_execution(t_var *exec, char **env, t_data *data);
+
 char	**ft_free(char **p, int i);
 char	**get_paths(char **env);
 char	*valid_path(char *cmd, char **env);

@@ -1,5 +1,6 @@
 #include "minishell.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int	ft_check(char c)
 {
@@ -70,7 +71,6 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 	str = tmp;
 	tmp = ft_strtrim(tmp, line[j]);
 	node = ft_lstnew(tmp);
-	// node->value = tmp;
 	free(str);
 	if ((line[j] == '\"' || line[j] == '\'') && line[*i] == '\0')
 		return (ft_putstr_fd("33\n", 2), free(tmp), free(node), NULL);
@@ -93,9 +93,11 @@ t_list *ft_add_var(char *line, int *i, t_list *node)
 	if (!tmp)
 		return (NULL);
 	node = ft_lstnew(tmp);
-	// node->value = tmp;
 	if ((line[j]) == '$' && ft_isalpha(line[j + 1]) == 1)
 		node->type = VARIABLE;
+	// else if ((line[j]) == '$' && line[j+1] == '?')
+	// 	node->type = VARIABLE;
+	
 	else
 	 	node->type = WORD;
 	return node;
@@ -117,7 +119,6 @@ t_list	*ft_add_word(char *line, int *i, t_list *node)
 	if (!tmp)
 		return (NULL);
 	node = ft_lstnew(tmp);
-	// node->value = tmp;
 	node->type = WORD;
 	return (node);
 }
@@ -149,11 +150,10 @@ int ft_token(char *line, t_list *node, t_list **list)
 	return (free(line), 1);
 }
 
-void	ft_all(t_list **list, char **env, t_data	*data)
+int	ft_all(t_list **list, char **env, t_data	*data)
 {
 	t_list	*node;
 	t_var	*exec;
-	
 	char	*line;
 
 	line = NULL;
@@ -162,13 +162,13 @@ void	ft_all(t_list **list, char **env, t_data	*data)
 	while (1)
 	{
 		ft_signal();
-		if(!ft_token(line, node, list))
-			return (printf("exit") ,ft_lstclear(list));
+		if(ft_token(line, node, list)==0)
+			return(printf("exit") , 0);
 		if (ft_syntax_error(list) == 0)
 		{
-			ft_expand(list, env, data); // fix vraiable
+			ft_expand(list,  data); // fix vraiable
 			exec = ft_allocate_list(list);
-			// ft_open_her_doc(list, exec);
+			ft_open_her_doc(list, exec, data);
 			if (ft_open_files(list, exec) == 0)
 			{
 				ft_len_node_elem(list, exec);
@@ -176,11 +176,8 @@ void	ft_all(t_list **list, char **env, t_data	*data)
 				ft_execution(exec, env, data);
 			}
 		}
-		// ft_print_var(exec);
-		// ft_print(*list);
-		// ft_lstclear(list);
-		// ft_lstclear_var(&exec);
 	}
+	return 1;
 }
 
 void	ft_print(t_list *list)
@@ -207,6 +204,7 @@ void	ft_print(t_list *list)
 			printf("S_Q   %s\n", list->value);
 		else if (list && list->type == VARIABLE)
 			printf("variable   %s\n", list->value);
+		// printf("- > %d\n", list->skip);
 		list = list->next;
 	}
 }
