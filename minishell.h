@@ -201,7 +201,7 @@ void	ft_exit(t_var *exec, t_data **data, char **arg);
 void	ft_signal();
 
 //---------------------ENVIRONMENT---------------------
-t_env   *ft_get_env(char **env);
+t_env   *ft_get_env(t_data **data, char **env);
 char	*ft_get_line(t_data *data, char *line, int i);
 void	ft_lstclear_env(t_env **env);
 void	ft_lstdelone_env(t_env *env);
