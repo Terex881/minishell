@@ -35,7 +35,10 @@ t_var	*ft_allocate_list(t_list **list)
 	while (tmp)
 	{
 		if (tmp->type == PIPE)// check if pipe is true or false
+		{
+			tmp->skip =true; //
 			n++;
+		}
 		// if (tmp->type == SPACE_ && tmp->skip == false)
 		// 	tmp->skip = true;
 		tmp = tmp->next;
@@ -56,8 +59,8 @@ char	*ft_file_name(t_list *tmp)
 {
 	char *str;
 
-	if (tmp->type == SPACE_)
-		tmp = tmp->next;
+	// if (tmp->type == SPACE_)
+	// 	tmp = tmp->next;
 	str = tmp->value;
 
 	while (tmp && tmp->next && !tmp->next->skip)

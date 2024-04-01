@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <stdbool.h>
 
 int	ft_type(t_list *lst)
 {
@@ -27,20 +28,21 @@ int	ft_syntax_error(t_list **list)
 	if (!tmp)
 		return 1;
 	if (tmp->type == PIPE || ft_lstlast(tmp)->type == PIPE)
-		return (ft_putstr_fd("syntax error\n", 2), 1);
+		return (ft_putstr_fd("1\n", 2), 1);
 	if (ft_type(ft_lstlast(tmp)) == 2 )
-		return (ft_putstr_fd("syntax error\n", 2), 1);
+		return (ft_putstr_fd("2\n", 2), 1);
 	while (tmp)
 	{
 		if (ft_type(tmp) == 2 && ft_type(tmp->next) != 3
 			&& ft_type(tmp->next->next) != 3)
-			return (ft_putstr_fd("syntax error\n", 2), 1);
-		if (ft_type(tmp) == 4 && (ft_type(tmp->next) == 4
-			|| ft_type(tmp->next->next) == 4))
-			return (ft_putstr_fd("syntax error\n", 2), 1); // check PIPE after piep
-		if (tmp->type == PIPE && !tmp->next&& !tmp->next->next)
+			return (ft_putstr_fd("3\n", 2), 1);
+		if (ft_type(tmp) == 4 && (ft_type(tmp->next) == 4 || ft_type(tmp->next->next) == 4))
+			return (ft_putstr_fd("4\n", 2), 1); // check PIPE after piep
+		if (tmp->type == PIPE && ft_type(ft_lstlast(tmp)) == 0)
 			return (ft_putstr_fd("99\n", 2), 1);
 		tmp->skip = false;
+		if(tmp->type == SPACE_)
+			tmp->skip = true;
 		tmp = tmp->next;
 	}
 	return (0);
