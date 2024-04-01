@@ -5,8 +5,10 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <libc.h>
-#include <errno.h>
+#include <errno.h>//errno
 #include <stdlib.h>
+// #include <string.h>//strerror
+#include <unistd.h>
 #include <stdbool.h>
 #include <sys/signal.h>
 
@@ -76,7 +78,7 @@ typedef struct s_var
 	
 } t_var;
 
-typedef struct  s_env//🌸
+typedef struct  s_env
 {
     char    *line;
     struct s_env *next;
@@ -177,7 +179,6 @@ int		ft_type(t_list *lst);
 //---------------------EXECUTION---------------------
 
 int		ft_execution(t_var *exec, char **env, t_data *data);
-
 char	**ft_free(char **p, int i);
 char	**get_paths(char **env);
 char	*valid_path(char *cmd, char **env);
@@ -186,13 +187,13 @@ int		check_builtin(t_var *exec, char **env, t_data *data);
 //---------------------BUILTS_IN---------------------
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-void	ft_pwd(t_var *exec, t_env *env, t_data *data);
+void	ft_pwd(t_var *exec, t_env *env);
 void	ft_env(t_var *exec, t_data *data);
 void	ft_cd(char *path, t_data *data);
 void	ft_echo(char **arg, t_var *exec);
 void	ft_export(t_var *exec, t_data *data, char *line, char **env);
 void	ft_unset(t_var *exec, t_data *data, char *line);
-void	ft_exit(t_var *exec, t_data **data);
+void	ft_exit(t_var *exec, t_data **data, char **arg);
 
 //---------------------SIGNALS---------------------
 
