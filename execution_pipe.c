@@ -40,7 +40,7 @@ int ft_process(t_var *exec, char **env,  t_data *data)
         close(pipe_ends[1]);
         if (dup2(pipe_ends[0], 0) < 0)
             return (write(2, "dup2 failed!\n", 14), 0);
-        waitpid(pid, NULL, 0);
+        // waitpid(pid, NULL, 0);
     }
     /*******************************/
     return (1);
@@ -79,6 +79,9 @@ int ft_execute_pipe(t_list *list, t_var *exec, char **env,  t_data *data)
         ft_execution_(exec, env, data);
     }
     else
-        waitpid(pid, NULL, 0);
+        while(wait(NULL) !=  -1);
+    // }
+    // else
+    //     waitpid(pid, NULL, 0);
     return (1);
 }
