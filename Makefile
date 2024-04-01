@@ -14,6 +14,7 @@ OBJ = main.o                tokenizer.o             syntax_error.o expand.o \
     libft/ft_lstlast.o      libft/ft_strncmp.o      \
     builtins.o              environment.o           execution.o\
     echo.o                  exit.o                  export.o\
+    execution_pipe.o\
 
 CC = cc -g -fsanitize=address
 # FLAGS = -Wall -Werror -Wextra

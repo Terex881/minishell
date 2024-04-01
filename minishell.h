@@ -179,6 +179,7 @@ int		ft_type(t_list *lst);
 //---------------------EXECUTION---------------------
 
 int		ft_execution(t_var *exec, char **env, t_data *data);
+int		ft_execute_pipe(t_list *list, t_var *exec, char **env,  t_data *data);
 char	**ft_free(char **p, int i);
 char	**get_paths(char **env);
 char	*valid_path(char *cmd, char **env);

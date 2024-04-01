@@ -173,7 +173,11 @@ int	ft_all(t_list **list, char **env, t_data	*data)
 			{
 				ft_len_node_elem(list, exec);
 				ft_copy_to_list(list, exec);
-				ft_execution(exec, env, data);
+				// ft_print_var(exec);
+				if (exec->next)
+					ft_execute_pipe(*list, exec, env, data);
+				else
+					ft_execution(exec, env, data);
 			}
 		}
 	}
