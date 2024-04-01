@@ -205,26 +205,40 @@ void	ft_lstclear_env(t_env **env)
 //     return (i);
 // }
 
-t_env   *ft_get_env(char **env)
+t_env   *ft_get_env(t_data **data, char **env)
 {
     t_env   *p;
 
     p = NULL;
-	int i= 0;
+
+	/**********************************************/
+	*data = (t_data *)malloc(sizeof(t_data));
+	if(!*data)
+		return (NULL);
+	
+	// if(!data)
+	// 	return (NULL);
+	// data->old_pwd = ft_get_line(data, "PWD", 4);
+	// data->old_pwd = getcwd(NULL, 0);
+	// return ((*data)->path);
+	/**********************************************/
 	if (!env || !*env)
 	{
-		// env[0] = ft_strdup("PWD=/Users/sdemnati/Desktop/mini_shell_1");
-		// env[2] = ft_strdup("_=/usr/bin/env");
-		env[0] = ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
-		env[2] = ft_strdup("SHLVL=1"); // check this
-		env[1] = NULL;
+		p = ft_lstnew_env(ft_strjoin("PWD=", getcwd(NULL, 0)));
+		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));
+		// ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("_=/usr/bin/env")));
+		(*data)->env = p;
+		(*data)->path = ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+		return (p);
 	}
-
+	
     while (*env)
 	{
 		ft_lstadd_back_env(&p, ft_lstnew_env(*env));
 		env++;
 	}
+	(*data)->env = p;
+	(*data)->path = ft_get_line((*data), "PATH", 5);
     return (p);
 }
 
