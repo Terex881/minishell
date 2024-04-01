@@ -115,6 +115,8 @@ int ft_execution(t_var *exec, char **env,  t_data *data)
     }
     else
         waitpid(pid, NULL, 0);
+    // while (i < )
+    //     wait(&status);
     return (free(path), 1);
 }
 
