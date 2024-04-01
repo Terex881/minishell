@@ -31,7 +31,7 @@ int ft_process(t_var *exec, char **env,  t_data *data)
     {
         close(pipe_ends[0]);
         if (dup2(pipe_ends[1], 1) < 0)
-            return (write(2, "dup2 failed!\n", 14), 0);
+            (write(2, "dup2 failed!\n", 14), exit(0)); // here too
         ft_execution_(exec, env, data);
     }
     /*******************************/
@@ -39,7 +39,7 @@ int ft_process(t_var *exec, char **env,  t_data *data)
     {
         close(pipe_ends[1]);
         if (dup2(pipe_ends[0], 0) < 0)
-            return (write(2, "dup2 failed!\n", 14), 0);
+            (write(2, "dup2 failed!\n", 14), exit(0));
         waitpid(pid, NULL, 0);
     }
     /*******************************/
@@ -66,7 +66,7 @@ int ft_execute_pipe(t_list *list, t_var *exec, char **env,  t_data *data)
     if (pid == 0)                                                                                                                    
     {
         if (dup2(exec->f_in, 0) == -1)
-            return (perror("dup2 error!\n"), 0);
+            (perror("dup2 error!\n"), exit(0)); // remove 0 add exit
         // ft_execution_(exec, env, data);
         // exec = exec->next;
         while (exec->next)
@@ -75,7 +75,7 @@ int ft_execute_pipe(t_list *list, t_var *exec, char **env,  t_data *data)
             exec = exec->next;
         }
         if (dup2(exec->f_out, 1) == -1)
-            return (perror("dup2 error!\n"), 0);
+            (perror("dup2 error!\n"), exit(0));// here too
         ft_execution_(exec, env, data);
     }
     else

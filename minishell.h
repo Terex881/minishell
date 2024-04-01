@@ -39,6 +39,9 @@
 // minishell :exit 10
 // exit
 
+// ls | "" 
+// ls > ls | wc
+
 typedef struct s_exit
 {
 	int exitstat;
@@ -70,7 +73,6 @@ typedef struct s_list
 
 typedef struct s_var
 {
-	int status;
 	int f_out;
 	int f_in;
 	char **arg;
