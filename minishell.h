@@ -180,12 +180,12 @@ int		ft_type(t_list *lst);
 
 //---------------------EXECUTION---------------------
 
-void		ft_execution(t_var *exec, char **env, t_data *data);
-void	ft_execute_pipe(t_var *exec, char **env,  t_data *data);
+void		ft_execution(t_var *exec, t_data *data);
+void ft_execute_pipe(t_var *exec, t_data *data);
 char	**ft_free(char **p, int i);
-char	**get_paths(char **env);
-char	*valid_path(char *cmd, char **env);
-int		check_builtin(t_var *exec, char **env, t_data *data);
+char **get_paths(char *path);
+char *valid_path(char *cmd, char *line);
+int check_builtin(t_var *exec, t_data *data);
 
 //---------------------BUILTS_IN---------------------
 
@@ -194,7 +194,7 @@ void	ft_pwd(t_var *exec, t_env *env);
 void	ft_env(t_var *exec, t_data *data);
 void	ft_cd(char *path, t_data *data);
 void	ft_echo(char **arg, t_var *exec);
-void	ft_export(t_var *exec, t_data *data, char *line, char **env);
+void	ft_export(t_var *exec, t_data *data, char *line);
 void	ft_unset(t_var *exec, t_data *data, char *line);
 void	ft_exit(t_var *exec, t_data **data, char **arg);
 
