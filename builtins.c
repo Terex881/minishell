@@ -37,18 +37,18 @@ void	ft_cd(char *path, t_data *data)
 	if (!n && getcwd(NULL, 0))
 	{
 		ft_lstfind_env(&data->env, "OLDPWD",
-			ft_strjoin("OLDPWD=", tmp->line + 4));
-		ft_lstfind_env(&data->env, "PWD", ft_strjoin("PWD=", getcwd(NULL, 0)));
+			ft_strjoin("OLDPWD=", tmp->line + 4));//add protection for strjoin
+		ft_lstfind_env(&data->env, "PWD", ft_strjoin("PWD=", getcwd(NULL, 0)));//add protection for strjoin
 	}
 	else if (!n)
 	{
 		ft_lstfind_env(&data->env, "OLDPWD",
-			ft_strjoin("OLDPWD=", tmp->line + 4));
-		ft_lstfind_env(&data->env, "PWD", ft_strjoin(tmp->line, "/.."));
+			ft_strjoin("OLDPWD=", tmp->line + 4));//add protection for strjoin
+		ft_lstfind_env(&data->env, "PWD", ft_strjoin(tmp->line, "/.."));//add protection for strjoin
 	}
 	else
 	{
-		write(2, "minishell: ", 11);
+		ft_putstr_fd("minishell: ", 2);
 		perror(path);
 	}
 	return ;
