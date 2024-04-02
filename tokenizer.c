@@ -129,13 +129,14 @@ int ft_token(char *line, t_list *node, t_list **list)
 	node = NULL;
 	*list = NULL;
 	i = 0;
-	line = readline("minishell :");
+
+	line = readline("minishell : ");
 	if (line == NULL)
 		return (0);
 	add_history(line);
-	while (line[i])
+	while (line && line[i])
 	{
-		if (line[i] == ' ' || line[i] == '\t')
+		if (line[i] && (line[i] == 32 || (line[i] >= 9 && line[i] <= 13)))
 			while (line[i + 1] && (line[i + 1] == 32 || (line[i + 1] >= 9 && line[i + 1] <= 13)))
 				i++;
 		if (line[i] && ft_check(line[i]) == 1)
@@ -147,7 +148,7 @@ int ft_token(char *line, t_list *node, t_list **list)
 		ft_lstadd_back(list, node);
 		i++;
 	}
-	return (free(line), 1);
+	return (1);
 }
 
 int	ft_all(t_list **list, char **env, t_data	*data)
@@ -158,12 +159,14 @@ int	ft_all(t_list **list, char **env, t_data	*data)
 
 	line = NULL;
 	node = NULL;
+
 	exec = NULL;
+	ft_signal(); // check this
 	while (1)
 	{
-		ft_signal();
-		if(ft_token(line, node, list)==0)
-			return(printf("exit") , 0);
+		if(ft_token(line, node, list) == 0)
+			return(printf("exit\n"),0); // this
+		
 		if (ft_syntax_error(list) == 0)
 		{
 			ft_expand(list,  data); // fix vraiable
@@ -173,12 +176,13 @@ int	ft_all(t_list **list, char **env, t_data	*data)
 			{
 				ft_len_node_elem(list, exec);
 				ft_copy_to_list(list, exec);
-				// ft_print_var(exec);
 				if (exec->next)
-					ft_execute_pipe(*list, exec, env, data);
+					ft_execute_pipe(exec, env, data);
 				else
 					ft_execution(exec, env, data);
 			}
+			ft_lstclear_var(&exec);
+			ft_lstclear(list);
 		}
 	}
 	return 1;

@@ -1,88 +1,77 @@
 #include "minishell.h"
+#include <unistd.h>
 
-int ft_execution_(t_var *exec, char **env,  t_data *data)
+void ft_execution_(t_var *exec, char **env,  t_data *data)
 {
     char    *path;
 
     path = valid_path(exec->arg[0], env);
     if (!path)
-        return (perror("Invalid path!\n"), 0);
-    /*******************************/
+        (perror("Invalid path!\n"), exit(1));
+
     if (execve(path, exec->arg, env) == -1)
-        return (perror(exec->arg[0]), 0);
-    /*******************************/
-    return (1);
+        (perror(exec->arg[0]), exit(1));
+    
+    
 }
 
-int ft_process(t_var *exec, char **env,  t_data *data)
+
+
+int ft_process(t_var *exec, char **env, t_data *data)
 {
+    int or_in;
     int pid;
     int pipe_ends[2];
 
-    /*******************************/
-    if (pipe(pipe_ends) == -1)
-        return (perror("pipe error!\n"), 0);
-    /*******************************/
-    pid = fork();
-    if (pid == -1)
-        return (perror("fork error!\n"), 0);
-    /*******************************/
-    if (pid == 0)
+    or_in = dup(STDIN_FILENO);
+    if(or_in == -1)
+        (perror("dup error!\n"), exit(0));
+    while (exec)
     {
-        close(pipe_ends[0]);
-        if (dup2(pipe_ends[1], 1) < 0)
-            (write(2, "dup2 failed!\n", 14), exit(0)); // here too
-        ft_execution_(exec, env, data);
+        if (pipe(pipe_ends) == -1)
+           return (perror("pipe error!\n"), 0);
+        pid = fork();
+        if (pid == -1)
+	    	return (perror("fork"), 0);
+        else if (pid == 0)
+		{       
+            if(dup2(exec->f_in, 0) == -1)
+                (perror("dup2 error!\n"), exit(0));
+			if (exec->next != NULL)
+            {
+				if(dup2(pipe_ends[1], 1) == -1)
+                    (perror("dup2 error!\n"), exit(0));
+            }
+			else
+				if(dup2(exec->f_out, 1) == -1)
+                    (perror("dup2 error!\n"), exit(0));
+			close(pipe_ends[0]);
+			close(pipe_ends[1]);
+			ft_execution_(exec, env, data);
+		}
+        else
+		{
+			if(dup2(pipe_ends[0], 0) == -1)
+                (perror("dup2 error!\n"), exit(0));
+			close(pipe_ends[0]);
+			close(pipe_ends[1]);
+		}
+        exec = exec->next;
     }
-    /*******************************/
-    else
-    {
-        close(pipe_ends[1]);
-        if (dup2(pipe_ends[0], 0) < 0)
-            (write(2, "dup2 failed!\n", 14), exit(0));
-        // waitpid(pid, NULL, 0);
-    }
-    /*******************************/
-    return (1);
+    if(dup2(or_in, 0) == -1)
+        (perror("dup2 error!\n"), exit(0));
+    close(or_in);
+    return 1;
 }
 
-int ft_execute_pipe(t_list *list, t_var *exec, char **env,  t_data *data)
+void ft_execute_pipe(t_var *exec, char **env,  t_data *data)
 {
     int exit_status;
-    // int infile;
-    // int outfile;
-    int pid;
-    // int i = 0;
-
-    (void)list;
-    t_var *tmp = exec;
-    // while (tmp)
-    //     tmp = tmp->next;
-    // while (tmp->arg[i])
-    //     i++;
-
-    pid = fork();
-    if (pid == -1)
-        return (perror("fork error!\n"), 0);
-    if (pid == 0)                                                                                                                    
-    {
-        if (dup2(exec->f_in, 0) == -1)
-            (perror("dup2 error!\n"), exit(0)); // remove 0 add exit
-        // ft_execution_(exec, env, data);
-        // exec = exec->next;
-        while (exec->next)
-        {
-            ft_process(exec, env, data);
-            exec = exec->next;
-        }
-        if (dup2(exec->f_out, 1) == -1)
-            (perror("dup2 error!\n"), exit(0));// here too
-        ft_execution_(exec, env, data);
-    }
-    else
-        while(wait(&exit_status) !=  -1);
-    // }
-    // else
-    //     waitpid(pid, NULL, 0);
-    return (1);
+    
+    // ft_print_var(exec);
+    ft_process(exec, env, data);
+    
+    while(wait(NULL) != -1);
+    // sleep(100);
+    
 }

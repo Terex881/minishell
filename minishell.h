@@ -136,7 +136,7 @@ t_list	*ft_lstlast(t_list *lst);
 int     ft_isalpha(int c);
 char	*ft_strtrim(char *str, char set);
 void	ft_putstr_fd(char *s, int fd);
-void	ft_lstclear_var(t_var **exec);
+void	ft_lstclear_var(t_var **exec); 
 void	ft_varadd_back(t_var **lst, t_var *new1);
 
 //-----------------------TOKEN---------------------
@@ -180,8 +180,8 @@ int		ft_type(t_list *lst);
 
 //---------------------EXECUTION---------------------
 
-int		ft_execution(t_var *exec, char **env, t_data *data);
-int		ft_execute_pipe(t_list *list, t_var *exec, char **env,  t_data *data);
+void		ft_execution(t_var *exec, char **env, t_data *data);
+void	ft_execute_pipe(t_var *exec, char **env,  t_data *data);
 char	**ft_free(char **p, int i);
 char	**get_paths(char **env);
 char	*valid_path(char *cmd, char **env);
@@ -218,9 +218,50 @@ t_env	*ft_lstcpy_env(t_env *env);
 
 #endif
 
+// minishell : "ls" -'l''a' | echo -nnnnnnnnnnnnnnnnn
+// -nnnnnnnnnnnnnnnnn
+
+// nminishell : "ls" -'l''a' | echo -n -n
+// -nminishell : 
 
 
 
+
+// export myname=othame #should work
+// export username+=helloworld #should work
+// export user-id=456 #syntax error
+// export userid=4-3 #should work
+// export fullname="othmanebouchta" #should work && {'}
+// export 2full=fat #syntax error {the variable name should start with a character {a-z | A-Z}
+// export myname+=bouchta
+
+// #output
+// myname=othmanebouchta
+// username=helloworld
+// userid=4-3
+// fullname=othmanebouchta
+
+// #when typing `export` without argument should display the arguments in env in a sorted way and also the argument that is not in env like : [export abcdef] [export new]
+// export
+// #output {example} and sorted
+// declare -x COLORTERM="truecolor"
+// declare -x LANG="en_US.UTF-8"
+// declare -x LESS="-R"
+// declare -x abcdef
+// declare -x new
+
+
+
+// // minishell :echo k
+// // k
+// // minishell :echo k > l
+
+
+
+
+// //TO FIX !!!!!!
+// //ls > ok | cat
+// //leaks
 // echo ${USER}
 // echo $USER$'USER'"$USER"
 // echo    "'$'"
@@ -239,21 +280,4 @@ t_env	*ft_lstcpy_env(t_env *env);
 // echo "'$'"
 // echo "$USER"$"$USER"
 // echo '"$ddd     "'
-
-
-
-
-
-
-
-// minishell :echo k
-// k
-// minishell :echo k > l
-
-
-
-
-//TO FIX !!!!!!
-//ls > ok | cat
-//leaks
-//env -i ....> ls
+// //env -i ....> ls

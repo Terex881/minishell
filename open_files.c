@@ -89,7 +89,7 @@ void ft_open_her_doc(t_list **list, t_var *var, t_data *data)
 				line = readline(">");
 			}
 			free(line);
-			close(var->f_in);
+			close(var->f_in);// check this
 			var->f_in = open("test", O_RDONLY);
 		}
 		tmp = tmp->next;

@@ -89,21 +89,21 @@ int check_builtin(t_var *exec, char **env, t_data *data)
     return (0);
 }
 
-int ft_execution(t_var *exec, char **env,  t_data *data)
+void ft_execution(t_var *exec, char **env,  t_data *data)
 {
     char    *path;
     pid_t   pid;
 
     if (exec->arg[0] == NULL)
-        return (0);
+        return ;
     if (check_builtin(exec, env, data))
-        return (1);
+        return ;
     path = valid_path(exec->arg[0], env);
     if (!path)
-        return (perror(exec->arg[0]), 0);
+        return (perror(exec->arg[0]));
     pid = fork();
     if (pid == -1)
-        return (perror("fork error!\n"), 0);
+        return (perror("fork error!\n"));
     if (pid == 0)
     {
         if (dup2(exec->f_in, 0) == -1)
@@ -115,8 +115,20 @@ int ft_execution(t_var *exec, char **env,  t_data *data)
     }
     else
         waitpid(pid, NULL, 0);
-    // while (i < )
-    //     wait(&status);
-    return (free(path), 1);
+    while(exec->f_out > 2)
+    {
+        // printf("------>%d\n", exec->f_out);
+        close(exec->f_out);
+        exec->f_out--;
+        // printf("====>%d\n", exec->f_out);
+    }
+    while(exec->f_in > 2)
+    {
+        // printf("------>%d\n", exec->f_in);
+        close(exec->f_in);
+        exec->f_in--;
+        // printf("====>%d\n", exec->f_in);
+    }
+    return (free(path));
 }
 

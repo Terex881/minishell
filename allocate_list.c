@@ -18,6 +18,7 @@ void	ft_print_var(t_var *list)
 		}
 		list = list->next;
 	}
+	printf("-----------------------------------------------------------------------------------------------\n");
 }
 
 t_var	*ft_allocate_list(t_list **list)
