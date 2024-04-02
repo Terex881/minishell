@@ -16,7 +16,7 @@ OBJ = main.o                tokenizer.o             syntax_error.o expand.o \
     echo.o                  exit.o                  export.o\
     execution_pipe.o\
 
-CC = cc -g -fsanitize=address
+CC = cc #-g -fsanitize=address
 # FLAGS = -Wall -Werror -Wextra
 
 READLINE_INC = -I$(shell brew --prefix readline)/include
