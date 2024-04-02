@@ -36,10 +36,10 @@ t_env	*ft_lstfind_env(t_env **env, char *line, char *new_line)
         {
             if (!new_line || !*new_line)
                 return (tmp);
-            // free(tmp -> line); // ++>
+            free(tmp -> line); // ++>
             tmp -> line = ft_strdup(new_line);
             // tmp -> line = ft_strdup(new_line);
-            // free(new_line);
+            free(new_line);
             return (tmp);
         }
         tmp = tmp -> next;
@@ -55,7 +55,7 @@ char	*ft_get_line(t_data *data, char *line, int i)
 	while (tmp)
 	{
 		if (ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0)
-			return (tmp->line +i + 1); // added this line
+			return (ft_strdup(tmp->line + i + 1)); // added this line
 			// return (tmp->line + i); 
 		tmp = tmp->next;
 	}
@@ -225,7 +225,7 @@ t_env   *ft_get_env(t_data **data, char **env)
 	}
     while (*env)
 	{
-		ft_lstadd_back_env(&p, ft_lstnew_env(*env));
+		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup(*env)));
 		env++;
 	}
 	(*data)->env = p;
