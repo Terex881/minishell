@@ -11,20 +11,22 @@ char **ft_free(char **p, int i)
 	return (NULL);
 }
 
-char **get_paths(char **env)
+char **get_paths(char *path)
 {
-    int     i;
+    // int     i;
     int     j;
     char    *tmp;
     char    **paths;
 
-    i = 0;
+    // i = 0;
     j = 0;
-    while (ft_strncmp(env[i], "PATH=", 5))
-        i++;
-    while (env[i][j] != '\n' && env[i][j] != '\0')
+    if (!path)
+        return (NULL);
+    // while (ft_strncmp(tmp_env->line, "PATH=", 5))
+    //     tmp_env = tmp_env->next;
+    while (path[j] != '\n' && path[j] != '\0')
         j++;
-    tmp = ft_substr(env[i], 5, --j);
+    tmp = ft_substr(path, 5, --j);
     if (!tmp)
         return (NULL);
     paths = ft_split(tmp, ':');
@@ -34,7 +36,7 @@ char **get_paths(char **env)
     return (paths);
 }
 
-char *valid_path(char *cmd, char **env)
+char *valid_path(char *cmd, char *line)
 {
     int     i;
     char    *path;
@@ -43,9 +45,9 @@ char *valid_path(char *cmd, char **env)
 
     if (!access(cmd, F_OK | X_OK))
         return (ft_strdup(cmd));
-    paths = get_paths(env);
+    paths = get_paths(line);
     if (!paths)
-        return (perror("env failed!"), NULL);
+        return (NULL);
     i = 0;
     while (paths[i])
     {
@@ -61,7 +63,7 @@ char *valid_path(char *cmd, char **env)
     return (free(paths), NULL);
 }
 
-int check_builtin(t_var *exec, char **env, t_data *data)
+int check_builtin(t_var *exec, t_data *data)
 {
     
     if (!ft_strncmp(exec->arg[0], "echo", 5))
@@ -70,7 +72,7 @@ int check_builtin(t_var *exec, char **env, t_data *data)
         return (ft_pwd(exec, data->env), 1);
     if (!ft_strncmp(exec->arg[0], "cd", 3))
     {
-        ft_export(exec, data, "OLDPWD=", env);//🌸to put back oldpwd
+        ft_export(exec, data, "OLDPWD=");//🌸to put back oldpwd
         return (ft_cd(exec->arg[1], data), 1);
     }
     if (!ft_strncmp(exec->arg[0], "env", 4))
@@ -81,7 +83,7 @@ int check_builtin(t_var *exec, char **env, t_data *data)
 			return (ft_env(exec, data), 1);
 	}
     if (!ft_strncmp(exec->arg[0], "export", 7))
-        return (ft_export(exec, data, exec->arg[1], env), 1);
+        return (ft_export(exec, data, exec->arg[1]), 1);
     if (!ft_strncmp(exec->arg[0], "unset", 6))
         return (ft_unset(exec, data, exec->arg[1]), 1);
     if (!ft_strncmp(exec->arg[0], "exit", 5))
@@ -89,16 +91,31 @@ int check_builtin(t_var *exec, char **env, t_data *data)
     return (0);
 }
 
-void ft_execution(t_var *exec, char **env,  t_data *data)
+int ft_execve(char *path, t_var *exec, t_data *data)
+{
+    t_env *tmp;
+
+	tmp = data->env;
+    while (execve(path, exec->arg, &tmp->line) == -1)
+		tmp = tmp->next;
+    if (execve(path, exec->arg, &tmp->line) == -1)
+        return (perror(tmp->line), 0);
+    return (-1);
+}
+
+void ft_execution(t_var *exec, t_data *data)
 {
     char    *path;
     pid_t   pid;
 
     if (exec->arg[0] == NULL)
         return ;
-    if (check_builtin(exec, env, data))
+    if (check_builtin(exec, data))
         return ;
-    path = valid_path(exec->arg[0], env);
+    // if (ft_strncmp(exec->arg[0], "exit", 5) == 0)
+    //     path = valid_path(exec->arg[0], data->spath);
+    // else
+        path = valid_path(exec->arg[0], data->path);
     if (!path)
         return (perror(exec->arg[0]));
     pid = fork();
@@ -110,7 +127,7 @@ void ft_execution(t_var *exec, char **env,  t_data *data)
             (perror("dup2 error!\n"), exit(0));
         if (dup2(exec->f_out, 1) == -1)
             (perror("dup2 error!\n"), exit(0)); // remove return and add exit(0)
-        if (execve(path, exec->arg, env) == -1)
+        if (ft_execve(path, exec, data) == -1)
             (perror(exec->arg[0]), exit(0));
     }
     else
