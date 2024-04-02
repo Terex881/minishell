@@ -148,6 +148,7 @@ int ft_token(char *line, t_list *node, t_list **list)
 		ft_lstadd_back(list, node);
 		i++;
 	}
+	free(line);
 	return (1);
 }
 
@@ -166,7 +167,7 @@ int	ft_all(t_list **list, char **env, t_data	*data)
 	{
 		if(ft_token(line, node, list) == 0)////Process 11421: 98 leaks for 3136 total leaked bytes.
 		{
-			// ft_lstclear(list);
+			ft_lstclear(list);
 			ft_lstclear_env(&data->env);
 			free(data->path);
 			free(data);
