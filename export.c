@@ -53,10 +53,13 @@ static void	ft_error_export(char *line)
 static int	ft_valid_export(char *line)
 {
 	int i = 0;
+	char *name;
 
 	if (line[0] == '=' || line[0] == '+' || (line[0] >= '0' && line[0] <= '9'))
 	{
-		ft_error_export(ft_var_name(line));
+		name = ft_var_name(line);
+		ft_error_export(name);
+		free(name);
 		return (0);
 	}
 	if (ft_valid_char(line[i]))
@@ -65,7 +68,9 @@ static int	ft_valid_export(char *line)
 	{
 		if (!ft_valid_char(line[i]) && line[i] != '=' && line[i] != '+')
 		{
-			ft_error_export(ft_var_name(line));
+			name = ft_var_name(line);
+			ft_error_export(name);
+			free(name);
 			return (0);
 		}
 		i++;
@@ -73,7 +78,7 @@ static int	ft_valid_export(char *line)
 	return (1);
 }
 
-static int	ft_export_no_args(t_data *data, char *line, char **env)
+static int	ft_export_no_args(t_data *data, char *line)
 {
 	t_env *env_cpy;
 
@@ -87,12 +92,13 @@ static int	ft_export_no_args(t_data *data, char *line, char **env)
 	return (0);
 }
 
-void	ft_export(t_var *exec, t_data *data, char *line, char **env)
+void	ft_export(t_var *exec, t_data *data, char *line)
 {
 	char *tmp;
 	char *var;
+	char *name;
 
-	if (ft_export_no_args(data, line, env))
+	if (ft_export_no_args(data, line))
 		return ;
 	if (!ft_valid_export(line))
 		return ;
@@ -100,16 +106,18 @@ void	ft_export(t_var *exec, t_data *data, char *line, char **env)
 	var = NULL;
 	if (tmp)
 	{
-		if (ft_lstfind_env(&data->env, ft_var_name(line), NULL))
-			var = ft_lstfind_env(&data->env, ft_var_name(line), NULL)->line;
+		name = ft_var_name(line);
+		if (ft_lstfind_env(&data->env, name, NULL))
+			var = ft_lstfind_env(&data->env, name, NULL)->line;
 		if (!var && !ft_strncmp(tmp - 1, "+=", 2))
 			ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(ft_remove_plus(line))));
 		else if (var && !ft_strncmp(tmp - 1, "+=", 2))
-			ft_lstfind_env(&data->env, ft_var_name(line), ft_strjoin(var, tmp + 1));
+			ft_lstfind_env(&data->env, name, ft_strjoin(var, tmp + 1));
 		else if (var)
-			ft_lstfind_env(&data->env, ft_var_name(line), line);
+			ft_lstfind_env(&data->env, name, line);
 		else
 			ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(line)));
+		free(name);
 	}
 	else if (ft_strchr(line, '+'))
 		ft_error_export(line);
