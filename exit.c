@@ -33,12 +33,11 @@ void	ft_exit(t_var *exec, t_data **data, char **arg)
 {
     int valid = 1;
     long long n;
-	(void)data;
 
 	// clear data before exit
-	// ft_lstclear_env(&(*data)->env);
-	// free((*data)->path);
-	// free(*data);
+	ft_lstclear_env(&(*data)->env);
+	free((*data)->path);
+	free(*data);
     // printf("-- > %s    %d   %lld\n", arg, valid, n);
 	write(exec->f_out, "exit\n", 5);
     if (!arg || !arg[1])
