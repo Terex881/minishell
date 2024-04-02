@@ -1,23 +1,25 @@
 #include "minishell.h"
 #include <unistd.h>
 
-void ft_execution_(t_var *exec, char **env,  t_data *data)
+int ft_execution_(t_var *exec, t_data *data)
 {
     char    *path;
+	t_env *tmp;
 
-    path = valid_path(exec->arg[0], env);
+	tmp = data->env;
+    path = valid_path(exec->arg[0], data->path);
     if (!path)
         (perror("Invalid path!\n"), exit(1));
-
-    if (execve(path, exec->arg, env) == -1)
+	while (execve(path, exec->arg, &tmp->line) == -1)
+		tmp = tmp->next;
+    if (execve(path, exec->arg, &tmp->line) == -1)
         (perror(exec->arg[0]), exit(1));
-    
-    
+    return (1);   
 }
 
 
 
-int ft_process(t_var *exec, char **env, t_data *data)
+int ft_process(t_var *exec, t_data *data)
 {
     int or_in;
     int pid;
@@ -47,7 +49,7 @@ int ft_process(t_var *exec, char **env, t_data *data)
                     (perror("dup2 error!\n"), exit(0));
 			close(pipe_ends[0]);
 			close(pipe_ends[1]);
-			ft_execution_(exec, env, data);
+			ft_execution_(exec, data);
 		}
         else
 		{
@@ -64,12 +66,12 @@ int ft_process(t_var *exec, char **env, t_data *data)
     return 1;
 }
 
-void ft_execute_pipe(t_var *exec, char **env,  t_data *data)
+void ft_execute_pipe(t_var *exec, t_data *data)
 {
     int exit_status;
     
     // ft_print_var(exec);
-    ft_process(exec, env, data);
+    ft_process(exec, data);
     
     while(wait(NULL) != -1);
     // sleep(100);
