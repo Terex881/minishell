@@ -164,8 +164,14 @@ int	ft_all(t_list **list, char **env, t_data	*data)
 	ft_signal(); // check this
 	while (1)
 	{
-		if(ft_token(line, node, list) == 0)
-			return(printf("exit\n"),0); // this
+		if(ft_token(line, node, list) == 0)////Process 11421: 98 leaks for 3136 total leaked bytes.
+		{
+			// ft_lstclear(list);
+			ft_lstclear_env(&data->env);
+			free(data->path);
+			free(data);
+			return(printf("exit"), 0);// this
+		}
 		
 		if (ft_syntax_error(list) == 0)
 		{
@@ -177,9 +183,9 @@ int	ft_all(t_list **list, char **env, t_data	*data)
 				ft_len_node_elem(list, exec);
 				ft_copy_to_list(list, exec);
 				if (exec->next)
-					ft_execute_pipe(exec, env, data);
+					ft_execute_pipe(exec, data);
 				else
-					ft_execution(exec, env, data);
+					ft_execution(exec, data);
 			}
 			ft_lstclear_var(&exec);
 			ft_lstclear(list);
