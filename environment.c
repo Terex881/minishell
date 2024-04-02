@@ -37,7 +37,7 @@ t_env	*ft_lstfind_env(t_env **env, char *line, char *new_line)
             if (!new_line || !*new_line)
                 return (tmp);
             free(tmp -> line); // ++>
-            tmp -> line = ft_strdup(new_line);
+            tmp -> line = ft_strdup(new_line);//add protection for strdup
             // tmp -> line = ft_strdup(new_line);
             free(new_line);
             return (tmp);
@@ -55,7 +55,7 @@ char	*ft_get_line(t_data *data, char *line, int i)
 	while (tmp)
 	{
 		if (ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0)
-			return (ft_strdup(tmp->line + i + 1)); // added this line
+			return (ft_strdup(tmp->line + i + 1)); // add protection for strdup
 			// return (tmp->line + i); 
 		tmp = tmp->next;
 	}
@@ -94,7 +94,7 @@ t_env	*ft_lstcpy_env(t_env *env)
 	copy = NULL;
 	while (env)
 	{
-		tmp = ft_lstnew_env(ft_strdup(env -> line));
+		tmp = ft_lstnew_env(ft_strdup(env -> line));//add protection for strdup and lstnew
 		if (!tmp)
 		{
 			ft_lstclear_env(&copy);
@@ -104,6 +104,20 @@ t_env	*ft_lstcpy_env(t_env *env)
 		env = env -> next;
 	}
 	return (copy);
+}
+
+void	ft_print_export(t_var *exec, t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		ft_putstr_fd("declare -x ", exec->f_out);
+		ft_putstr_fd(tmp->line, exec->f_out);
+		ft_putstr_fd("\n", exec->f_out);
+		tmp = tmp -> next;
+	}
 }
 
 t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *))
@@ -128,46 +142,10 @@ t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *))
 			}
 			t = t -> next;
 		}
-		// printf("declare -x %s\n", tmp -> line);
-		tmp = tmp -> next;
-	}
-	tmp = env;
-	while (tmp)
-	{
-		printf("declare -x %s\n", tmp -> line);
 		tmp = tmp -> next;
 	}
 	return (env);
 }
-// t_env	*sort_list_env(t_env *env, int (*cmp)(char *, char *))
-// {
-// 	t_env	*tmp;
-// 	t_env	*t;
-// 	char	*m;
-
-// 	if (!env || !cmp)
-// 		return ((t_env *){0});
-// 	tmp = env;
-// 	while (tmp -> next)
-// 	{
-// 		t = tmp -> next;
-// 		while (t -> next)
-// 		{
-// 			if (cmp(tmp -> line, t -> line) > 0)
-// 			{
-// 				m = tmp -> line;
-// 				tmp -> line = t -> line;
-// 				t -> line = m;
-// 				// (1) && (t -> line = ft_strdup(m), free(m));
-
-// 			}
-// 			t = t -> next;
-// 		}
-// 		printf("declare -x %s\n", tmp -> line);
-// 		tmp = tmp -> next;
-// 	}
-// 	return (env);
-// }
 
 void	ft_lstdelone_env(t_env *env)
 {
@@ -197,14 +175,6 @@ void	ft_lstclear_env(t_env **env)
 	}
 }
 
-// int ft_size_env(char **env)
-// {
-//     int i = 0;
-//     while (env[i])
-//         i++;
-//     return (i);
-// }
-
 t_env   *ft_get_env(t_data **data, char **env)
 {
     t_env   *p;
@@ -216,8 +186,8 @@ t_env   *ft_get_env(t_data **data, char **env)
 
 	if (!env || !*env)
 	{
-		p = ft_lstnew_env(ft_strjoin("PWD=", getcwd(NULL, 0)));
-		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));
+		p = ft_lstnew_env(ft_strjoin("PWD=", getcwd(NULL, 0)));//add malloc protection!!!
+		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));//same here
 		// ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("_=/usr/bin/env")));
 		(*data)->env = p;
 		(*data)->path = ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
@@ -225,25 +195,10 @@ t_env   *ft_get_env(t_data **data, char **env)
 	}
     while (*env)
 	{
-		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup(*env)));
+		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup(*env)));//add protection for lstnew 
 		env++;
 	}
 	(*data)->env = p;
 	(*data)->path = ft_get_line((*data), "PATH", 5);
     return (p);
 }
-
-
-// int main(int ac, char **av, char **env)
-// {
-//     t_env *p;
-//     int i = 0;
-//     p = ft_get_env(env);
-//     while (p)
-//     {
-//         printf("%s\n", p->line);
-//         p = p->next;
-//     }
-//     ft_lstclear_env(&p);
-//     return (0);
-// }
