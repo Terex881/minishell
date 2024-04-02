@@ -198,6 +198,13 @@ void	ft_export(t_var *exec, t_data *data, char *line);
 void	ft_unset(t_var *exec, t_data *data, char *line);
 void	ft_exit(t_var *exec, t_data **data, char **arg);
 
+//------------------BUILTS_IN_UTILS--------------------
+
+char	*ft_var_name(char *line);
+char	*ft_remove_plus(char *line);
+int		ft_valid_char(char c);
+void	ft_print_export(t_var *exec, t_env *env);
+
 //---------------------SIGNALS---------------------
 
 void	ft_signal();
