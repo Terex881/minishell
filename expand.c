@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 char	*ft_sub_variable(char *str, int *i)
 {
 	int	j;
@@ -23,8 +22,7 @@ char *ft_search_var(char *str, t_data *data)
 	if(!str[i])
 		return (ft_strdup(""));
 	while(str[i])
-	{
-			
+	{	
 		if(str[i] == '$' && ft_isalpha(str[i+1]) == 0)
 			(fin = ft_charjoin(fin,str[i]), i++); // for 'ECURITYSESSIONID=186a8'
 		if (str[i] == '$')
@@ -49,7 +47,6 @@ int ft_chck_if_herdoc(t_list **list)
 		tmp = tmp->next;
 	}
 	return (0);
-
 }
 
 void	ft_expand(t_list **list, t_data *data)
@@ -62,8 +59,6 @@ void	ft_expand(t_list **list, t_data *data)
 	{
 		if(!ft_chck_if_herdoc(list))
 		{
-	
-
 			if(tmp->type == D_Q || tmp->type == VARIABLE)
 				tmp->value = ft_search_var(tmp->value, data);
 			else if(tmp->next && !ft_strcmp(tmp->value , "$") && !ft_type(tmp->next))
@@ -78,15 +73,17 @@ void	ft_expand(t_list **list, t_data *data)
 char	*ft_charjoin(char const *s1, char s2)
 {
 	char	*x;
-	int i;
-	
+	int		i;
+
 	i = 0;
 	if (!s1)
 	{
 		x = malloc(2);
+		if(!x)
+			return (NULL);
 		x[i] = s2;
-		x[i+1] = '\0';
-		return x;
+		x[i + 1] = '\0';
+		return (x);
 	}
 	x = malloc(ft_strlen(s1) + 2);
 	if (!x)
@@ -97,16 +94,15 @@ char	*ft_charjoin(char const *s1, char s2)
 		i++;
 	}
 	x[i] = s2;
-	x[i+1]= '\0';
+	x[i + 1]= '\0';
 	return (x);
 }
 
-
-char *ft_expand_her_doc(char *str, t_data *data)
+char	*ft_expand_her_doc(char *str, t_data *data)
 {
-	int i;
-	char *ret;
-	char *fin;
+	int		i;
+	char	*ret;
+	char	*fin;
 
 	ret = NULL;
 	fin = NULL;

@@ -1,11 +1,10 @@
 #include "minishell.h"
 
-
 int ft_IN_OUT(t_list *tmp, t_var *var)
 {
-	char *name;
+	char	*name;
 
-	name = ft_file_name(tmp->next);
+	name = ft_varjoin(&tmp->next);
 	if (tmp->type == R_IN)
 	{
 		var->f_in = open(name, O_RDWR);
@@ -26,7 +25,7 @@ int ft_IN_OUT(t_list *tmp, t_var *var)
 int	ft_open_files(t_list **list, t_var *var)
 {
 	t_list	*tmp;
-	int check;
+	int		check;
 
 	tmp = *list;
 	while (tmp)
@@ -44,53 +43,64 @@ int	ft_open_files(t_list **list, t_var *var)
 	return (0);
 }
 
-char	*ft_lim_name(t_list *tmp)
-{
-	char	*name;
+// char	*ft_lim_name(t_list *tmp)
+// {
+// 	char	*name;
 
-	if (!tmp)
-		return (NULL);
-	if (tmp->next && tmp->type == SPACE_)
+// 	if (!tmp)
+// 		return (NULL);
+// 	if (tmp->next && tmp->type == SPACE_)
+// 	{
+// 		tmp->next->skip = true;
+// 		name = tmp->next->value;
+// 	}
+// 	else
+// 	{
+// 		tmp->skip = true;
+// 		name = tmp->value;
+// 	}
+// 	return (name);
+// }
+
+
+void ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
+{
+	char	*line;
+	char	*limter;
+
+
+	line = readline(">");
+	limter = ft_varjoin(&tmp->next);
+	while (line)
 	{
-		tmp->next->skip = true;
-		name = tmp->next->value;
+		if (!ft_strcmp(limter, line))
+			break;
+		if(ft_type(ff(tmp->next)) != 1)
+			line = ft_expand_her_doc(line, data);
+		write(exec->f_in, line, ft_strlen(line));
+		write(exec->f_in, "\n", 1);
+		free(line);
+		line = readline(">");
 	}
-	else
-	{
-		tmp->skip = true;
-		name = tmp->value;
-	}
-	return (name);
+	close(exec->f_in);// check this
+	exec->f_in = open("/tmp/test", O_RDONLY);
 }
 
-void ft_open_her_doc(t_list **list, t_var *var, t_data *data)
+
+void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data)
 {
 	t_list	*tmp;
-	char	*line;
 
 	tmp = *list;
 	while (tmp)
 	{
 		if (tmp->type == PIPE)
-			var = var->next;		
+			exec = exec->next;	
 		if(tmp->type == HER_DOC)
 		{
 			tmp->skip = true;
-			var->f_in = open("test", O_CREAT | O_RDWR | O_TRUNC, 0644); // hide this file
-			line = readline(">");
-			while (line)
-			{
-				if (ft_strcmp(ft_lim_name(tmp->next), line) == 0)
-					break;
-				if(ft_type(tmp->next) != 3 && ft_type(tmp->next->next) != 3)
-					line = ft_expand_her_doc(line, data);
-				write(var->f_in, line, ft_strlen(line));
-				write(var->f_in, "\n", 1);
-				line = readline(">");
-			}
-			free(line);
-			close(var->f_in);// check this
-			var->f_in = open("test", O_RDONLY);
+			exec->f_in = open("/tmp/test", O_CREAT | O_RDWR | O_TRUNC, 0644); // hide this file
+			ft_read_herdoc(tmp, exec, data);
 		}
 		tmp = tmp->next;
 	}

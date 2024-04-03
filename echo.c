@@ -24,6 +24,8 @@ void	ft_echo(char **arg, t_var *exec)
 
 	i = 0;
 	n = 0;
+	printf("arg : %p\n", arg);
+	printf("*arg : %p\n", *arg);
 	if (!arg || !*arg)
 		return ((void)write(exec->f_out, "\n", 1));
 	if (check_n(arg[0]))

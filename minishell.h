@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <sys/signal.h>
+#include <termios.h>
 
 // syscall
 
@@ -115,6 +116,8 @@ typedef struct s_var1
 	char	*tmp;
 }	t_var1;
 
+struct    termios original_terminos;
+
 //-----------------------LIBFT---------------------
 
 char	*ft_substr(const char *str, unsigned int start, size_t len);;
@@ -146,7 +149,7 @@ t_list	*ft_add_special_character(t_list *node, char *c, int *i);
 t_list	*ft_add_douple_single(char *line, int *i, t_list *node);
 t_list	*ft_add_word(char *line, int *i, t_list *node);
 int	ft_token(char *line, t_list *node, t_list **list);
-int	ft_all(t_list **list, char **env, t_data	*data);
+int	ft_all(t_list **list, t_env *env, t_data	*data);
 void	ft_print(t_list *list);
 t_list *ft_add_var(char *line, int *i, t_list *node);
 
@@ -180,12 +183,14 @@ int		ft_type(t_list *lst);
 
 //---------------------EXECUTION---------------------
 
-void		ft_execution(t_var *exec, t_data *data);
-void ft_execute_pipe(t_var *exec, t_data *data);
+void		ft_execution(t_var *exec, t_data *data, t_env *env);
+void ft_execute_pipe(t_var *exec, t_data *data, t_env *env);
 char	**ft_free(char **p, int i);
 char **get_paths(char *path);
 char *valid_path(char *cmd, char *line);
 int check_builtin(t_var *exec, t_data *data);
+
+char **ft_cpy_to_2d(t_env *tmp);
 
 //---------------------BUILTS_IN---------------------
 
@@ -220,6 +225,9 @@ t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *));
 t_env	*ft_lstlast_env(t_env *env);
 t_env	*ft_lstnew_env(char *line);
 t_env	*ft_lstcpy_env(t_env *env);
+
+t_list	*ff(t_list *tmp);
+int	ft_lstsize_env(t_env *env);
 
 
 

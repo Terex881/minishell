@@ -18,7 +18,7 @@ void	ft_print_var(t_var *list)
 		}
 		list = list->next;
 	}
-	printf("-----------------------------------------------------------------------------------------------\n");
+	printf("----------------------------\n");
 }
 
 t_var	*ft_allocate_list(t_list **list)
@@ -36,12 +36,7 @@ t_var	*ft_allocate_list(t_list **list)
 	while (tmp)
 	{
 		if (tmp->type == PIPE)// check if pipe is true or false
-		{
-			tmp->skip =true; //
-			n++;
-		}
-		// if (tmp->type == SPACE_ && tmp->skip == false)
-		// 	tmp->skip = true;
+			(tmp->skip =true, n++);
 		tmp = tmp->next;
 	}
 	while (i < n)
@@ -60,33 +55,20 @@ char	*ft_file_name(t_list *tmp)
 {
 	char *str;
 
-	// if (tmp->type == SPACE_)
-	// 	tmp = tmp->next;
-	str = tmp->value;
+	// // if (tmp->type == SPACE_)
+	// // 	tmp = tmp->next;
+	// str = tmp->value;
 
-	while (tmp && tmp->next && !tmp->next->skip)
-	{
-		str = ft_strjoin(str, tmp->next->value);
-		tmp->skip = true;
-		tmp = tmp->next;
-	}
-	tmp->skip = true;
+	// while (tmp && tmp->next && !tmp->next->skip)
+	// {
+	// 	str = ft_strjoin(str, tmp->next->value);
+	// 	tmp->skip = true;
+	// 	tmp = tmp->next;
+	// }
+	// tmp->skip = true;
 	return str;
 }
-t_var	*ft_varnew(void *value)
-{
-	t_var	*node;
-	(void)value;
 
-	node = malloc(sizeof(t_var));
-	if (!node)
-		return (NULL);
-	node->f_in = 0; // move this function
-	node->f_out = 1;
-	node->arg = NULL;
-	node->next = NULL;
-	return (node);
-}
 void	ft_len_node_elem(t_list **list, t_var *exec)
 {
 	t_list	*tmp;
@@ -98,9 +80,6 @@ void	ft_len_node_elem(t_list **list, t_var *exec)
 	tmp = *list;
 	while (tmp && tmp->type != PIPE)
 	{
-		// while(tmp && tmp->next &&  tmp->next->skip == false)
-		// 	tmp =  tmp->next;
-		// 		tmp->skip = false;
 		if (tmp->type == SPACE_)
 			tmp->skip = true;
 		if (tmp && tmp->skip == false)
@@ -110,24 +89,24 @@ void	ft_len_node_elem(t_list **list, t_var *exec)
 	exec->arg = malloc(sizeof(char *) * (n + 1)); // check this
 	if(!exec->arg)
 		return ;
-	// exec->arg[n] = NULL;
 }
 char	*ft_varjoin(t_list **tmp)
 {
-	char *str;
+	char	*str;
 
 	str = (*tmp)->value;
-	while (*tmp && (*tmp)->next && (*tmp)->next->skip == false)
+	while (*tmp && (*tmp)->next && (*tmp)->next->skip == false && ft_type((*tmp)->next) != 2)
 	{
 		// free(str);
 		str = ft_strjoin(str, (*tmp)->next->value);
 		(*tmp)->skip = true;
 		*tmp = (*tmp)->next;
 	}
-	return str;
+	(*tmp)->skip = true; //
+	return (str);
 }
 
-void ft_copy_to_list(t_list **list, t_var *exec)
+void	ft_copy_to_list(t_list **list, t_var *exec)
 {
 	t_list	*tmp;
 	int		i;

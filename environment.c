@@ -1,17 +1,7 @@
 #include "minishell.h"
 
 
-t_env	*ft_lstnew_env(char *line)
-{
-	t_env	*p;
 
-	p = (t_env *)malloc(sizeof (t_env));
-	if (!p)
-		return (NULL);
-	p -> line = line;
-	p -> next = NULL;
-	return (p);
-}
 
 t_env	*ft_lstlast_env(t_env *env)
 {
@@ -62,29 +52,21 @@ char	*ft_get_line(t_data *data, char *line, int i)
 	return (NULL);
 }
 
-void	ft_lstadd_back_env(t_env **env, t_env *new)
+
+
+int	ft_lstsize_env(t_env *env)
 {
-	if (env)
+	int		count;
+
+	count = 0;
+	while (env)
 	{
-		if (*env && new)
-			ft_lstlast_env(*env)-> next = new;
-		else if (new)
-			*env = new;
+		count++;
+		env = env->next;
 	}
+	// printf("len is : %d\n", count);
+	return (count);
 }
-
-// int	ft_lstsize_env(t_env *env)
-// {
-// 	int		count;
-
-// 	count = 0;
-// 	while (env)
-// 	{
-// 		env = env -> next;
-// 		count++;
-// 	}
-// 	return (count);
-// }
 
 t_env	*ft_lstcpy_env(t_env *env)
 {

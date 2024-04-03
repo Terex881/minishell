@@ -122,6 +122,20 @@ t_list	*ft_add_word(char *line, int *i, t_list *node)
 	node->type = WORD;
 	return (node);
 }
+
+void ft_skip_space(t_list **list)
+{
+	t_list *tmp;
+	tmp =* list;
+	while (tmp && tmp->next && tmp->next->next)
+		tmp = tmp->next;
+
+	if(tmp && tmp->next && tmp->next->type == SPACE_ && tmp->next->next == NULL)
+	{
+		free(tmp->next);
+		tmp->next = NULL;
+	}
+}
 int ft_token(char *line, t_list *node, t_list **list)
 {
 	int i;
@@ -129,7 +143,6 @@ int ft_token(char *line, t_list *node, t_list **list)
 	node = NULL;
 	*list = NULL;
 	i = 0;
-
 	line = readline("minishell : ");
 	if (line == NULL)
 		return (0);
@@ -148,11 +161,28 @@ int ft_token(char *line, t_list *node, t_list **list)
 		ft_lstadd_back(list, node);
 		i++;
 	}
-	free(line);
+		
 	return (1);
 }
+void ft_close(t_var *exec)
+{
+	while(exec)
+	{
 
-int	ft_all(t_list **list, char **env, t_data	*data)
+		while(exec->f_out > 2)
+    	{
+    	    close(exec->f_out);
+    	    exec->f_out--;
+    	}
+    	while(exec->f_in > 2)
+    	{
+    	    close(exec->f_in);
+    	    exec->f_in--;
+    	}
+		exec = exec->next;
+	}
+}
+int	ft_all(t_list **list, t_env *env, t_data *data)
 {
 	t_list	*node;
 	t_var	*exec;
@@ -160,7 +190,6 @@ int	ft_all(t_list **list, char **env, t_data	*data)
 
 	line = NULL;
 	node = NULL;
-
 	exec = NULL;
 	ft_signal(); // check this
 	while (1)
@@ -173,7 +202,7 @@ int	ft_all(t_list **list, char **env, t_data	*data)
 			free(data);
 			return(printf("exit"), 0);// this
 		}
-		
+		ft_skip_space(list);
 		if (ft_syntax_error(list) == 0)
 		{
 			ft_expand(list,  data); // fix vraiable
@@ -184,10 +213,11 @@ int	ft_all(t_list **list, char **env, t_data	*data)
 				ft_len_node_elem(list, exec);
 				ft_copy_to_list(list, exec);
 				if (exec->next)
-					ft_execute_pipe(exec, data);
+					ft_execute_pipe(exec, data, env);
 				else
-					ft_execution(exec, data);
+					ft_execution(exec, data, env);
 			}
+			ft_close(exec);
 			ft_lstclear_var(&exec);
 			ft_lstclear(list);
 		}

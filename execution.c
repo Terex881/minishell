@@ -65,7 +65,7 @@ char *valid_path(char *cmd, char *line)
 
 int check_builtin(t_var *exec, t_data *data)
 {
-    if (!ft_strncmp(exec->arg[0], "echo", 5))
+    if (exec->arg && !ft_strncmp(exec->arg[0], "echo", 5))
         return (ft_echo(exec->arg + 1, exec), 1);
     if (!ft_strncmp(exec->arg[0], "pwd", 4))
         return (ft_pwd(exec, data->env), 1);
@@ -90,22 +90,23 @@ int check_builtin(t_var *exec, t_data *data)
     return (0);
 }
 
-int ft_execve(char *path, t_var *exec, t_data *data)
-{
-    t_env *tmp;
+// int ft_execve(char *path, t_var *exec, t_data *data)
+// {
+//     t_env *tmp;
 
-	tmp = data->env;
-    while (execve(path, exec->arg, &tmp->line) == -1)
-		tmp = tmp->next;
-    if (execve(path, exec->arg, &tmp->line) == -1)
-        return (perror(tmp->line), 0);
-    return (-1);
-}
+// 	tmp = data->env;
+//     while (execve(path, exec->arg, &tmp->line) == -1)
+// 		tmp = tmp->next;
+//     if (execve(path, exec->arg, &tmp->line) == -1)
+//         return (perror(tmp->line), 0);
+//     return (-1);
+// }
 
-void ft_execution(t_var *exec, t_data *data)//int to return error
+void ft_execution(t_var *exec, t_data *data, t_env *env)//int to return error
 {
     char    *path;
     pid_t   pid;
+    char **new_env = ft_cpy_to_2d(env);
 
     if (exec->arg[0] == NULL)
         return ;
@@ -123,25 +124,12 @@ void ft_execution(t_var *exec, t_data *data)//int to return error
             (perror("dup2 error!\n"), exit(0));
         if (dup2(exec->f_out, 1) == -1)
             (perror("dup2 error!\n"), exit(0)); // remove return and add exit(0)
-        if (ft_execve(path, exec, data) == -1)
+        if (execve(path, exec->arg, new_env) == -1)
             (perror(exec->arg[0]), exit(0));
     }
     else
         waitpid(pid, NULL, 0);
-    while(exec->f_out > 2)
-    {
-        // printf("------>%d\n", exec->f_out);
-        close(exec->f_out);
-        exec->f_out--;
-        // printf("====>%d\n", exec->f_out);
-    }
-    while(exec->f_in > 2)
-    {
-        // printf("------>%d\n", exec->f_in);
-        close(exec->f_in);
-        exec->f_in--;
-        // printf("====>%d\n", exec->f_in);
-    }
+
     return (free(path));
 }
 
