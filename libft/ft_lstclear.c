@@ -33,7 +33,9 @@ void	ft_lstclear_env(t_env **env)
 		while (*env)
 		{
 			p = (*env)-> next;
-			ft_lstdelone_env(*env);
+			// ft_lstdelone_env(*env);
+			free((*env)->line);
+			free(*env);
 			*env = p;
 		}
 		*env = NULL;

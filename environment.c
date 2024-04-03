@@ -1,8 +1,5 @@
 #include "minishell.h"
 
-
-
-
 t_env	*ft_lstfind_env(t_env **env, char *line, char *new_line)
 {
     t_env *tmp;
@@ -19,7 +16,7 @@ t_env	*ft_lstfind_env(t_env **env, char *line, char *new_line)
             free(tmp -> line); // ++>
             tmp -> line = ft_strdup(new_line);//add protection for strdup
             // tmp -> line = ft_strdup(new_line);
-            free(new_line);
+            // free(new_line);
             return (tmp);
         }
         tmp = tmp -> next;
@@ -41,10 +38,6 @@ char	*ft_get_line(t_data *data, char *line, int i)
 	}
 	return (NULL);
 }
-
-
-
-
 
 t_env	*ft_lstcpy_env(t_env *env)
 {
@@ -107,17 +100,14 @@ t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *))
 	return (env);
 }
 
-void	ft_lstdelone_env(t_env *env)
-{
-	if (env)
-	{
-        free(env->line);
-		free(env);
-	}
-}
-
-
-
+// void	ft_lstdelone_env(t_env *env)
+// {
+// 	if (env)
+// 	{
+//         free(env->line);
+// 		free(env);
+// 	}
+// }
 
 t_env   *ft_get_env(t_data **data, char **env)
 {

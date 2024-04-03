@@ -210,6 +210,7 @@ char	*ft_var_name(char *line);
 char	*ft_remove_plus(char *line);
 int		ft_valid_char(char c);
 void	ft_print_export(t_var *exec, t_env *env);
+void	ft_error_export(char *line);
 
 //---------------------SIGNALS---------------------
 

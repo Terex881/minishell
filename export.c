@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	ft_error_export(char *line)
+void	ft_error_export(char *line)
 {
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(line, 2);
@@ -77,4 +77,6 @@ void	ft_export(t_var *exec, t_data *data, char *line)
 	}
 	else if (ft_strchr(line, '+'))
 		ft_error_export(line);
+	else
+		ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(line)));
 }
