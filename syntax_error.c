@@ -17,12 +17,13 @@ int	ft_type(t_list *lst)
 	return (0);
 }
 
-t_list	*ff(t_list *tmp)
+t_list	*ft_next(t_list *tmp)
 {
 	if (tmp->type == SPACE_)
 		tmp = tmp->next;
 	return (tmp);
 }
+
 int	ft_syntax_error(t_list **list)
 {
 	t_list	*tmp;
@@ -36,9 +37,9 @@ int	ft_syntax_error(t_list **list)
 		return (ft_putstr_fd("2\n", 2), 1);
 	while (tmp && tmp->next)
 	{
-		if(ft_type(tmp) == 2 && (ft_type(ff(tmp->next)) == 4))
+		if(ft_type(tmp) == 2 && (ft_type(ft_next(tmp->next)) == 4))
 			return (ft_putstr_fd("8\n", 2), 1);
-		if(ft_type(tmp) == 4 && ft_type(ff(tmp->next)) == 4)
+		if(ft_type(tmp) == 4 && ft_type(ft_next(tmp->next)) == 4)
 			return (ft_putstr_fd("4\n", 2), 1);
 		tmp->skip = false;
 		if(tmp->type == SPACE_)

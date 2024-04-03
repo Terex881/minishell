@@ -43,25 +43,6 @@ int	ft_open_files(t_list **list, t_var *var)
 	return (0);
 }
 
-// char	*ft_lim_name(t_list *tmp)
-// {
-// 	char	*name;
-
-// 	if (!tmp)
-// 		return (NULL);
-// 	if (tmp->next && tmp->type == SPACE_)
-// 	{
-// 		tmp->next->skip = true;
-// 		name = tmp->next->value;
-// 	}
-// 	else
-// 	{
-// 		tmp->skip = true;
-// 		name = tmp->value;
-// 	}
-// 	return (name);
-// }
-
 
 void ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
 {
@@ -75,7 +56,7 @@ void ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
 	{
 		if (!ft_strcmp(limter, line))
 			break;
-		if(ft_type(ff(tmp->next)) != 1)
+		if(ft_type(ft_next(tmp->next)) != 1)
 			line = ft_expand_her_doc(line, data);
 		write(exec->f_in, line, ft_strlen(line));
 		write(exec->f_in, "\n", 1);

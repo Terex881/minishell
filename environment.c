@@ -3,16 +3,6 @@
 
 
 
-t_env	*ft_lstlast_env(t_env *env)
-{
-	if (!env)
-		return (NULL);
-	while (env -> next)
-		env = env -> next;
-	return (env);
-}
-
-
 t_env	*ft_lstfind_env(t_env **env, char *line, char *new_line)
 {
     t_env *tmp;
@@ -54,19 +44,7 @@ char	*ft_get_line(t_data *data, char *line, int i)
 
 
 
-int	ft_lstsize_env(t_env *env)
-{
-	int		count;
 
-	count = 0;
-	while (env)
-	{
-		count++;
-		env = env->next;
-	}
-	// printf("len is : %d\n", count);
-	return (count);
-}
 
 t_env	*ft_lstcpy_env(t_env *env)
 {
@@ -139,23 +117,7 @@ void	ft_lstdelone_env(t_env *env)
 }
 
 
-void	ft_lstclear_env(t_env **env)
-{
-	t_env	*p;
 
-	if (!env)
-		return ;
-	if (*env)
-	{
-		while (*env)
-		{
-			p = (*env)-> next;
-			ft_lstdelone_env(*env);
-			*env = p;
-		}
-		*env = NULL;
-	}
-}
 
 t_env   *ft_get_env(t_data **data, char **env)
 {
@@ -165,11 +127,10 @@ t_env   *ft_get_env(t_data **data, char **env)
 	*data = (t_data *)malloc(sizeof(t_data));
 	if(!*data)
 		return (NULL);
-
 	if (!env || !*env)
 	{
 		p = ft_lstnew_env(ft_strjoin("PWD=", getcwd(NULL, 0)));//add malloc protection!!!
-		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));//same here
+		// ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));//same here
 		// ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("_=/usr/bin/env")));
 		(*data)->env = p;
 		(*data)->path = ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");

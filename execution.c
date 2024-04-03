@@ -65,50 +65,40 @@ char *valid_path(char *cmd, char *line)
 
 int check_builtin(t_var *exec, t_data *data)
 {
+    
     if (exec->arg && !ft_strncmp(exec->arg[0], "echo", 5))
         return (ft_echo(exec->arg + 1, exec), 1);
-    if (!ft_strncmp(exec->arg[0], "pwd", 4))
+    if (exec->arg && !ft_strncmp(exec->arg[0], "pwd", 4))
         return (ft_pwd(exec, data->env), 1);
-    if (!ft_strncmp(exec->arg[0], "cd", 3))
+    if (exec->arg &&!ft_strncmp(exec->arg[0], "cd", 3))
     {
         ft_export(exec, data, "OLDPWD=");//🌸to put back oldpwd
         return (ft_cd(exec->arg[1], data), 1);
     }
-    if (!ft_strncmp(exec->arg[0], "env", 4))
+    if (exec->arg &&!ft_strncmp(exec->arg[0], "env", 4))
     {
 		if (exec->arg[1])
 			return (perror(exec->arg[1]), 1);
 		else
 			return (ft_env(exec, data), 1);
 	}
-    if (!ft_strncmp(exec->arg[0], "export", 7))
+    if (exec->arg && !ft_strncmp(exec->arg[0], "export", 7))
         return (ft_export(exec, data, exec->arg[1]), 1);
-    if (!ft_strncmp(exec->arg[0], "unset", 6))
+    if (exec->arg && !ft_strncmp(exec->arg[0], "unset", 6))
         return (ft_unset(exec, data, exec->arg[1]), 1);
-    if (!ft_strncmp(exec->arg[0], "exit", 5))
+    if (exec->arg && !ft_strncmp(exec->arg[0], "exit", 5))
         return (ft_exit(exec, &data, exec->arg), 1);
     return (0);
 }
 
-// int ft_execve(char *path, t_var *exec, t_data *data)
-// {
-//     t_env *tmp;
-
-// 	tmp = data->env;
-//     while (execve(path, exec->arg, &tmp->line) == -1)
-// 		tmp = tmp->next;
-//     if (execve(path, exec->arg, &tmp->line) == -1)
-//         return (perror(tmp->line), 0);
-//     return (-1);
-// }
-
 void ft_execution(t_var *exec, t_data *data, t_env *env)//int to return error
 {
-    char    *path;
-    pid_t   pid;
-    char **new_env = ft_cpy_to_2d(env);
+    char	*path;
+    pid_t	pid;
+    char	**new_env ;
 
-    if (exec->arg[0] == NULL)
+    new_env= ft_cpy_to_2d(env);
+    if (!exec->arg)
         return ;
     if (check_builtin(exec, data))
         return ;
@@ -129,7 +119,6 @@ void ft_execution(t_var *exec, t_data *data, t_env *env)//int to return error
     }
     else
         waitpid(pid, NULL, 0);
-
     return (free(path));
 }
 

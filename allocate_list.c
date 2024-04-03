@@ -1,25 +1,4 @@
 #include "minishell.h"
-#include <stdbool.h>
-
-
-void	ft_print_var(t_var *list)
-{
-	int	i;
-
-	while (list && list->arg)
-	{
-		i = 0;
-		printf("f_in is : %d\n", list->f_in);
-		printf("f_out is : %d\n", list->f_out);
-		while ( list->arg[i])
-		{
-			printf("f_arg is : %s\n", list->arg[i]);
-			i++;
-		}
-		list = list->next;
-	}
-	printf("----------------------------\n");
-}
 
 t_var	*ft_allocate_list(t_list **list)
 {
@@ -36,7 +15,7 @@ t_var	*ft_allocate_list(t_list **list)
 	while (tmp)
 	{
 		if (tmp->type == PIPE)// check if pipe is true or false
-			(tmp->skip =true, n++);
+			(tmp->skip = true, n++);
 		tmp = tmp->next;
 	}
 	while (i < n)
@@ -48,25 +27,6 @@ t_var	*ft_allocate_list(t_list **list)
 		i++;
 	}
 	return (exec);
-}
-
-
-char	*ft_file_name(t_list *tmp)
-{
-	char *str;
-
-	// // if (tmp->type == SPACE_)
-	// // 	tmp = tmp->next;
-	// str = tmp->value;
-
-	// while (tmp && tmp->next && !tmp->next->skip)
-	// {
-	// 	str = ft_strjoin(str, tmp->next->value);
-	// 	tmp->skip = true;
-	// 	tmp = tmp->next;
-	// }
-	// tmp->skip = true;
-	return str;
 }
 
 void	ft_len_node_elem(t_list **list, t_var *exec)
@@ -86,7 +46,10 @@ void	ft_len_node_elem(t_list **list, t_var *exec)
 			n++;
 		tmp = tmp->next;
 	}
-	exec->arg = malloc(sizeof(char *) * (n + 1)); // check this
+	if (n <= 0)
+		exec->arg = NULL;
+	else
+		exec->arg = malloc(sizeof(char *) * (n + 1)); // check this
 	if(!exec->arg)
 		return ;
 }
@@ -102,7 +65,7 @@ char	*ft_varjoin(t_list **tmp)
 		(*tmp)->skip = true;
 		*tmp = (*tmp)->next;
 	}
-	(*tmp)->skip = true; //
+	(*tmp)->skip = true;
 	return (str);
 }
 
@@ -130,7 +93,8 @@ void	ft_copy_to_list(t_list **list, t_var *exec)
 			i++;
 			tmp->skip = true;
 		}
-		exec->arg[i] = NULL;
+		if(exec->arg)
+			exec->arg[i] = NULL;
 		tmp = tmp->next;
 	}
 }

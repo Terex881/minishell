@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <stdio.h>
 
 char	*ft_sub_variable(char *str, int *i)
 {

@@ -12,3 +12,17 @@ int	ft_lstsize(t_list *lst)
 	}
 	return (i);
 }
+
+int	ft_lstsize_env(t_env *env)
+{
+	int		count;
+
+	count = 0;
+	while (env)
+	{
+		count++;
+		env = env->next;
+	}
+	// printf("len is : %d\n", count);
+	return (count);
+}

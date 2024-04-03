@@ -145,13 +145,14 @@ void	ft_varadd_back(t_var **lst, t_var *new1);
 //-----------------------TOKEN---------------------
 
 int		ft_check(char c);
-t_list	*ft_add_special_character(t_list *node, char *c, int *i);
-t_list	*ft_add_douple_single(char *line, int *i, t_list *node);
-t_list	*ft_add_word(char *line, int *i, t_list *node);
-int	ft_token(char *line, t_list *node, t_list **list);
-int	ft_all(t_list **list, t_env *env, t_data	*data);
+// t_list	*ft_add_special_character(t_list *node, char *c, int *i);
+// t_list	*ft_add_douple_single(char *line, int *i, t_list *node);
+// t_list	*ft_add_word(char *line, int *i, t_list *node);
+int		ft_token(char *line, t_list *node, t_list **list);
+int		ft_all(t_list **list, t_env *env, t_data	*data);
 void	ft_print(t_list *list);
-t_list *ft_add_var(char *line, int *i, t_list *node);
+// t_list *ft_add_var(char *line, int *i, t_list *node);
+void ft_skip_space(t_list **list);
 
 //---------------------OPEN_FILES---------------------
 
@@ -170,7 +171,7 @@ char *ft_expand_her_doc(char *str, t_data *data);
 
 void	ft_print_var(t_var *list);
 t_var	*ft_allocate_list(t_list **list);
-char	*ft_file_name(t_list *tmp);
+// char	*ft_file_name(t_list *tmp);
 t_var	*ft_varnew(void *value);
 void	ft_len_node_elem(t_list **list, t_var *exec);
 char	*ft_varjoin(t_list **tmp);
@@ -213,6 +214,7 @@ void	ft_print_export(t_var *exec, t_env *env);
 //---------------------SIGNALS---------------------
 
 void	ft_signal();
+void ft_signal_c(int num);
 
 //---------------------ENVIRONMENT---------------------
 t_env   *ft_get_env(t_data **data, char **env);
@@ -226,8 +228,12 @@ t_env	*ft_lstlast_env(t_env *env);
 t_env	*ft_lstnew_env(char *line);
 t_env	*ft_lstcpy_env(t_env *env);
 
-t_list	*ff(t_list *tmp);
+
+
+t_list	*ft_next(t_list *tmp);
 int	ft_lstsize_env(t_env *env);
+
+void ft_close(t_var *exec);
 
 
 
