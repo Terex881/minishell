@@ -31,7 +31,7 @@ int	main(int ac, char **av, char **env)
 
 	// rl_catch_signals = 0;
 	list = NULL;
-	ft_get_env(&data, env);
+	ft_get_env(&data, env);//add protection if malloc failed
 	
 	ft_all(&list, env, data);
 }

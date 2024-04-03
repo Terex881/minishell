@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char **ft_free(char **p, int i)
+char	**ft_free(char **p, int i)
 {
 	while (p[i])
 	{
@@ -11,12 +11,12 @@ char **ft_free(char **p, int i)
 	return (NULL);
 }
 
-char **get_paths(char *path)
+char	**get_paths(char *path)
 {
     // int     i;
-    int     j;
-    char    *tmp;
-    char    **paths;
+    int		j;
+    char	*tmp;
+    char	**paths;
 
     // i = 0;
     j = 0;
@@ -44,16 +44,16 @@ char *valid_path(char *cmd, char *line)
     char    **paths;
 
     if (!access(cmd, F_OK | X_OK))
-        return (ft_strdup(cmd));
+        return (ft_strdup(cmd));//add protection for strdup
     paths = get_paths(line);
     if (!paths)
         return (NULL);
     i = 0;
     while (paths[i])
     {
-        tmp = ft_strjoin(paths[i], "/");
+        tmp = ft_strjoin(paths[i], "/");//add protection for strjoin
         free(paths[i]);
-        path = ft_strjoin(tmp, cmd);
+        path = ft_strjoin(tmp, cmd);//add protection for strjoin
         free(tmp);
         if (!access(path, F_OK | X_OK))
             return (ft_free(paths, i + 1), path);
@@ -65,7 +65,6 @@ char *valid_path(char *cmd, char *line)
 
 int check_builtin(t_var *exec, t_data *data)
 {
-    
     if (!ft_strncmp(exec->arg[0], "echo", 5))
         return (ft_echo(exec->arg + 1, exec), 1);
     if (!ft_strncmp(exec->arg[0], "pwd", 4))
@@ -103,7 +102,7 @@ int ft_execve(char *path, t_var *exec, t_data *data)
     return (-1);
 }
 
-void ft_execution(t_var *exec, t_data *data)
+void ft_execution(t_var *exec, t_data *data)//int to return error
 {
     char    *path;
     pid_t   pid;
@@ -112,10 +111,7 @@ void ft_execution(t_var *exec, t_data *data)
         return ;
     if (check_builtin(exec, data))
         return ;
-    // if (ft_strncmp(exec->arg[0], "exit", 5) == 0)
-    //     path = valid_path(exec->arg[0], data->spath);
-    // else
-        path = valid_path(exec->arg[0], data->path);
+    path = valid_path(exec->arg[0], data->path);
     if (!path)
         return (perror(exec->arg[0]));
     pid = fork();

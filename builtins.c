@@ -2,9 +2,9 @@
 
 void	ft_unset(t_var *exec, t_data *data, char *line)
 {
-	t_env *p;
-	t_env *tmp;
-	
+	t_env	*p;
+	t_env	*tmp;
+
 	p = data->env;
 	tmp = NULL;
 	if (ft_strncmp(line, "PATH", 5) == 0)
@@ -17,9 +17,7 @@ void	ft_unset(t_var *exec, t_data *data, char *line)
 				tmp->next = p->next;
 			else
 				data->env = p->next;
-			free(p->line);
-			// free(p);
-			// ft_lstdelone_env(p);
+			ft_lstdelone_env(p);
 			return ;
 		}
 		tmp = p;
@@ -29,55 +27,56 @@ void	ft_unset(t_var *exec, t_data *data, char *line)
 
 void	ft_cd(char *path, t_data *data)
 {
-	t_env *tmp;
-	int n;
-	
+	t_env	*tmp;
+	int		n;
+
 	if (!path || !*path || (path[0] == '~' && path[1] == '\0'))
 		path = ft_lstfind_env(&data->env, "HOME", NULL)->line + 5;
 	tmp = ft_lstfind_env(&data->env, "PWD", NULL);
 	n = chdir(path);
 	if (!n && getcwd(NULL, 0))
 	{
-		ft_lstfind_env(&data->env, "OLDPWD", ft_strjoin("OLDPWD=", tmp->line + 4));
-		ft_lstfind_env(&data->env, "PWD", ft_strjoin("PWD=", getcwd(NULL, 0)));
+		ft_lstfind_env(&data->env, "OLDPWD",
+			ft_strjoin("OLDPWD=", tmp->line + 4));//add protection for strjoin
+		ft_lstfind_env(&data->env, "PWD", ft_strjoin("PWD=", getcwd(NULL, 0)));//add protection for strjoin
 	}
 	else if (!n)
 	{
-		ft_lstfind_env(&data->env, "OLDPWD", ft_strjoin("OLDPWD=", tmp->line + 4));
-		ft_lstfind_env(&data->env, "PWD", ft_strjoin(tmp->line, "/.."));
+		ft_lstfind_env(&data->env, "OLDPWD",
+			ft_strjoin("OLDPWD=", tmp->line + 4));//add protection for strjoin
+		ft_lstfind_env(&data->env, "PWD", ft_strjoin(tmp->line, "/.."));//add protection for strjoin
 	}
 	else
 	{
-		write(2, "minishell: ", 11);
+		ft_putstr_fd("minishell: ", 2);
 		perror(path);
 	}
 	return ;
 }
 
-
 void	ft_env(t_var *exec, t_data *data)
 {
-	t_env *p;
-	static int	i;//🌸
+	t_env		*env;
+	static int	i;
 
-	if (!i)//🌸
-		ft_unset(exec, data, "OLDPWD");//🌸to remove oldpwd at start
-	i++;//🌸
-	p = data->env;
-    while (p)
-    {
-		write(exec->f_out, p->line, ft_strlen(p->line));
-		write(exec->f_out, "\n", 1);
-        p = p->next;
-    }
+	if (!i)
+		ft_unset(exec, data, "OLDPWD");
+	i++;
+	env = data->env;
+	while (env)
+	{
+		ft_putstr_fd(env->line, exec->f_out);
+		ft_putstr_fd("\n", exec->f_out);
+		env = env->next;
+	}
 }
 
-void ft_pwd(t_var *exec, t_env *env)
+void	ft_pwd(t_var *exec, t_env *env)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = ft_lstfind_env(&env, "PWD", NULL);
-	write(exec->f_out, tmp->line + 4, ft_strlen(tmp->line + 4));
-	write(exec->f_out, "\n", 1);
+	ft_putstr_fd(tmp->line + 4, exec->f_out);
+	ft_putstr_fd("\n", exec->f_out);
 	return ;
 }

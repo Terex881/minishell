@@ -1,66 +1,22 @@
 #include "minishell.h"
 
-static char *ft_var_name(char *line)
-{
-	int i = 0;
-
-	while (line[i] && line[i] != '=')
-		i++;
-	if (line[i - 1] == '+')
-		i--;
-	return (ft_substr(line, 0, i));
-}
-
-static char *ft_remove_plus(char *line)
-{
-	int i = 0;
-
-	while (line[i])
-	{
-		if (line[i] == '+')
-		{
-			i++;
-			while (line[i])
-			{
-				line[i - 1] = line[i];
-				i++;
-			}
-			break ;
-		}
-		i++;
-	}
-	line[i - 1] = '\0';
-	return (line);
-}
-
-static int  ft_valid_char(char c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1);
-	if ((c >= '0' && c <= '9') || c == '_')
-		return (1);
-	return (0);
-}
-
-
 static void	ft_error_export(char *line)
 {
-	write(2, "minishell :export: `", 20);
-	write(2, line, ft_strlen(line));
-	write(2, "': not a valid identifier\n", 26);
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(line, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
 static int	ft_valid_export(char *line)
 {
-	int i = 0;
-	char *name;
+	int		i;
+	char	*name;
 
+	i = 0;
 	if (line[0] == '=' || line[0] == '+' || (line[0] >= '0' && line[0] <= '9'))
 	{
 		name = ft_var_name(line);
-		ft_error_export(name);
-		free(name);
-		return (0);
+		return (ft_error_export(name), free(name), 0);
 	}
 	if (ft_valid_char(line[i]))
 		i++;
@@ -69,54 +25,54 @@ static int	ft_valid_export(char *line)
 		if (!ft_valid_char(line[i]) && line[i] != '=' && line[i] != '+')
 		{
 			name = ft_var_name(line);
-			ft_error_export(name);
-			free(name);
-			return (0);
+			return (ft_error_export(name), free(name), 0);
 		}
 		i++;
 	}
 	return (1);
 }
 
-static int	ft_export_no_args(t_data *data, char *line)
+static int	ft_export_no_args(t_var *exec, t_data *data, char *line)
 {
-	t_env *env_cpy;
+	t_env	*env_cpy;
+	t_env	*tmp;
 
 	if (!line)
 	{
 		env_cpy = ft_lstcpy_env(data->env);
-		ft_sort_env(env_cpy, ft_strcmp);
+		tmp = ft_sort_env(env_cpy, ft_strcmp);
+		ft_print_export(exec, tmp);
 		ft_lstclear_env(&env_cpy);
 		return (1);
 	}
+	if (!ft_valid_export(line))
+		return (1);
 	return (0);
 }
 
 void	ft_export(t_var *exec, t_data *data, char *line)
 {
-	char *tmp;
-	char *var;
-	char *name;
+	char	*tmp;
+	char	*var;
+	char	*name;
 
-	if (ft_export_no_args(data, line))
+	if (ft_export_no_args(exec, data, line))
 		return ;
-	if (!ft_valid_export(line))
-		return ;
-	tmp = ft_strchr(line, '=');
-	var = NULL;
+	(1) && (tmp = ft_strchr(line, '='), var = NULL);
 	if (tmp)
 	{
 		name = ft_var_name(line);
 		if (ft_lstfind_env(&data->env, name, NULL))
 			var = ft_lstfind_env(&data->env, name, NULL)->line;
 		if (!var && !ft_strncmp(tmp - 1, "+=", 2))
-			ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(ft_remove_plus(line))));
+			ft_lstadd_back_env(&data->env,
+				ft_lstnew_env(ft_strdup(ft_remove_plus(line))));//protection needed for dup and lstnew
 		else if (var && !ft_strncmp(tmp - 1, "+=", 2))
-			ft_lstfind_env(&data->env, name, ft_strjoin(var, tmp + 1));
+			ft_lstfind_env(&data->env, name, ft_strjoin(var, tmp + 1));//add protection for strjoin
 		else if (var)
 			ft_lstfind_env(&data->env, name, line);
 		else
-			ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(line)));
+			ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(line)));//protection needed for dup and lstnew
 		free(name);
 	}
 	else if (ft_strchr(line, '+'))

@@ -6,6 +6,8 @@ int ft_execution_(t_var *exec, t_data *data)
     char    *path;
 	t_env *tmp;
 
+    if (check_builtin(exec, data))
+        return (1);
 	tmp = data->env;
     path = valid_path(exec->arg[0], data->path);
     if (!path)
@@ -41,7 +43,9 @@ int ft_process(t_var *exec, t_data *data)
                 (perror("dup2 error!\n"), exit(0));
 			if (exec->next != NULL)
             {
-				if(dup2(pipe_ends[1], 1) == -1)
+                if((exec->f_out != 1) && dup2(exec->f_out, 1) == -1)
+                    (perror("dup2 error!\n"), exit(0));
+				else if((exec->f_out == 1) && dup2(pipe_ends[1], 1) == -1)
                     (perror("dup2 error!\n"), exit(0));
             }
 			else
@@ -71,6 +75,7 @@ void ft_execute_pipe(t_var *exec, t_data *data)
     int exit_status;
     
     // ft_print_var(exec);
+    
     ft_process(exec, data);
     
     while(wait(NULL) != -1);
