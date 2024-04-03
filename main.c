@@ -19,11 +19,11 @@ void ft_signal()
     signal(SIGQUIT, ft_signal_c);
 }
 
-void leak(){system("leaks minishell");}
+// void leak(){system("leaks minishell");}
 
 int	main(int ac, char **av, char **env)
 {
-	atexit(leak);
+	// atexit(leak);
 	(void)ac;
 	(void)av;
 	t_list	*list;

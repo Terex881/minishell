@@ -10,10 +10,10 @@ int ft_execution_(t_var *exec, t_data *data)
     path = valid_path(exec->arg[0], data->path);
     if (!path)
         (perror("Invalid path!\n"), exit(1));
-	while (execve(path, exec->arg, &tmp->line) == -1)
-		tmp = tmp->next;
+	// while (tmp && execve(path, exec->arg, &tmp->line) == -1)
+	// 	tmp = tmp->next;
     if (execve(path, exec->arg, &tmp->line) == -1)
-        (perror(exec->arg[0]), exit(1));
+        (perror("111"), exit(1)); // remove
     return (1);   
 }
 
@@ -61,7 +61,7 @@ int ft_process(t_var *exec, t_data *data)
         exec = exec->next;
     }
     if(dup2(or_in, 0) == -1)
-        (perror("dup2 error!\n"), exit(0));
+        (perror("dup2 error!\n"));
     close(or_in);
     return 1;
 }
