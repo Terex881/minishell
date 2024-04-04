@@ -19,10 +19,8 @@ void	ft_unset(t_var *exec, t_data *data, char *line)
 				data->env = p->next;
 			free(p->line);
 			free(p);
-			// p=NULL;
-			// ft_lstdelone_env(p);
-
-			return ;
+			// return ;
+			break;
 
 			// 
 		}

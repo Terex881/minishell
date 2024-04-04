@@ -113,7 +113,7 @@ int	ft_token(char *line, t_list *node, t_list **list)
 		else if (line[i])
 			node = ft_add_word(line, &i, node);
 		if (!node)
-			return(ft_lstclear(list), 1);
+			return(ft_lstclear(list),free(line),  1);
 		ft_lstadd_back(list, node);
 		i++;
 	}

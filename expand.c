@@ -37,6 +37,7 @@ char *ft_search_var(char *str, t_data *data)
 	}
 	return fin;
 }
+
 int ft_chck_if_herdoc(t_list **list)
 {
 	t_list *tmp;
@@ -122,7 +123,10 @@ char	*ft_expand_her_doc(char *str, t_data *data)
 			fin = ft_strjoin(fin, ft_get_line(data, ret, ft_strlen(ret)));
 		}
 		else
+		{
+
 			(fin = ft_charjoin(fin, str[i]), i++);
+		}
 	}
 	return fin;
 }

@@ -19,7 +19,7 @@ OBJ = main.o				syntax_error.o expand.o \
     built_in/env.o			built_in/cd.o                    built_in/unset.o\
     built_in/pwd.o           took.o \
 
-CC = cc -g -fsanitize=address # remove
+CC = cc -g #-fsanitize=address # remove
 # FLAGS = -Wall -Werror -Wextra
 
 READLINE_INC = -I$(shell brew --prefix readline)/include

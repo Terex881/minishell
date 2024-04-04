@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <stdio.h>
 
 char    **ft_cpy_to_2d(t_env *tmp)
 {
@@ -21,7 +22,7 @@ char    **ft_cpy_to_2d(t_env *tmp)
     return (ret);
 }
 
-int ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
+void ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 {
     char    *path;
     char    **arr;
@@ -30,16 +31,20 @@ int ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
         exit(1);
     arr = ft_cpy_to_2d(env);
     if (exec->arg && !ft_strncmp(exec->arg[0], "exit", 5))
-        (ft_exit(exec, &data, exec->arg, len)); 
-    (check_builtin(exec, data));
-		// exit(0);
+    {
+        printf("******\n");
+        return(ft_exit(exec, &data, exec->arg, len)); 
+    }
+    check_builtin(exec, data);
+    
+		
     
 	path = valid_path(exec->arg[0], data->path);
     if (!path)
     	(perror("Invalid path!\n"), exit(1));
     if (execve(path, exec->arg, arr) == -1)
 		(perror("111"), exit(1)); // change
-    return (1);
+    // return (1);
 }
 
 int ft_process(t_var *exec, t_data *data, t_env *env, int len)

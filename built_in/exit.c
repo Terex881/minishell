@@ -31,7 +31,7 @@ static long long	ft_valid_arg(char *str, int *valid)
 	return (s * n);
 }
 
-void	ft_exit(t_var *exec, t_data **data, char **arg,int len)
+void	ft_exit(t_var *exec, t_data **data, char **arg, int len)
 {
 	int			valid;
 	long long	n;
@@ -41,10 +41,10 @@ void	ft_exit(t_var *exec, t_data **data, char **arg,int len)
 	ft_lstclear_env(&(*data)->env);
 	free((*data)->path);
 	free(*data);
-	if(len == 1)
+	if (len == 1)
 		write(exec->f_out, "exit\n", 5);
 	if (!arg || !arg[1])
-		exit(0);
+		exit(32); //0
 	if (arg[2])
 		return ((void)write(2, "minishell: exit: too many arguments\n", 36));
 	n = ft_valid_arg(arg[1], &valid);

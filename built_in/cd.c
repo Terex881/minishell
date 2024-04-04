@@ -26,7 +26,8 @@ void	ft_cd(char *path, t_data *data)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror("path");
+		exit(29); //1
 	}
 	// return ;
-	exit(10); // 1 or 0
+	exit(10); //  0
 }

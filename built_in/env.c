@@ -4,7 +4,6 @@
 void	ft_env(t_var *exec, t_data *data)
 {
 	t_env		*env;
-	static int	i;
 
 	if (!data->path)
 	{
@@ -13,9 +12,6 @@ void	ft_env(t_var *exec, t_data *data)
 		// exit(129);
 		return ;
 	}
-	if (!i)
-		ft_unset(exec, data, "OLDPWD"); // why this
-	i++;
 	env = data->env;
 	while (env)
 	{
