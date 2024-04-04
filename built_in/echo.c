@@ -17,20 +17,20 @@ static int	check_n(char *s)
 	return (1);
 }
 
-void	ft_echo(char **arg, t_var *exec)
+void	ft_echo(char **arg, t_var *exec, t_data *data)
 {
 	int	i;
 	int	n;
 
 	i = 0;
 	n = 0;
+	data->stat = 0;
 	if (!arg || !*arg)
-		return (ft_putstr_fd("\n", exec->f_out), exit(66));
+		return (ft_putstr_fd("\n", exec->f_out));
 	if (check_n(arg[0]))
 		(1) && (n = 1, i++);
 	if (!arg[i])
-		exit(22);
-	// return ;
+		return ;
 	while (arg && arg[i])
 	{
 		if (n == 1 && check_n(arg[i]))
@@ -45,5 +45,4 @@ void	ft_echo(char **arg, t_var *exec)
 	}
 	if (!n)
 		ft_putstr_fd("\n", exec->f_out);
-	exit(99); // 0
 }

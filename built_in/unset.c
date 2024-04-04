@@ -22,13 +22,9 @@ void	ft_unset(t_var *exec, t_data *data, char *line)
 				data->env = p->next;
 			free(p->line);
 			free(p);
-			// return ;
-			break;
-
-			// 
+			return ;
 		}
 		tmp = p;
 		p = p->next;
 	}
-	exit(11); // 0
 }

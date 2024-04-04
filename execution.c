@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <stdlib.h>
 #include <sys/wait.h>
 
 char	**ft_free(char **p, int i)
@@ -87,13 +88,13 @@ int check_builtin(t_var *exec, t_data *data)
 {
     
     if (exec->arg && !ft_strncmp(exec->arg[0], "echo", 5))
-        return (ft_echo(exec->arg + 1, exec), 1);
+        return (ft_echo(exec->arg + 1, exec, data), 1);
     if (exec->arg && !ft_strncmp(exec->arg[0], "pwd", 4))
         return (ft_pwd(exec, data->env), 1);
     if (exec->arg &&!ft_strncmp(exec->arg[0], "cd", 3))
     {
         ft_export(exec, data, "OLDPWD=");//🌸to put back oldpwd
-        return (ft_cd(exec->arg[1], data), 1);
+        return (ft_cd(exec->arg[1], data),  1);
     }
     if (exec->arg && !ft_strncmp(exec->arg[0], "unset", 6))
         return (ft_unset(exec, data, exec->arg[1]), 1);
@@ -106,11 +107,9 @@ int check_builtin(t_var *exec, t_data *data)
     if (!ft_strncmp(exec->arg[0], "export", 7))
     {
         if (exec->arg[1] && exec->arg[2])
-            return (ft_error_export(exec->arg[1]), 1);
+            return (ft_error_export(exec->arg[1], data), 1);
         return (ft_export(exec, data, exec->arg[1]), 1);
     }
-    // if (exec->arg && !ft_strncmp(exec->arg[0], "exit", 5))
-    //     (ft_exit(exec, &data, exec->arg)); // 
     return (0);
 }
 
@@ -127,26 +126,27 @@ void ft_execution(t_var *exec, t_data *data, t_env *env)//int to return error
         return ((void)ft_free(new_env, 0));
 	if (exec->arg && !ft_strncmp(exec->arg[0], "exit", 5))
         (ft_free(new_env, 0), ft_exit(exec, &data, exec->arg, len)); 
+    if (check_builtin(exec, data))
+        return ;
     pid = fork();
     if (pid == -1)
         return (perror("fork error!\n"));
     if (pid == 0)
     {
-        if (check_builtin(exec, data))
-        	return ;
+             
         path = valid_path(exec->arg[0], data->path);
         if (!path)
             return (perror(exec->arg[0]), ft_free(new_env, 0), exit(1));
         if (dup2(exec->f_in, 0) == -1)
-            (perror("dup2 error!\n"), ft_free(new_env, 0), exit(0));
+            (perror("dup2 error!\n"), ft_free(new_env, 0), exit(1));
         if (dup2(exec->f_out, 1) == -1)
-            (perror("dup2 error!\n"), ft_free(new_env, 0), exit(0)); // remove return and add exit(0)
+            (perror("dup2 error!\n"), ft_free(new_env, 0), exit(1)); // remove return and add exit(0)
         if (execve(path, exec->arg, new_env) == -1)
             (perror(exec->arg[0]), ft_free(new_env, 0), exit(133));
     }
     else
         waitpid(pid, &status, 0);
-    ft_free(new_env, 0);
+    // ft_free(new_env, 0);
     // free(path);
     data->stat = WEXITSTATUS(status);
     // return (free(path));

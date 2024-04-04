@@ -58,6 +58,7 @@ int	ft_all(t_list **list, t_env *env, t_data *data)
 			ft_close(exec);
 			ft_lstclear_var(&exec);
 			ft_lstclear(list);
+			// ft_lstclear_env(&env);
 		}
 	}
 	return 1;

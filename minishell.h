@@ -50,11 +50,6 @@
 // ls | "" 
 // ls > ls | wc
 
-typedef struct s_exit
-{
-	int exitstat;
-	
-} t_exit;
 
 typedef enum 
 {
@@ -214,7 +209,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_pwd(t_var *exec, t_env *env);
 void	ft_env(t_var *exec, t_data *data);
 void	ft_cd(char *path, t_data *data);
-void	ft_echo(char **arg, t_var *exec);
+void	ft_echo(char **arg, t_var *exec, t_data* data);
 void	ft_export(t_var *exec, t_data *data, char *line);
 void	ft_unset(t_var *exec, t_data *data, char *line);
 void	ft_exit(t_var *exec, t_data **data, char **arg, int len);
@@ -225,7 +220,7 @@ char	*ft_var_name(char *line);
 char	*ft_remove_plus(char *line);
 int		ft_valid_char(char c);
 void	ft_print_export(t_var *exec, t_env *env);
-void	ft_error_export(char *line);
+void	ft_error_export(char *line, t_data *data);
 
 //---------------------SIGNALS---------------------
 

@@ -8,6 +8,7 @@ void	ft_cd(char *path, t_data *data)
 	char	*pwd;
 	char	*join;
 	int		n;
+	data->stat  = 0;
 
 	if (!path || !*path || (path[0] == '~' && path[1] == '\0'))
 	{
@@ -48,10 +49,11 @@ void	ft_cd(char *path, t_data *data)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror("path");
-		exit(29); //1
+		data->stat = 1;
 	}
 	free(tmp);
-	free(path);
-	// return ;
-	exit(10); //  0
+	// free(path);
+	// data->stat =0;
+	return ;
+	// exit(10); //  0
 }
