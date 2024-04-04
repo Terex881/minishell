@@ -8,7 +8,10 @@ void	ft_unset(t_var *exec, t_data *data, char *line)
 	p = data->env;
 	tmp = NULL;
 	if (ft_strncmp(line, "PATH", 5) == 0)
+	{
+		free(data->path);
 		data->path = NULL;
+	}
 	while (p)
 	{
 		if (ft_strncmp(p->line, line, ft_strlen(line)) == 0)
