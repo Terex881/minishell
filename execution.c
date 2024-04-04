@@ -93,11 +93,11 @@ int check_builtin(t_var *exec, t_data *data)
         return (ft_pwd(exec, data->env), 1);
     if (exec->arg &&!ft_strncmp(exec->arg[0], "cd", 3))
     {
-        ft_export(exec, data, "OLDPWD=");//🌸to put back oldpwd
+        // ft_export(exec, data, "OLDPWD=");//🌸to put back oldpwd
         return (ft_cd(exec->arg[1], data),  1);
     }
     if (exec->arg && !ft_strncmp(exec->arg[0], "unset", 6))
-        return (ft_unset(exec, data, exec->arg[1]), 1);
+        return (ft_unset(exec, &data, exec->arg[1]), 1);
     if (exec->arg &&!ft_strncmp(exec->arg[0], "env", 4))
     {
 		if (exec->arg[1])
@@ -127,7 +127,7 @@ void ft_execution(t_var *exec, t_data *data, t_env *env)//int to return error
 	if (exec->arg && !ft_strncmp(exec->arg[0], "exit", 5))
         (ft_free(new_env, 0), ft_exit(exec, &data, exec->arg, len)); 
     if (check_builtin(exec, data))
-        return ;
+        return ((void)ft_free(new_env, 0));
     pid = fork();
     if (pid == -1)
         return (perror("fork error!\n"));
@@ -145,11 +145,17 @@ void ft_execution(t_var *exec, t_data *data, t_env *env)//int to return error
             (perror(exec->arg[0]), ft_free(new_env, 0), exit(133));
     }
     else
+    {
         waitpid(pid, &status, 0);
-    // ft_free(new_env, 0);
-    // free(path);
-    data->stat = WEXITSTATUS(status);
-    // return (free(path));
+        ft_free(new_env, 0);
+        data->stat = WEXITSTATUS(status);
+    }
+    // else
+    //     waitpid(pid, &status, 0);
+    // // ft_free(new_env, 0);
+    // // free(path);
+    // data->stat = WEXITSTATUS(status);
+    // // return (free(path));
     
 }
 
