@@ -18,6 +18,7 @@
 
 
 //  ./ls khdmi b lstat or stat
+// fix unset path
 
 // minishell : exit "      4"
 // exit
@@ -237,7 +238,7 @@ char	*ft_get_line(t_data *data, char *line, int i);
 void	ft_lstclear_env(t_env **env);
 void	ft_lstdelone_env(t_env *env);
 void	ft_lstadd_back_env(t_env **env, t_env *p);
-t_env	*ft_lstfind_env(t_env **env, char *line, char *new_line);
+char	*ft_lstfind_env(t_env **env, char *line, char *new_line);
 t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *));
 t_env	*ft_lstlast_env(t_env *env);
 t_env	*ft_lstnew_env(char *line);
