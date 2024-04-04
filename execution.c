@@ -59,13 +59,14 @@ char *valid_path(char *cmd, char *line)
     char    *path;
     char    *tmp;
     char    **paths;
-
     if (!access(cmd, F_OK | X_OK))
         return (ft_strdup(cmd));    //add protection for strdup
     paths = get_paths(line);
     if (!paths)
         return (NULL);
     i = 0;
+    if (cmd[i] == '.')
+        return (ft_free(paths, i), NULL);
     while (paths && paths[i])
     {
         tmp = ft_strjoin(paths[i], "/");    //add protection for strjoin
@@ -90,15 +91,17 @@ int check_builtin(t_var *exec, t_data *data)
     if (exec->arg && !ft_strncmp(exec->arg[0], "pwd", 4))
         return (ft_pwd(exec, data->env), 1);
     if (exec->arg &&!ft_strncmp(exec->arg[0], "cd", 3))
+    {
+        ft_export(exec, data, "OLDPWD=");//🌸to put back oldpwd
         return (ft_cd(exec->arg[1], data), 1);
+    }
     if (exec->arg && !ft_strncmp(exec->arg[0], "unset", 6))
         return (ft_unset(exec, data, exec->arg[1]), 1);
     if (exec->arg &&!ft_strncmp(exec->arg[0], "env", 4))
     {
 		if (exec->arg[1])
 			return (perror(exec->arg[1]), 1);
-		else
-			return (ft_env(exec, data), 1);
+		return (ft_env(exec, data), 1);
 	}
     if (!ft_strncmp(exec->arg[0], "export", 7))
     {
@@ -121,9 +124,9 @@ void ft_execution(t_var *exec, t_data *data, t_env *env)//int to return error
 
     new_env= ft_cpy_to_2d(env);
     if (!exec->arg)
-        return ;
+        return ((void)ft_free(new_env, 0));
 	if (exec->arg && !ft_strncmp(exec->arg[0], "exit", 5))
-        (ft_exit(exec, &data, exec->arg, len)); 
+        (ft_free(new_env, 0), ft_exit(exec, &data, exec->arg, len)); 
     pid = fork();
     if (pid == -1)
         return (perror("fork error!\n"));
@@ -133,18 +136,21 @@ void ft_execution(t_var *exec, t_data *data, t_env *env)//int to return error
         	return ;
         path = valid_path(exec->arg[0], data->path);
         if (!path)
-            return (perror(exec->arg[0]), exit(1));
+            return (perror(exec->arg[0]), ft_free(new_env, 0), exit(1));
         if (dup2(exec->f_in, 0) == -1)
-            (perror("dup2 error!\n"), exit(0));
+            (perror("dup2 error!\n"), ft_free(new_env, 0), exit(0));
         if (dup2(exec->f_out, 1) == -1)
-            (perror("dup2 error!\n"), exit(0)); // remove return and add exit(0)
+            (perror("dup2 error!\n"), ft_free(new_env, 0), exit(0)); // remove return and add exit(0)
         if (execve(path, exec->arg, new_env) == -1)
-            (perror(exec->arg[0]), exit(133));
+            (perror(exec->arg[0]), ft_free(new_env, 0), exit(133));
     }
     else
         waitpid(pid, &status, 0);
+    ft_free(new_env, 0);
+    // free(path);
     data->stat = WEXITSTATUS(status);
     // return (free(path));
+    
 }
 
 

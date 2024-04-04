@@ -1,8 +1,9 @@
 #include "../minishell.h"
 
-t_env	*ft_lstfind_env(t_env **env, char *line, char *new_line)
+char	*ft_lstfind_env(t_env **env, char *line, char *new_line)
 {
-    t_env *tmp;
+    t_env	*tmp;
+	char	*find;
 
     if (!env || !*env || !line)
         return (NULL);
@@ -12,12 +13,16 @@ t_env	*ft_lstfind_env(t_env **env, char *line, char *new_line)
         if (ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0)
         {
             if (!new_line || !*new_line)
-                return (tmp);
+			{
+				find = ft_strdup(tmp->line);//add protection for strdup
+                return (find);//add protection for strdup
+			}
             free(tmp -> line); // ++>
             tmp -> line = ft_strdup(new_line);//add protection for strdup
             // tmp -> line = ft_strdup(new_line);
             // free(new_line);
-            return (tmp);
+			find = ft_strdup(tmp->line);//add protection for strdup
+            return (find);//add protection for strdup
         }
         tmp = tmp -> next;
     }
@@ -27,12 +32,16 @@ t_env	*ft_lstfind_env(t_env **env, char *line, char *new_line)
 char	*ft_get_line(t_data *data, char *line, int i)
 {
 	t_env	*tmp;
+	char	*res;
 
 	tmp = data->env;
 	while (tmp)
 	{
 		if (ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0)
-			return (ft_strdup(tmp->line + i + 1)); // add protection for strdup
+		{
+			res = ft_strdup(tmp->line + i + 1);//add protection for strdup
+			return (res); // add protection for strdup
+		}
 			// return (tmp->line + i); 
 		tmp = tmp->next;
 	}
@@ -57,20 +66,6 @@ t_env	*ft_lstcpy_env(t_env *env)
 		env = env -> next;
 	}
 	return (copy);
-}
-
-void	ft_print_export(t_var *exec, t_env *env)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		ft_putstr_fd("declare -x ", exec->f_out);
-		ft_putstr_fd(tmp->line, exec->f_out);
-		ft_putstr_fd("\n", exec->f_out);
-		tmp = tmp -> next;
-	}
 }
 
 t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *))
@@ -112,6 +107,7 @@ t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *))
 t_env   *ft_get_env(t_data **data, char **env)
 {
     t_env   *p;
+	char	*pwd;
 
     p = NULL;
 	*data = (t_data *)malloc(sizeof(t_data));
@@ -120,9 +116,11 @@ t_env   *ft_get_env(t_data **data, char **env)
 	(*data)->stat = 0;
 	if (!env || !*env)
 	{
-		p = ft_lstnew_env(ft_strjoin("PWD=", getcwd(NULL, 0)));//add malloc protection!!!
+		pwd = getcwd(NULL, 0);
+		p = ft_lstnew_env(ft_strjoin("PWD=", pwd));//add malloc protection!!!
 		// ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));//same here
 		// ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("_=/usr/bin/env")));
+		free(pwd);
 		(*data)->env = p;
 		(*data)->path = ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
 		return (p);

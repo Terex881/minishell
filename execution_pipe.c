@@ -14,7 +14,7 @@ char    **ft_cpy_to_2d(t_env *tmp)
         return (NULL);
     while(tmp)
     {
-        ret[i] = (tmp->line);
+        ret[i] = ft_strdup(tmp->line);
         i++;
         tmp = tmp->next;
     }

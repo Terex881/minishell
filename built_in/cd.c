@@ -3,24 +3,46 @@
 // void    ft_change_dir(char *path, t_data *data, ...)
 void	ft_cd(char *path, t_data *data)
 {
-	t_env	*tmp;
+	char	*tmp;
+	char	*find;
+	char	*pwd;
+	char	*join;
 	int		n;
 
 	if (!path || !*path || (path[0] == '~' && path[1] == '\0'))
-		path = ft_lstfind_env(&data->env, "HOME", NULL)->line + 5;
+	{
+		free(path);
+		tmp = ft_lstfind_env(&data->env, "HOME", NULL);
+		path = ft_strdup(tmp + 5);
+		free(tmp);
+	}
 	tmp = ft_lstfind_env(&data->env, "PWD", NULL);
 	n = chdir(path);
-	if (!n && getcwd(NULL, 0))
+	pwd = getcwd(NULL, 0);
+	if (!n && pwd)
 	{
-		ft_lstfind_env(&data->env, "OLDPWD",
-			ft_strjoin("OLDPWD=", tmp->line + 4));//add protection for strjoin
-		ft_lstfind_env(&data->env, "PWD", ft_strjoin("PWD=", getcwd(NULL, 0)));//add protection for strjoin
+		free(pwd);
+		join = ft_strjoin("OLDPWD=", tmp + 4);
+		find = ft_lstfind_env(&data->env, "OLDPWD", join);//add protection for strjoin
+		free(find);
+		free(join);
+		pwd = getcwd(NULL, 0);
+		join = ft_strjoin("PWD=", pwd);
+		find = ft_lstfind_env(&data->env, "PWD", join);//add protection for strjoin
+		free(find);
+		free(join);
+		free(pwd);
 	}
 	else if (!n)
 	{
-		ft_lstfind_env(&data->env, "OLDPWD",
-			ft_strjoin("OLDPWD=", tmp->line + 4));//add protection for strjoin
-		ft_lstfind_env(&data->env, "PWD", ft_strjoin(tmp->line, "/.."));//add protection for strjoin
+		join = ft_strjoin("OLDPWD=", tmp + 4);
+		find = ft_lstfind_env(&data->env, "OLDPWD", join);//add protection for strjoin
+		free(join);
+		free(find);
+		join = ft_strjoin(tmp, "/..");
+		find = ft_lstfind_env(&data->env, "PWD", join);//add protection for strjoin
+		free(join);
+		free(find);
 	}
 	else
 	{
@@ -28,6 +50,8 @@ void	ft_cd(char *path, t_data *data)
 		perror("path");
 		exit(29); //1
 	}
+	free(tmp);
+	free(path);
 	// return ;
 	exit(10); //  0
 }
