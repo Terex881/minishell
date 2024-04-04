@@ -38,3 +38,34 @@ int	ft_valid_char(char c)
 		return (1);
 	return (0);
 }
+
+void	ft_print_export(t_var *exec, t_env *env)// fix ""
+{
+	t_env	*tmp;
+	char	*var;
+	char	*name;
+
+
+	tmp = env;
+	while (tmp)
+	{
+		ft_putstr_fd("declare -x ", exec->f_out);
+		var = ft_strchr(tmp->line, '=');
+		if (var)
+		{
+			name = ft_var_name(tmp->line);
+			ft_putstr_fd(name, exec->f_out);
+			free(name);
+			ft_putstr_fd("=", exec->f_out);
+			ft_putstr_fd("\"", exec->f_out);
+			ft_putstr_fd(var + 1, exec->f_out);
+			ft_putstr_fd("\"", exec->f_out);
+		}
+		else
+			ft_putstr_fd(tmp->line, exec->f_out);
+		ft_putstr_fd("\n", exec->f_out);
+		tmp = tmp -> next;
+	}
+
+}
+
