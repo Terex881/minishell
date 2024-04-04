@@ -62,8 +62,8 @@ t_list *ft_add_var(char *line, int *i, t_list *node)
 	node = ft_lstnew(tmp);
 	if ((line[j]) == '$' && ft_isalpha(line[j + 1]) == 1)
 		node->type = VARIABLE;
-	// else if ((line[j]) == '$' && line[j+1] == '?')
-	// 	node->type = VARIABLE;
+	else if ((line[j]) == '$' && line[j+1] == '?')
+		node->type = VARIABLE;
 	
 	else
 	 	node->type = WORD;
@@ -102,7 +102,7 @@ int	ft_token(char *line, t_list *node, t_list **list)
 	line = readline("minishell : ");
 	if (line == NULL)
 		return (0);
-	// add_history(line);
+	add_history(line);
 	while (line && line[i])
 	{
 		if (line[i] && (line[i] == 32 || (line[i] >= 9 && line[i] <= 13)))

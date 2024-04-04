@@ -26,3 +26,18 @@ int	ft_lstsize_env(t_env *env)
 	// printf("len is : %d\n", count);
 	return (count);
 }
+
+
+
+int	ft_varsize(t_var *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
+}

@@ -1,10 +1,11 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_error_export(char *line)
 {
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(line, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
+	exit(78); // 1
 }
 
 static int	ft_valid_export(char *line)

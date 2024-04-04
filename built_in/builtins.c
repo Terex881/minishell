@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 // void	ft_unset(t_var *exec, t_data *data, char *line)
 // {

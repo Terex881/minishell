@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 // void    ft_change_dir(char *path, t_data *data, ...)
 void	ft_cd(char *path, t_data *data)
@@ -25,7 +25,8 @@ void	ft_cd(char *path, t_data *data)
 	else
 	{
 		ft_putstr_fd("minishell: ", 2);
-		perror(path);
+		perror("path");
 	}
-	return ;
+	// return ;
+	exit(10); // 1 or 0
 }

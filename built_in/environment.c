@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 t_env	*ft_lstfind_env(t_env **env, char *line, char *new_line)
 {
@@ -117,6 +117,7 @@ t_env   *ft_get_env(t_data **data, char **env)
 	*data = (t_data *)malloc(sizeof(t_data));
 	if(!*data)
 		return (NULL);
+	(*data)->stat = 0;
 	if (!env || !*env)
 	{
 		p = ft_lstnew_env(ft_strjoin("PWD=", getcwd(NULL, 0)));//add malloc protection!!!

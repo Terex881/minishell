@@ -1,25 +1,25 @@
 
 NAME = minishell
-OBJ = main.o                        syntax_error.o expand.o \
-    allocate_list.o         open_files.o \
+OBJ = main.o				syntax_error.o expand.o \
+    allocate_list.o			open_files.o \
     libft/ft_isalpha.o        \
     libft/ft_strlen.o       libft/ft_memcpy.o \
     libft/ft_strchr.o       libft/ft_split.o   \
     libft/ft_strcmp.o       libft/ft_lstadd_back.o \
     libft/ft_strdup.o       libft/ft_substr.o   \
     libft/ft_strjoin.o      libft/ft_strtrim.o   \
-    libft/ft_lstnew.o       libft/ft_lstadd_front.o  \
+    libft/ft_lstnew.o       libft/ft_lstadd_front.o  libft/ft_itoa.o \
     libft/ft_lstdelone.o    libft/ft_putstr_fd.o      \
     libft/ft_lstclear.o     libft/ft_lstiter.o      libft/ft_lstsize.o \
     libft/ft_lstlast.o      libft/ft_strncmp.o      \
-    builtins.o              environment.o           execution.o\
-    echo.o                  exit.o                  export.o\
-    execution_pipe.o        export_utils.o\
-    tokenizer/token.o  tokenizer/token_utils.o signals.o \
-    env.o                   cd.o                    unset.o\
-    pwd.o\
+    built_in/builtins.o     built_in/environment.o           execution.o\
+    built_in/echo.o         built_in/exit.o                  built_in/export.o\
+    execution_pipe.o		built_in/export_utils.o\
+    tokenizer/token.o		tokenizer/token_utils.o signals.o \
+    built_in/env.o			built_in/cd.o                    built_in/unset.o\
+    built_in/pwd.o           took.o \
 
-CC = cc -g -fsanitize=address
+CC = cc -g -fsanitize=address # remove
 # FLAGS = -Wall -Werror -Wextra
 
 READLINE_INC = -I$(shell brew --prefix readline)/include

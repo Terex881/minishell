@@ -1,4 +1,5 @@
-#include "minishell.h" // ADD PATH to env, but dont print it if unset
+#include "../minishell.h"
+// ADD PATH to env, but dont print it if unset
 
 void	ft_env(t_var *exec, t_data *data)
 {
@@ -8,10 +9,12 @@ void	ft_env(t_var *exec, t_data *data)
 	if (!data->path)
 	{
 		perror("env");
+		// ft_error("env", exec->arg[1], "salah");
+		// exit(129);
 		return ;
 	}
 	if (!i)
-		ft_unset(exec, data, "OLDPWD");
+		ft_unset(exec, data, "OLDPWD"); // why this
 	i++;
 	env = data->env;
 	while (env)
@@ -23,4 +26,5 @@ void	ft_env(t_var *exec, t_data *data)
 		}
 		env = env->next;
 	}
+	exit(65); // 0
 }

@@ -14,8 +14,14 @@
 #include <termios.h>
 
 // syscall
+// echo $USER << a cat ths important
 
 
+//  ./ls khdmi b lstat or stat
+
+// minishell : exit "      4"
+// exit
+// minishell: exit:        4: numeric argument required
 
 
 // minishell :$USER_d                       $USER
@@ -92,6 +98,7 @@ typedef struct s_data
 	t_env *env;
 	char *path;
 	char *old_pwd;
+	int stat;
 }	t_data;
 
 
@@ -141,6 +148,13 @@ char	*ft_strtrim(char *str, char set);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_lstclear_var(t_var **exec); 
 void	ft_varadd_back(t_var **lst, t_var *new1);
+int	ft_varsize(t_var *lst);
+
+
+
+int		counter(int n);
+char	*ft_itoa(int n1);
+
 
 //-----------------------TOKEN---------------------
 
@@ -189,7 +203,7 @@ void ft_execute_pipe(t_var *exec, t_data *data, t_env *env);
 char	**ft_free(char **p, int i);
 char **get_paths(char *path);
 char *valid_path(char *cmd, char *line);
-int check_builtin(t_var *exec, t_data *data);
+int	check_builtin(t_var *exec, t_data *data);
 
 char **ft_cpy_to_2d(t_env *tmp);
 
@@ -202,7 +216,7 @@ void	ft_cd(char *path, t_data *data);
 void	ft_echo(char **arg, t_var *exec);
 void	ft_export(t_var *exec, t_data *data, char *line);
 void	ft_unset(t_var *exec, t_data *data, char *line);
-void	ft_exit(t_var *exec, t_data **data, char **arg);
+void	ft_exit(t_var *exec, t_data **data, char **arg, int len);
 
 //------------------BUILTS_IN_UTILS--------------------
 
@@ -235,6 +249,7 @@ t_list	*ft_next(t_list *tmp);
 int	ft_lstsize_env(t_env *env);
 
 void ft_close(t_var *exec);
+void    ft_error(char *str1, char *str2, char *str3);
 
 
 

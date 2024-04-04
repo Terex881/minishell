@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 static long long	ft_valid_arg(char *str, int *valid)
 {
@@ -9,6 +9,8 @@ static long long	ft_valid_arg(char *str, int *valid)
 	s = 1;
 	n = 0;
 	*valid = 0;
+	while(str && *str == 32 || (*str >= 9 && *str <= 13)) // i add this
+		str++;
 	if (*str == '+' || *str == '-')
 	{
 		if (*str == '-')
@@ -29,16 +31,18 @@ static long long	ft_valid_arg(char *str, int *valid)
 	return (s * n);
 }
 
-void	ft_exit(t_var *exec, t_data **data, char **arg)
+void	ft_exit(t_var *exec, t_data **data, char **arg,int len)
 {
 	int			valid;
 	long long	n;
+
 
 	valid = 1;
 	ft_lstclear_env(&(*data)->env);
 	free((*data)->path);
 	free(*data);
-	write(exec->f_out, "exit\n", 5);
+	if(len == 1)
+		write(exec->f_out, "exit\n", 5);
 	if (!arg || !arg[1])
 		exit(0);
 	if (arg[2])
@@ -51,5 +55,6 @@ void	ft_exit(t_var *exec, t_data **data, char **arg)
 		write(2, ": numeric argument required\n", 29);
 		exit(255);
 	}
+	printf("--> %lld\n", n);
 	exit(n);
 }

@@ -60,7 +60,9 @@ void	ft_expand(t_list **list, t_data *data)
 	{
 		if(!ft_chck_if_herdoc(list))
 		{
-			if(tmp->type == D_Q || tmp->type == VARIABLE)
+			if(!ft_strcmp(tmp->value, "$?"))
+				tmp->value = ft_itoa(data->stat);
+			else if(tmp->type == D_Q || tmp->type == VARIABLE)
 				tmp->value = ft_search_var(tmp->value, data);
 			else if(tmp->next && !ft_strcmp(tmp->value , "$") && !ft_type(tmp->next))
 				tmp->value = ft_strdup("$") ;

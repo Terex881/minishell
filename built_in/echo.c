@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	check_n(char *s)
 {
@@ -25,11 +25,12 @@ void	ft_echo(char **arg, t_var *exec)
 	i = 0;
 	n = 0;
 	if (!arg || !*arg)
-		return ((void)write(exec->f_out, "\n", 1));
+		return ((void)write(exec->f_out, "\n", 1), exit(66));
 	if (check_n(arg[0]))
 		(1) && (n = 1, i++);
 	if (!arg[i])
-		return ;
+		exit(22);
+	// return ;
 	while (arg && arg[i])
 	{
 		if (n == 1 && check_n(arg[i]))
@@ -44,4 +45,5 @@ void	ft_echo(char **arg, t_var *exec)
 	}
 	if (!n)
 		write(exec->f_out, "\n", 1);
+	exit(99); // 0
 }
