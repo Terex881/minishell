@@ -58,21 +58,30 @@ char *valid_path(char *cmd, char *line)
     char    *tmp;
     char    **paths;
 
-    if (!access(cmd, F_OK | X_OK))
-        return (ft_strdup(cmd));    //add protection for strdup
-    paths = get_paths(line);
-    if (!paths)
-        return (NULL);
-    i = 0;
-    if (cmd[i] == '.' || cmd[i] == '/')
-        return ( NULL);
-    while (paths && paths[i])
+    if (cmd && ft_strlen(cmd))
     {
-        tmp = ft_strjoin(paths[i], "/");   
-        path = ft_strjoin(tmp, cmd);   
-        if (!access(path, F_OK | X_OK))
-            return (path);
-        i++;  
+        if (cmd[0] == '.' && cmd[1] == '\0')
+        {
+            ft_error("minshell: ", cmd, ": filename argument required");
+            ft_error(".: ", "usage: . filename [arguments]", NULL);
+            exit(2002);
+        }
+        if (!access(cmd, F_OK | X_OK))
+            return (ft_strdup(cmd));    //add protection for strdup
+        paths = get_paths(line);
+        if (!paths)
+            return (NULL);
+        i = 0;
+        if (cmd[i] == '.' || cmd[i] == '/')
+            return ( NULL);
+        while (paths && paths[i])
+        {
+            tmp = ft_strjoin(paths[i], "/");   
+            path = ft_strjoin(tmp, cmd);   
+            if (!access(path, F_OK | X_OK))
+                return (path);
+            i++;  
+        }
     }
     ft_error("minshell: ", cmd, ": command not found"); //put it
     exit(100); // 127
@@ -114,7 +123,7 @@ void ft_child(t_var *exec, t_data *data, char **new_env)
     if (dup2(exec->f_out, 1) == -1)
         (perror("dup2 error!\n"),  exit(1));
     if (execve(path, exec->arg, new_env) == -1)
-        (perror(exec->arg[0]),  exit(133));       
+        (ft_error("minshell: ", exec->arg[0], ": command not found"),  exit(133));       
     
 }
 void ft_execution(t_var *exec, t_data *data, t_env *env)
@@ -133,7 +142,7 @@ void ft_execution(t_var *exec, t_data *data, t_env *env)
         return ;
     data->pid = fork();
     if (data->pid == -1)
-        return (perror("fork error!\n"));
+        return (perror("fork"));
     if (data->pid == 0)
         ft_child(exec, data, new_env);
     else
