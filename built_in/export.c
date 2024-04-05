@@ -38,12 +38,12 @@ static int	ft_valid_export(char *line, t_data *data)
 	return (1);
 }
 
-static int	ft_export_no_args(t_var *exec, t_data *data, char *line)
+static int	ft_export_no_args(t_var *exec, t_data *data, char **args)
 {
 	t_env	*env_cpy;
 
 	data->stat = 0;
-	if (!line)
+	if (!args[1])
 	{
 		env_cpy = ft_lstcpy_env(data->env);
 		ft_print_export(exec, ft_sort_env(env_cpy, ft_strcmp));
@@ -59,44 +59,50 @@ static int	ft_export_no_args(t_var *exec, t_data *data, char *line)
 	return (0);
 }
 
-void	ft_export(t_var *exec, t_data *data, char *line)
+void	ft_export(t_var *exec, t_data *data, char **args)
 {
 	char	*tmp;
 	char	*var;
 	char	*name;
+	int		i;
 
 	data->stat = 0;
-	if (ft_export_no_args(exec, data, line))
-		return ;	
-	if (!ft_valid_export(line, data))
-	{
-		data->stat = 1;		
+	if (ft_export_no_args(exec, data, args))
 		return ;
-	}
-	(1) && (tmp = ft_strchr(line, '=')/*, var = NULL*/);
-	if (tmp)
+	i = 1;
+	while (args[i])
 	{
-		name = ft_var_name(line);
-		// if (ft_lstfind_env(&data->env, name, NULL))
-		var = ft_lstfind_env(&data->env, name, NULL);
-		if (!var && !ft_strncmp(tmp - 1, "+=", 2))
-			ft_lstadd_back_env(&data->env,
-				ft_lstnew_env(ft_strdup(ft_remove_plus(line))));//protection needed for dup and lstnew
-		else if (var && !ft_strncmp(tmp - 1, "+=", 2))
+		if (!ft_valid_export(args[i], data))
 		{
-			if (!ft_strchr(var, '='))
-				ft_lstfind_env(&data->env, name, ft_strjoin(ft_strjoin(var, "="), tmp + 1));//add protection for strjoin
-			else
-				ft_lstfind_env(&data->env, name, ft_strjoin(var, tmp + 1));//add protection for strjoin
+			data->stat = 1;		
+			return ;
 		}
-		else if (var)
-			ft_lstfind_env(&data->env, name, line);
-		else
-			ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(line)));//protection needed for dup and lstnew
-		// (free(name), free(var));
+		(1) && (tmp = ft_strchr(args[i], '=')/*, var = NULL*/);
+		if (tmp)
+		{
+			name = ft_var_name(args[i]);
+			// if (ft_lstfind_env(&data->env, name, NULL))
+			var = ft_lstfind_env(&data->env, name, NULL);
+			if (!var && !ft_strncmp(tmp - 1, "+=", 2))
+				ft_lstadd_back_env(&data->env,
+					ft_lstnew_env(ft_strdup(ft_remove_plus(args[i]))));//protection needed for dup and lstnew
+			else if (var && !ft_strncmp(tmp - 1, "+=", 2))
+			{
+				if (!ft_strchr(var, '='))
+					ft_lstfind_env(&data->env, name, ft_strjoin(ft_strjoin(var, "="), tmp + 1));//add protection for strjoin
+				else
+					ft_lstfind_env(&data->env, name, ft_strjoin(var, tmp + 1));//add protection for strjoin
+			}
+			else if (var)
+				ft_lstfind_env(&data->env, name, args[i]);
+			else
+				ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(args[i])));//protection needed for dup and lstnew
+			// (free(name), free(var));
+		}
+		else if (ft_strchr(args[i], '+'))
+			ft_error_export(args[i], data);
+		else if (!ft_lstfind_env(&data->env, args[i], NULL))
+			ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(args[i])));
+		i++;
 	}
-	else if (ft_strchr(line, '+'))
-		ft_error_export(line, data);
-	else if (!ft_lstfind_env(&data->env, line, NULL))
-		ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(line)));
 }
