@@ -10,7 +10,8 @@ char	*ft_lstfind_env(t_env **env, char *line, char *new_line)
     tmp = *env;
     while (tmp)
     {
-        if (ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0)
+        if (ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0
+			&& (tmp -> line[ft_strlen(line)] == '\0' || tmp -> line[ft_strlen(line)] == '='))
         {
             if (!new_line || !*new_line)
 			{
