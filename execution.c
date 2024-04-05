@@ -128,11 +128,8 @@ void ft_execution(t_var *exec, t_data *data, t_env *env)
     new_env= ft_cpy_to_2d(env);
     if (!exec->arg)
         return ;
-	if (exec->arg && !ft_strncmp(exec->arg[0], "exit", 5))
-    {
-        printf("***\n");
+	if (exec->arg && !ft_strcmp(exec->arg[0], "exit"))
         (ft_exit(exec, &data, exec->arg, data->len)); 
-    }
     if (check_builtin(exec, data))
         return ;
     data->pid = fork();

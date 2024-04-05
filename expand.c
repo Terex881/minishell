@@ -39,19 +39,6 @@ char *ft_search_var(char *str, t_data *data)
 	return fin;
 }
 
-// int ft_chck_if_herdoc(t_list *list)
-// {
-// 	t_list *tmp;
-// 	tmp = *list;
-// 	while (tmp)
-// 	{
-// 		if(tmp->type == HER_DOC) // check in PIPE
-// 			return (1);
-// 		tmp = tmp->next;
-// 	}
-// 	return (0);
-// }
-
 void	ft_expand(t_list **list, t_data *data)
 {
 	t_list *tmp;
