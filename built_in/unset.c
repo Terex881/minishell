@@ -20,7 +20,8 @@ void	ft_unset(t_var *exec, t_data **data, char **args)
 		}
 		while (p)
 		{
-			if (ft_strncmp(p->line, args[i], ft_strlen(args[i])) == 0)
+			if (ft_strncmp(p->line, args[i], ft_strlen(args[i])) == 0
+				&& (p->line[ft_strlen(args[i])] == '\0' || p->line[ft_strlen(args[i])] == '='))
 			{
 				if (tmp)
 					tmp->next = p->next;
