@@ -90,7 +90,7 @@ int check_builtin(t_var *exec, t_data *data)
         return (ft_cd(exec->arg[1], data),  1);
     }
     if (exec->arg && !ft_strncmp(exec->arg[0], "unset", 6))
-        return (ft_unset(exec, &data, exec->arg[1]), 1);
+        return (ft_unset(exec, &data, exec->arg), 1);
     if (exec->arg &&!ft_strncmp(exec->arg[0], "env", 4))
     {
 		if (exec->arg[1])
