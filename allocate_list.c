@@ -15,8 +15,8 @@ t_var	*ft_allocate_list(t_list **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if (tmp->type == PIPE)// check if pipe is true or false
-			(tmp->skip = true, n++);
+		if (tmp->type == PIPE)
+			(1) && (tmp->skip = true, n++);
 		tmp = tmp->next;
 	}
 	while (i < n)
@@ -24,7 +24,6 @@ t_var	*ft_allocate_list(t_list **list)
 		node = ft_varnew(&i);
 		if (!node)
 			return (NULL);
-			// return (ft_lstclear_var(&exec), free(node), NULL);
 		ft_varadd_back(&exec, node);
 		i++;
 	}
@@ -52,15 +51,17 @@ void	ft_len_node_elem(t_list **list, t_var *exec)
 		exec->arg = NULL;
 	else
 		exec->arg = c_malloc(sizeof(char *) * (n + 1), 1); // check this
-	if(!exec->arg)
+	if (!exec->arg)
 		return ;
 }
+
 char	*ft_varjoin(t_list **tmp, t_data *data)
 {
 	char	*str;
 
 	str = (*tmp)->value;
-	while (*tmp && (*tmp)->next && (*tmp)->next->skip == false && ft_type((*tmp)->next) != 2)
+	while (*tmp && (*tmp)->next
+		&& (*tmp)->next->skip == false && ft_type((*tmp)->next) != 2)
 	{
 		if (ft_type((*tmp)->next) == 1)
 			data->a = 1;
@@ -77,8 +78,8 @@ void	ft_copy_to_list(t_list **list, t_var *exec, t_data *data)
 	t_list	*tmp;
 	int		i;
 
-	if(!exec->arg)
-		return;
+	if (!exec->arg)
+		return ;
 	tmp = *list;
 	i = 0;
 	while (tmp)
@@ -87,16 +88,15 @@ void	ft_copy_to_list(t_list **list, t_var *exec, t_data *data)
 		{
 			i = 0;
 			exec = exec->next;
-			tmp->skip =true; // for pipe
+			tmp->skip = true; // for pipe
 			ft_len_node_elem(&tmp->next, exec);
 		}
 		if (tmp->skip == false)
-		{			
+		{
 			exec->arg[i] = ft_varjoin(&tmp, data);
-			i++;
-			tmp->skip = true;
+			(1) && (i++, tmp->skip = true);
 		}
-		if(exec->arg)
+		if (exec->arg)
 			exec->arg[i] = NULL;
 		tmp = tmp->next;
 	}
