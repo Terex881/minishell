@@ -84,7 +84,7 @@ char *valid_path(char *cmd, char *line)
         }
     }
     ft_error("minshell: ", cmd, ": command not found"); //put it
-    exit(100); // 127
+    exit(127); // 127
     return (NULL);
 }
 int check_builtin(t_var *exec, t_data *data)
@@ -123,7 +123,11 @@ void ft_child(t_var *exec, t_data *data, char **new_env)
     if (dup2(exec->f_out, 1) == -1)
         (perror("dup2 error!\n"),  exit(1));
     if (execve(path, exec->arg, new_env) == -1)
+<<<<<<< HEAD
+        (perror(exec->arg[0]),  exit(1));       
+=======
         (ft_error("minshell: ", exec->arg[0], ": command not found"),  exit(133));       
+>>>>>>> e88ec8bd7e75408975fa93520496a6135bc2abda
     
 }
 void ft_execution(t_var *exec, t_data *data, t_env *env)
@@ -133,11 +137,8 @@ void ft_execution(t_var *exec, t_data *data, t_env *env)
     new_env= ft_cpy_to_2d(env);
     if (!exec->arg)
         return ;
-	if (exec->arg && !ft_strncmp(exec->arg[0], "exit", 5))
-    {
-        printf("***\n");
+	if (exec->arg && !ft_strcmp(exec->arg[0], "exit"))
         (ft_exit(exec, &data, exec->arg, data->len)); 
-    }
     if (check_builtin(exec, data))
         return ;
     data->pid = fork();

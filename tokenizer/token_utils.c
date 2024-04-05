@@ -26,3 +26,23 @@ void ft_skip_space(t_list **list)
 	}
 }
 
+char    **ft_cpy_to_2d(t_env *tmp)
+{
+    char    **ret;
+    int     len;
+    int     i;
+
+    i = 0;
+    len  = ft_lstsize_env(tmp);
+    ret = c_malloc(sizeof(char*) * (len + 1), 1);
+    if(!ret)
+        return (NULL);
+    while(tmp)
+    {
+        ret[i] = ft_strdup(tmp->line);
+        i++;
+        tmp = tmp->next;
+    }
+    ret[i]  = NULL;
+    return (ret);
+}

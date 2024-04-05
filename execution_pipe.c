@@ -8,26 +8,7 @@ void ft_close_pipe(t_data *data)
     close(data->pipe_ends[0]);
 	close(data->pipe_ends[1]);
 }
-char    **ft_cpy_to_2d(t_env *tmp)
-{
-    char    **ret;
-    int     len;
-    int     i;
 
-    i = 0;
-    len  = ft_lstsize_env(tmp);
-    ret = c_malloc(sizeof(char*) * (len + 1), 1);
-    if(!ret)
-        return (NULL);
-    while(tmp)
-    {
-        ret[i] = ft_strdup(tmp->line);
-        i++;
-        tmp = tmp->next;
-    }
-    ret[i]  = NULL;
-    return (ret);
-}
 
 void ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 {
@@ -45,9 +26,9 @@ void ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
         return(exit(data->stat));
 	path = valid_path(exec->arg[0], data->path);
     if (!path)
-        return (perror("Invalid path!1111111\n"), exit(123)); // 126
+        return (perror("Invalid path!\n"), exit(126)); // 126
     if (execve(path, exec->arg, arr) == -1)
-		return (perror("111"), exit(1)); // change
+		return (perror("execve"), exit(1)); // change
 }
 
 
@@ -63,8 +44,11 @@ void ft_multi_childs(t_var *exec, t_data *data, t_env *env)
             (perror("dup2 error!\n"), exit(1));     
     }
 	else
+    {
+
 		if(dup2(exec->f_out, 1) == -1)
             (perror("dup2 error!\n"), exit(1));
+    }
     ft_close_pipe(data);
 	ft_execution_(exec, data, env, data->len);
 
@@ -90,13 +74,13 @@ void ft_execute_pipe(t_var *exec, t_data *data, t_env *env)
                 (perror("dup2 error!\n"), exit(1));
             ft_close_pipe(data);
             wait(&data->status);
-            data->stat = WEXITSTATUS(data->status);
 		}
         exec = exec->next;
     }
     if(dup2(data->or_in, 0) == -1)
         (perror("dup2 error!\n"));
     close(data->or_in);
+    data->stat = WEXITSTATUS(data->status); // check
 }
 
 

@@ -22,6 +22,8 @@
 // m=need diuple quots
 //              /ls
 
+// export a="ls"
+
 
 
 
@@ -44,22 +46,6 @@
 
 ///////////PROTECTION?/////////
 
-// secure PATH
-
-// 'ls -la |  '
-
-// minishell :$fgd
-// minishell :echo :$dfgdfg:
-
-// ls | 
-//echo "dsf""fsf"
-
-
-// minishell :exit 10
-// exit
-
-// ls | "" 
-// ls > ls | wc
 
 
 typedef enum 
@@ -111,6 +97,7 @@ typedef struct s_data
     int		status;
     int		pipe_ends[2];
 	int		len;
+	int		a; // change
 }	t_data;
 
 // struct    termios original_terminos;
@@ -153,12 +140,8 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_lstclear_var(t_var **exec); 
 void	ft_varadd_back(t_var **lst, t_var *new1);
 int	ft_varsize(t_var *lst);
-
-
-
 int		counter(int n);
 char	*ft_itoa(int n1);
-
 
 //-----------------------TOKEN---------------------
 
@@ -166,12 +149,12 @@ int		ft_check(char c);
 int		ft_token(char *line, t_list *node, t_list **list);
 int		ft_all(t_list **list, t_env *env, t_data	*data);
 void	ft_print(t_list *list);
-void ft_skip_space(t_list **list);
+void	ft_skip_space(t_list **list);
 
 //---------------------OPEN_FILES---------------------
 
-int		ft_IN_OUT(t_list *tmp, t_var *exec);
-int		ft_open_files(t_list **list, t_var *exec);
+// int		ft_IN_OUT(t_list *tmp, t_var *exec);
+int		ft_open_files(t_list **list, t_var *exec, t_data *data);
 void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data);
 
 //---------------------EXPAND---------------------
@@ -179,7 +162,7 @@ void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data);
 char	*ft_sub_variable(char *str, int *i);
 void	ft_expand(t_list **list, t_data *data);
 char	*ft_charjoin(char const *s1, char  s2);
-char *ft_expand_her_doc(char *str, t_data *data);
+char	*ft_expand_her_doc(char *str, t_data *data);
 
 // ---------------------CREATE_NEW_LIST---------------------
 
@@ -187,13 +170,14 @@ void	ft_print_var(t_var *list);
 t_var	*ft_allocate_list(t_list **list);
 t_var	*ft_varnew(void *value);
 void	ft_len_node_elem(t_list **list, t_var *exec);
-char	*ft_varjoin(t_list **tmp);
-void	ft_copy_to_list(t_list **list, t_var *exec);
+char	*ft_varjoin(t_list **tmp, t_data *data);
+void	ft_copy_to_list(t_list **list, t_var *exec, t_data *data);
 
 //---------------------SYNTAX_ERROR---------------------
 
 int		ft_syntax_error(t_list **list);
 int		ft_type(t_list *lst);
+t_list	*ft_next(t_list *tmp);
 
 //---------------------EXECUTION---------------------
 
@@ -244,7 +228,6 @@ t_env	*ft_lstcpy_env(t_env *env);
 
 
 
-t_list	*ft_next(t_list *tmp);
 int	ft_lstsize_env(t_env *env);
 
 void ft_close(t_var *exec);

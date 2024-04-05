@@ -39,19 +39,6 @@ char *ft_search_var(char *str, t_data *data)
 	return fin;
 }
 
-// int ft_chck_if_herdoc(t_list *list)
-// {
-// 	t_list *tmp;
-// 	tmp = *list;
-// 	while (tmp)
-// 	{
-// 		if(tmp->type == HER_DOC) // check in PIPE
-// 			return (1);
-// 		tmp = tmp->next;
-// 	}
-// 	return (0);
-// }
-
 void	ft_expand(t_list **list, t_data *data)
 {
 	t_list *tmp;
@@ -69,7 +56,7 @@ void	ft_expand(t_list **list, t_data *data)
 		else if(tmp && tmp->next && !ft_strcmp(tmp->value , "$") && !ft_type(tmp->next))
 			tmp->value = ft_strdup("$") ;
 		else if(tmp && tmp->next && !ft_strcmp(tmp->value , "$"))
-			tmp->value = ft_strdup("") ;	
+			tmp->value = ft_strdup("") ; // 	
 		tmp = tmp->next;
 	}
 }
