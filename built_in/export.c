@@ -5,7 +5,8 @@ void	ft_error_export(char *line, t_data *data)
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(line, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
-	data->stat = 1;
+	if(data)
+		data->stat = 1;
 }
 
 static int	ft_valid_export(char *line, t_data *data)
@@ -86,6 +87,7 @@ void	ft_export(t_var *exec, t_data *data, char **args)
 			if (!var && !ft_strncmp(tmp - 1, "+=", 2))
 				ft_lstadd_back_env(&data->env,
 					ft_lstnew_env(ft_strdup(ft_remove_plus(args[i]))));//protection needed for dup and lstnew
+					
 			else if (var && !ft_strncmp(tmp - 1, "+=", 2))
 			{
 				if (!ft_strchr(var, '='))

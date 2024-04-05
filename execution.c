@@ -75,7 +75,7 @@ char *valid_path(char *cmd, char *line)
         i++;  
     }
     ft_error("minshell: ", cmd, ": command not found"); //put it
-    exit(100); // 127
+    exit(127); // 127
     return (NULL);
 }
 int check_builtin(t_var *exec, t_data *data)
@@ -114,7 +114,7 @@ void ft_child(t_var *exec, t_data *data, char **new_env)
     if (dup2(exec->f_out, 1) == -1)
         (perror("dup2 error!\n"),  exit(1));
     if (execve(path, exec->arg, new_env) == -1)
-        (perror(exec->arg[0]),  exit(133));       
+        (perror(exec->arg[0]),  exit(1));       
     
 }
 void ft_execution(t_var *exec, t_data *data, t_env *env)

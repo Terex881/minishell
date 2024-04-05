@@ -41,7 +41,7 @@ void	ft_exit(t_var *exec, t_data **data, char **arg, int len)
 	if (len == 1)
 		write(exec->f_out, "exit\n", 5);
 	if (!arg || !arg[1])
-		exit(0);
+		(c_malloc(0, 0), exit(0));
 	if (arg[2])
 		return ((void)write(2, "minishell: exit: too many arguments\n", 36));
 	n = ft_valid_arg(arg[1], &valid);
@@ -50,7 +50,7 @@ void	ft_exit(t_var *exec, t_data **data, char **arg, int len)
 		write(2, "minishell: exit: ", 17);
 		write(2, arg[1], ft_strlen(arg[1]));
 		write(2, ": numeric argument required\n", 29);
-		exit(255);
+		(c_malloc(0, 0), exit(255));
 	}
-	exit(n);
+	(c_malloc(0, 0), exit(n));
 }

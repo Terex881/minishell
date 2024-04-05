@@ -41,7 +41,7 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 	node = ft_lstnew(tmp);
 	// free(str);
 	if ((line[j] == '\"' || line[j] == '\'') && line[*i] == '\0')
-		return (ft_putstr_fd("33\n", 2),  NULL);
+		return (ft_putstr_fd("syntax error\n", 2),  NULL);
 		// return (ft_putstr_fd("33\n", 2), free(tmp), free(node), NULL);
 	if (line[j] == '\"')
 		node->type = D_Q;

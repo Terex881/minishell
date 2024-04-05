@@ -30,7 +30,8 @@ t_var	*ft_varnew(void *value)
 t_env	*ft_lstnew_env(char *line)
 {
 	t_env	*p;
-
+	if (!line)
+		return NULL;
 	p = (t_env *)c_malloc(sizeof (t_env), 1);
 	if (!p)
 		return (NULL);

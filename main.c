@@ -35,10 +35,10 @@ void ft_success(t_list **list, t_env *env, t_data *data)
 		ft_expand(list,  data); // fix vraiable
 		exec = ft_allocate_list(list);
 		ft_open_her_doc(list, exec, data);
-		if (ft_open_files(list, exec) == 0)
+		if (ft_open_files(list, exec, data) == 0)
 		{
 			ft_len_node_elem(list, exec);
-			ft_copy_to_list(list, exec);
+			ft_copy_to_list(list, exec, data);
 			if (exec->next)
 				ft_execute_pipe(exec, data, env);
 			else

@@ -10,8 +10,8 @@ char	*ft_lstfind_env(t_env **env, char *line, char *new_line)
     tmp = *env;
     while (tmp)
     {
-        if (ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0
-			&& (tmp -> line[ft_strlen(line)] == '\0' || tmp -> line[ft_strlen(line)] == '='))
+        if (tmp && ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0
+			&& (tmp->line[ft_strlen(line)] == '\0' || tmp->line[ft_strlen(line)] == '='))
         {
             if (!new_line || !*new_line)
 			{
@@ -35,10 +35,12 @@ char	*ft_get_line(t_data *data, char *line, int i)
 	t_env	*tmp;
 	char	*res;
 
+	if (!data)
+		return NULL;
 	tmp = data->env;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0)
+		if (tmp && ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0)
 		{
 			res = ft_strdup(tmp->line + i + 1);//add protection for strdup
 			return (res); // add protection for strdup

@@ -56,7 +56,7 @@ void	ft_expand(t_list **list, t_data *data)
 		else if(tmp && tmp->next && !ft_strcmp(tmp->value , "$") && !ft_type(tmp->next))
 			tmp->value = ft_strdup("$") ;
 		else if(tmp && tmp->next && !ft_strcmp(tmp->value , "$"))
-			tmp->value = ft_strdup("") ;	
+			tmp->value = ft_strdup("") ; // 	
 		tmp = tmp->next;
 	}
 }

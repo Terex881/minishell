@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <stdbool.h>
 
 t_var	*ft_allocate_list(t_list **list)
 {
@@ -54,14 +55,15 @@ void	ft_len_node_elem(t_list **list, t_var *exec)
 	if(!exec->arg)
 		return ;
 }
-char	*ft_varjoin(t_list **tmp)
+char	*ft_varjoin(t_list **tmp, t_data *data)
 {
 	char	*str;
 
 	str = (*tmp)->value;
 	while (*tmp && (*tmp)->next && (*tmp)->next->skip == false && ft_type((*tmp)->next) != 2)
 	{
-		// free(str);
+		if (ft_type((*tmp)->next) == 1)
+			data->a = 1;
 		str = ft_strjoin(str, (*tmp)->next->value);
 		(*tmp)->skip = true;
 		*tmp = (*tmp)->next;
@@ -70,7 +72,7 @@ char	*ft_varjoin(t_list **tmp)
 	return (str);
 }
 
-void	ft_copy_to_list(t_list **list, t_var *exec)
+void	ft_copy_to_list(t_list **list, t_var *exec, t_data *data)
 {
 	t_list	*tmp;
 	int		i;
@@ -90,7 +92,7 @@ void	ft_copy_to_list(t_list **list, t_var *exec)
 		}
 		if (tmp->skip == false)
 		{			
-			exec->arg[i] = ft_varjoin(&tmp);
+			exec->arg[i] = ft_varjoin(&tmp, data);
 			i++;
 			tmp->skip = true;
 		}

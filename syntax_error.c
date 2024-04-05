@@ -33,15 +33,15 @@ int	ft_syntax_error(t_list **list)
 		return (1);
 	ft_skip_space(list);
 	if (tmp->type == PIPE || ft_lstlast(tmp)->type == PIPE)
-		return (ft_putstr_fd("1\n", 2), 1);
+		return (ft_putstr_fd("syntax error\n", 2), 1);
 	if (ft_type(ft_lstlast(tmp)) == 2 )
-		return (ft_putstr_fd("2\n", 2), 1);
+		return (ft_putstr_fd("syntax error\n", 2), 1);
 	while (tmp && tmp->next)
 	{
 		if(ft_type(tmp) == 2 && (ft_type(ft_next(tmp->next)) == 4))
-			return (ft_putstr_fd("8\n", 2), 1);
+			return (ft_putstr_fd("syntax error\n", 2), 1);
 		if(ft_type(tmp) == 4 && ft_type(ft_next(tmp->next)) == 4)
-			return (ft_putstr_fd("4\n", 2), 1);
+			return (ft_putstr_fd("syntax error\n", 2), 1);
 		tmp->skip = false;
 		if(tmp->type == SPACE_)
 			tmp->skip = true;
