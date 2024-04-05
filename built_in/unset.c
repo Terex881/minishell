@@ -11,7 +11,7 @@ void	ft_unset(t_var *exec, t_data **data, char *line)
 	tmp = NULL;
 	if (ft_strncmp(line, "PATH", 5) == 0)
 	{
-		free((*data)->path);
+		// free((*data)->path);
 		(*data)->path = NULL;
 	}
 	while (p)
@@ -22,7 +22,7 @@ void	ft_unset(t_var *exec, t_data **data, char *line)
 				tmp->next = p->next;
 			else
 				(*data)->env = p->next;
-			free(p->line);
+			// free(p->line);
 			// free(p);
 			return ;
 		}
@@ -44,14 +44,14 @@ void	ft_unset(t_var *exec, t_data **data, char *line)
 // 	}
 // 	if (ft_strncmp((*data)->env->line, line, ft_strlen(line)) == 0)
 // 	{
-// 		free((*data)->env->line);
+// 		// free((*data)->env->line);
 // 		(*data)->env = (*data)->env->next;
 // 		return ;
 // 	}
 // 	p = (*data)->env;
-// 	while (p->next)
+// 	while (p && p->next)
 // 	{
-// 		if (ft_strncmp(p->next->line, line, ft_strlen(line)) == 0)
+// 		if (ft_strcmp(p->next->line, line) == 0)
 // 		{
 // 			free(p->next->line);
 // 			free(p->next);

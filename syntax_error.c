@@ -31,6 +31,7 @@ int	ft_syntax_error(t_list **list)
 	tmp = *list;
 	if (!tmp)
 		return (1);
+	ft_skip_space(list);
 	if (tmp->type == PIPE || ft_lstlast(tmp)->type == PIPE)
 		return (ft_putstr_fd("1\n", 2), 1);
 	if (ft_type(ft_lstlast(tmp)) == 2 )

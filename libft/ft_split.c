@@ -40,7 +40,7 @@ static char	*length_word(const char **str1, char sep)
 	start = i;
 	while (str[i] && str[i] != sep)
 		i++;
-	arr = (char *)malloc((i - start) + 1);
+	arr = (char *)c_malloc((i - start) + 1, 1);
 	if (!arr)
 		return (NULL);
 	while (start < i)
@@ -54,10 +54,10 @@ static void	libre(char **str, int i)
 {
 	while (i >= 0)
 	{
-		free(str[i]);
+		// free(str[i]);
 		i--;
 	}
-	free(str);
+	// free(str);
 }
 
 char	**ft_split(const char *str, char sep)
@@ -70,7 +70,7 @@ char	**ft_split(const char *str, char sep)
 	if (!str)
 		return (NULL);
 	count = count_word(str, sep);
-	arr = malloc(sizeof(char *) * (count + 1));
+	arr = c_malloc(sizeof(char *) * (count + 1), 1);
 	if (!arr)
 		return (NULL);
 	arr[count] = NULL;

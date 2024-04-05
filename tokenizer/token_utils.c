@@ -22,7 +22,6 @@ void ft_skip_space(t_list **list)
 		tmp = tmp->next;
 	if(tmp && tmp->next && tmp->next->type == SPACE_ && tmp->next->next == NULL)
 	{
-		free(tmp->next);
 		tmp->next = NULL;
 	}
 }

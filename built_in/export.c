@@ -19,7 +19,8 @@ static int	ft_valid_export(char *line, t_data *data)
 	if (line[0] == '=' || line[0] == '+' || (line[0] >= '0' && line[0] <= '9'))
 	{
 		name = ft_var_name(line);
-		return (ft_error_export(name, data), free(name), 0);
+		return (ft_error_export(name, data),  0);
+		// return (ft_error_export(name, data), free(name), 0);
 	}
 	if (ft_valid_char(line[i]))
 		i++;
@@ -28,11 +29,12 @@ static int	ft_valid_export(char *line, t_data *data)
 		if (!ft_valid_char(line[i]) && line[i] != '=' && line[i] != '+')
 		{
 			name = ft_var_name(line);
-			return (ft_error_export(name, data), free(name), 0);
+			return (ft_error_export(name, data),  0);
+			// return (ft_error_export(name, data), free(name), 0);
 		}
 		i++;
 	}
-	free(name);
+	// free(name);
 	return (1);
 }
 
@@ -45,7 +47,7 @@ static int	ft_export_no_args(t_var *exec, t_data *data, char *line)
 	{
 		env_cpy = ft_lstcpy_env(data->env);
 		ft_print_export(exec, ft_sort_env(env_cpy, ft_strcmp));
-		ft_lstclear_env(&env_cpy);
+		// ft_lstclear_env(&env_cpy);
 		return (1);
 	}
 	
@@ -81,7 +83,7 @@ void	ft_export(t_var *exec, t_data *data, char *line)
 			ft_lstfind_env(&data->env, name, line);
 		else
 			ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(line)));//protection needed for dup and lstnew
-		(free(name), free(var));
+		// (free(name), free(var));
 	}
 	else if (ft_strchr(line, '+'))
 		ft_error_export(line, data);

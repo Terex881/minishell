@@ -22,7 +22,8 @@ t_var	*ft_allocate_list(t_list **list)
 	{
 		node = ft_varnew(&i);
 		if (!node)
-			return (ft_lstclear_var(&exec), free(node), NULL);
+			return (NULL);
+			// return (ft_lstclear_var(&exec), free(node), NULL);
 		ft_varadd_back(&exec, node);
 		i++;
 	}
@@ -49,7 +50,7 @@ void	ft_len_node_elem(t_list **list, t_var *exec)
 	if (n <= 0)
 		exec->arg = NULL;
 	else
-		exec->arg = malloc(sizeof(char *) * (n + 1)); // check this
+		exec->arg = c_malloc(sizeof(char *) * (n + 1), 1); // check this
 	if(!exec->arg)
 		return ;
 }

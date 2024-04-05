@@ -11,9 +11,9 @@ char	*ft_substr(const char *str, unsigned int start, size_t len)
 	if (start >= ft_strlen(str) || len == 0)
 		return (ft_strdup(""));
 	if (len > (ft_strlen(str) - start))
-		arr = malloc ((ft_strlen(str) - start) + 1);
+		arr = c_malloc ((ft_strlen(str) - start) + 1, 1);
 	else
-		arr = malloc (len + 1);
+		arr = c_malloc (len + 1, 1);
 	if (!arr)
 		return (NULL);
 	while (j < len && str[start])

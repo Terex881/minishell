@@ -34,13 +34,15 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 		(*i)++;
 	tmp = ft_substr(line, j, (*i - j) + 1);
 	if (!tmp)
-		return (free(tmp), NULL);
+		return (NULL);
+		// return (free(tmp), NULL);
 	str = tmp;
 	tmp = ft_strtrim(tmp, line[j]);
 	node = ft_lstnew(tmp);
-	free(str);
+	// free(str);
 	if ((line[j] == '\"' || line[j] == '\'') && line[*i] == '\0')
-		return (ft_putstr_fd("33\n", 2), free(tmp), free(node), NULL);
+		return (ft_putstr_fd("33\n", 2),  NULL);
+		// return (ft_putstr_fd("33\n", 2), free(tmp), free(node), NULL);
 	if (line[j] == '\"')
 		node->type = D_Q;
 	else if (line[j] == '\'')
@@ -90,8 +92,6 @@ t_list	*ft_add_word(char *line, int *i, t_list *node)
 	return (node);
 }
 
-
-
 int	ft_token(char *line, t_list *node, t_list **list)
 {
 	int i;
@@ -102,7 +102,8 @@ int	ft_token(char *line, t_list *node, t_list **list)
 	line = readline("minishell : ");
 	if (line == NULL)
 		return (0);
-	add_history(line);
+	if(line[i])
+		add_history(line);
 	while (line && line[i])
 	{
 		if (line[i] && (line[i] == 32 || (line[i] >= 9 && line[i] <= 13)))
@@ -113,9 +114,10 @@ int	ft_token(char *line, t_list *node, t_list **list)
 		else if (line[i])
 			node = ft_add_word(line, &i, node);
 		if (!node)
-			return(ft_lstclear(list),free(line),  1);
+			return(free(line), -1);
 		ft_lstadd_back(list, node);
 		i++;
 	}
-	return (free(line), 1);
+	free(line);
+	return (1);
 }

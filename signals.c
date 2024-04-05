@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <signal.h>
 
 
 
@@ -12,11 +13,11 @@ void ft_signal_c(int num)
 		rl_replace_line("", 0);
 		rl_redisplay();
     }
-	if (num == SIGQUIT)
-	{
-		if (waitpid(-1, NULL, WNOHANG) == 0)
-			tcsetattr(STDIN_FILENO, TCSANOW, &original_terminos);
-	}
+	// if (num == SIGQUIT)
+	// {
+	// 	if (waitpid(-1, NULL, WNOHANG) == 0)
+	// 		tcsetattr(STDIN_FILENO, TCSANOW, &original_terminos);
+	// }
 }
 
 void ft_signal()

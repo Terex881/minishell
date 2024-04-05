@@ -14,6 +14,6 @@ void	ft_pwd(t_var *exec, t_env *env)
 	// }
 	ft_putstr_fd(tmp, exec->f_out);
 	ft_putstr_fd("\n", exec->f_out);
-	free(tmp);
+	// free(tmp);
 	return ;
 }

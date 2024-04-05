@@ -17,7 +17,7 @@ char	*ft_lstfind_env(t_env **env, char *line, char *new_line)
 				find = ft_strdup(tmp->line);//add protection for strdup
                 return (find);//add protection for strdup
 			}
-            free(tmp -> line); // ++>
+            // free(tmp -> line); // ++>
             tmp -> line = ft_strdup(new_line);//add protection for strdup
             // tmp -> line = ft_strdup(new_line);
             // free(new_line);
@@ -59,7 +59,7 @@ t_env	*ft_lstcpy_env(t_env *env)
 		tmp = ft_lstnew_env(ft_strdup(env -> line));//add protection for strdup and lstnew
 		if (!tmp)
 		{
-			ft_lstclear_env(&copy);
+			// ft_lstclear_env(&copy);
 			return (NULL);
 		}
 		ft_lstadd_back_env(&copy, tmp);
@@ -95,22 +95,13 @@ t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *))
 	return (env);
 }
 
-// void	ft_lstdelone_env(t_env *env)
-// {
-// 	if (env)
-// 	{
-//         free(env->line);
-// 		free(env);
-// 	}
-// }
-
 t_env   *ft_get_env(t_data **data, char **env)
 {
     t_env   *p;
 	char	*pwd;
 
     p = NULL;
-	*data = (t_data *)malloc(sizeof(t_data));
+	*data = c_malloc(sizeof(t_data), 1);
 	if(!*data)
 		return (NULL);
 	(*data)->stat = 0;
@@ -120,7 +111,7 @@ t_env   *ft_get_env(t_data **data, char **env)
 		p = ft_lstnew_env(ft_strjoin("PWD=", pwd));//add malloc protection!!!
 		// ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));//same here
 		// ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("_=/usr/bin/env")));
-		free(pwd);
+		// free(pwd);
 		(*data)->env = p;
 		(*data)->path = ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
 		return (p);

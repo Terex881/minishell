@@ -23,7 +23,7 @@ char	*ft_itoa(int n1)
 
 	tmp = n1;
 	count = counter(tmp);
-	arr = malloc(count + 1);
+	arr = c_malloc(count + 1, 1);
 	if (!arr)
 		return (NULL);
 	arr[count] = '\0';

@@ -12,38 +12,38 @@ void	ft_cd(char *path, t_data *data)
 
 	if (!path || !*path || (path[0] == '~' && path[1] == '\0'))
 	{
-		free(path);
+		// free(path);
 		tmp = ft_lstfind_env(&data->env, "HOME", NULL);
 		path = ft_strdup(tmp + 5);
-		free(tmp);
+		// free(tmp);
 	}
 	tmp = ft_lstfind_env(&data->env, "PWD", NULL);
 	n = chdir(path);
 	pwd = getcwd(NULL, 0);
 	if (!n && pwd)
 	{
-		free(pwd);
+		// free(pwd);
 		join = ft_strjoin("OLDPWD=", tmp + 4);
 		find = ft_lstfind_env(&data->env, "OLDPWD", join);//add protection for strjoin
-		free(find);
-		free(join);
+		// free(find);
+		// free(join);
 		pwd = getcwd(NULL, 0);
 		join = ft_strjoin("PWD=", pwd);
 		find = ft_lstfind_env(&data->env, "PWD", join);//add protection for strjoin
-		free(find);
-		free(join);
-		free(pwd);
+		// free(find);
+		// free(join);
+		// free(pwd);
 	}
 	else if (!n)
 	{
 		join = ft_strjoin("OLDPWD=", tmp + 4);
 		find = ft_lstfind_env(&data->env, "OLDPWD", join);//add protection for strjoin
-		free(join);
-		free(find);
+		// free(join);
+		// free(find);
 		join = ft_strjoin(tmp, "/..");
 		find = ft_lstfind_env(&data->env, "PWD", join);//add protection for strjoin
-		free(join);
-		free(find);
+		// free(join);
+		// free(find);
 	}
 	else
 	{
@@ -51,7 +51,7 @@ void	ft_cd(char *path, t_data *data)
 		perror("path");
 		data->stat = 1;
 	}
-	free(tmp);
+	// free(tmp);
 	// free(path);
 	// data->stat =0;
 	return ;

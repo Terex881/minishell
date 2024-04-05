@@ -48,17 +48,22 @@ void ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
 {
 	char	*line;
 	char	*limter;
+	char	*str;
 
 
 	line = readline(">");
 	limter = ft_varjoin(&tmp->next);
+	
 	while (line)
 	{
 		if (!ft_strcmp(limter, line))
+		{
+			free(line);
 			break;
+		}
 		if(ft_type(ft_next(tmp->next)) != 1)
-			line = ft_expand_her_doc(line, data);
-		write(exec->f_in, line, ft_strlen(line));
+			str = ft_expand_her_doc(line, data);
+		write(exec->f_in, str, ft_strlen(str));
 		write(exec->f_in, "\n", 1);
 		free(line);
 		line = readline(">");
@@ -71,6 +76,7 @@ void ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
 void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data)
 {
 	t_list	*tmp;
+	int i;
 
 	tmp = *list;
 	while (tmp)

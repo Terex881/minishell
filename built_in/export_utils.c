@@ -55,7 +55,7 @@ void	ft_print_export(t_var *exec, t_env *env)// fix ""
 		{
 			name = ft_var_name(tmp->line);
 			ft_putstr_fd(name, exec->f_out);
-			free(name);
+			// free(name);
 			ft_putstr_fd("=", exec->f_out);
 			ft_putstr_fd("\"", exec->f_out);
 			ft_putstr_fd(var + 1, exec->f_out);

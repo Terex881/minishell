@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <stdbool.h>
 #include <stdio.h>
 
 char	*ft_sub_variable(char *str, int *i)
@@ -38,18 +39,18 @@ char *ft_search_var(char *str, t_data *data)
 	return fin;
 }
 
-int ft_chck_if_herdoc(t_list **list)
-{
-	t_list *tmp;
-	tmp = *list;
-	while (tmp)
-	{
-		if(tmp->type == HER_DOC) // check in PIPE
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
+// int ft_chck_if_herdoc(t_list *list)
+// {
+// 	t_list *tmp;
+// 	tmp = *list;
+// 	while (tmp)
+// 	{
+// 		if(tmp->type == HER_DOC) // check in PIPE
+// 			return (1);
+// 		tmp = tmp->next;
+// 	}
+// 	return (0);
+// }
 
 void	ft_expand(t_list **list, t_data *data)
 {
@@ -59,17 +60,16 @@ void	ft_expand(t_list **list, t_data *data)
 	
 	while (tmp)
 	{
-		if(!ft_chck_if_herdoc(list))
-		{
-			if(!ft_strcmp(tmp->value, "$?"))
-				tmp->value = ft_itoa(data->stat);
-			else if(tmp->type == D_Q || tmp->type == VARIABLE)
-				tmp->value = ft_search_var(tmp->value, data);
-			else if(tmp->next && !ft_strcmp(tmp->value , "$") && !ft_type(tmp->next))
-				tmp->value = ft_strdup("$") ;
-			else if(tmp->next && !ft_strcmp(tmp->value , "$"))
-				tmp->value = ft_strdup("") ;
-		}
+		if(tmp->type == HER_DOC)
+			tmp = ft_next(tmp->next);
+		else if(tmp && !ft_strcmp(tmp->value, "$?"))
+			tmp->value = ft_itoa(data->stat);
+		else if(tmp && tmp->type == D_Q || tmp->type == VARIABLE)
+			tmp->value = ft_search_var(tmp->value, data);
+		else if(tmp && tmp->next && !ft_strcmp(tmp->value , "$") && !ft_type(tmp->next))
+			tmp->value = ft_strdup("$") ;
+		else if(tmp && tmp->next && !ft_strcmp(tmp->value , "$"))
+			tmp->value = ft_strdup("") ;	
 		tmp = tmp->next;
 	}
 }
@@ -82,14 +82,14 @@ char	*ft_charjoin(char const *s1, char s2)
 	i = 0;
 	if (!s1)
 	{
-		x = malloc(2);
+		x = c_malloc(2, 1);
 		if(!x)
 			return (NULL);
 		x[i] = s2;
 		x[i + 1] = '\0';
 		return (x);
 	}
-	x = malloc(ft_strlen(s1) + 2);
+	x = c_malloc(ft_strlen(s1) + 2, 1);
 	if (!x)
 		return (NULL);
 	while (s1[i])

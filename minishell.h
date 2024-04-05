@@ -13,11 +13,22 @@
 #include <sys/signal.h>
 #include <termios.h>
 
+
+
+
+
+// / export y
+// export y+=dsf
+// m=need diuple quots
+//              /ls
+
+
+
+
+// expand in herdoc
+
 // syscall
-// echo $USER << a cat ths important
 
-
-//  ./ls khdmi b lstat or stat
 // fix unset path
 
 // minishell : exit "      4"
@@ -67,59 +78,56 @@ typedef enum
 
 typedef struct s_list 
 {
-	char	*value;
-	t_type	type;
-	bool skip;
-	struct s_list *next;	
+	char			*value;
+	t_type			type;
+	bool			skip;
+	struct s_list	*next;	
 
 }t_list;
 
 typedef struct s_var
 {
-	int f_out;
-	int f_in;
-	char **arg;
-	struct s_var *next;
+	int				f_out;
+	int				f_in;
+	char			**arg;
+	struct s_var	*next;
 	
 } t_var;
 
 typedef struct  s_env
 {
-    char    *line;
-    struct s_env *next;
+    char			*line;
+    struct s_env	*next;
 }   t_env;
 
 typedef struct s_data
 {
-	t_env *env;
-	char *path;
-	char *old_pwd;
-	int stat;
+	t_env	*env;
+	char	*path;
+	char	*old_pwd;
+	int		stat;
+	int		or_in;
+    pid_t	pid;
+    int		status;
+    int		pipe_ends[2];
+	int		len;
 }	t_data;
 
+// struct    termios original_terminos;
 
 
-
-typedef struct s_var1
+typedef struct s_coll
 {
-	int		f_in;
-	int		f_out;
-	pid_t	cp1;
-	int		end[2];
-	char	*path;
-	char	*tmp1;
-	char	**arr;
-	char	**cmd_args;
-	size_t	len;
-	int		pos;
-	ssize_t	by;
-	char	*str;
-	int		index;
-	char	*sub_line;
-	char	*tmp;
-}	t_var1;
+	void			*ptr;
+	struct s_coll	*next;
 
-struct    termios original_terminos;
+}t_coll;
+
+t_coll	*ft_collnew(void	*ptr);
+t_coll	*ft_colllast(t_coll **head);
+void	ft_colladd_back(t_coll	**head, t_coll *new1);
+void	ft_collclear(t_coll **head);
+void	*c_malloc(size_t size, int);
 
 //-----------------------LIBFT---------------------
 
@@ -155,13 +163,9 @@ char	*ft_itoa(int n1);
 //-----------------------TOKEN---------------------
 
 int		ft_check(char c);
-// t_list	*ft_add_special_character(t_list *node, char *c, int *i);
-// t_list	*ft_add_douple_single(char *line, int *i, t_list *node);
-// t_list	*ft_add_word(char *line, int *i, t_list *node);
 int		ft_token(char *line, t_list *node, t_list **list);
 int		ft_all(t_list **list, t_env *env, t_data	*data);
 void	ft_print(t_list *list);
-// t_list *ft_add_var(char *line, int *i, t_list *node);
 void ft_skip_space(t_list **list);
 
 //---------------------OPEN_FILES---------------------
@@ -181,7 +185,6 @@ char *ft_expand_her_doc(char *str, t_data *data);
 
 void	ft_print_var(t_var *list);
 t_var	*ft_allocate_list(t_list **list);
-// char	*ft_file_name(t_list *tmp);
 t_var	*ft_varnew(void *value);
 void	ft_len_node_elem(t_list **list, t_var *exec);
 char	*ft_varjoin(t_list **tmp);
@@ -284,33 +287,3 @@ void    ft_error(char *str1, char *str2, char *str3);
 // declare -x new
 
 
-
-// // minishell :echo k
-// // k
-// // minishell :echo k > l
-
-
-
-
-// //TO FIX !!!!!!
-// //ls > ok | cat
-// //leaks
-// echo ${USER}
-// echo $USER$'USER'"$USER"
-// echo    "'$'"
-// hi "hello 'world "$USER"   '" "$USER' hello "hello world "'$USER' my world" '" hello $USER"'
-// echo "e"'e'"e"'e'$USER'e'"e"'e'
-// 'world'"e"'e'"$USER'"'e'"e"'e'
-// ""''""''$USER""''""''
-// '$USER'
-// "'$USERdddddd'"
-// "hello"   'world'"e"'e'"$USER'"'e'"e"'e'
-// echo $USER'$USER'
-// echo "$"
-// echo ddd"$USER"
-// echo $USER${USER}
-// Today at 3:02 AM
-// echo "'$'"
-// echo "$USER"$"$USER"
-// echo '"$ddd     "'
-// //env -i ....> ls
