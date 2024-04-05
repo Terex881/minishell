@@ -99,9 +99,9 @@ int check_builtin(t_var *exec, t_data *data)
 	}
     if (!ft_strncmp(exec->arg[0], "export", 7))
     {
-        if (exec->arg[1] && exec->arg[2])
-            return (ft_error_export(exec->arg[1], data), 1);
-        return (ft_export(exec, data, exec->arg[1]), 1);
+        // if (exec->arg[1] && exec->arg[2])
+        //     return (ft_error_export(exec->arg[1], data), 1);
+        return (ft_export(exec, data, exec->arg), 1);
     }
     return (0);
 }
