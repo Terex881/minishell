@@ -64,7 +64,7 @@ char *valid_path(char *cmd, char *line)
     if (!paths)
         return (NULL);
     i = 0;
-    if (cmd[i] == '.')
+    if (cmd[i] == '.' || cmd[i] == '/')
         return ( NULL);
     while (paths && paths[i])
     {
