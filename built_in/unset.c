@@ -1,33 +1,40 @@
 #include "../minishell.h"
 
-void	ft_unset(t_var *exec, t_data **data, char *line)
+void	ft_unset(t_var *exec, t_data **data, char **args)
 {
 	t_env	*p;
 	t_env	*tmp;
+	int		i;
 
-	if (!data || !(*data) || !(*data)->env || !line)
+	i = 0;
+	if (!data || !(*data) || !(*data)->env || !args || !*args)
 		return ;
-	p = (*data)->env;
-	tmp = NULL;
-	if (ft_strncmp(line, "PATH", 5) == 0)
+	while (args && args[++i])
 	{
-		// free((*data)->path);
-		(*data)->path = NULL;
-	}
-	while (p)
-	{
-		if (ft_strncmp(p->line, line, ft_strlen(line)) == 0)
+		p = (*data)->env;
+		tmp = NULL;
+		if (ft_strncmp(args[i], "PATH", 5) == 0)
 		{
-			if (tmp)
-				tmp->next = p->next;
-			else
-				(*data)->env = p->next;
-			// free(p->line);
-			// free(p);
-			return ;
+			// free((*data)->path);
+			(*data)->path = NULL;
 		}
-		tmp = p;
-		p = p->next;
+		while (p)
+		{
+			if (ft_strncmp(p->line, args[i], ft_strlen(args[i])) == 0)
+			{
+				if (tmp)
+					tmp->next = p->next;
+				else
+					(*data)->env = p->next;
+				// free(p->line);
+				// free(p);
+				if (!args[i + 1])
+					return ;
+				break ;
+			}
+			tmp = p;
+			p = p->next;
+		}
 	}
 }
 
