@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/06 23:25:30 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/06 23:32:12 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	ft_void(t_data *data, t_var *exec, t_env *env)
 	if (dup2(data->or_in, 0) == -1)
 		(perror("dup2 error!\n"));
 	close(data->or_in);
+	data->len = 0;
 	return ;
 }
 
