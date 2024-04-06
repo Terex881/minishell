@@ -1,19 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/06 20:39:39 by cmasnaou          #+#    #+#             */
+/*   Updated: 2024/04/06 20:42:51 by cmasnaou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
-// ADD PATH to env, but dont print it if unset
 
 void	ft_env(t_var *exec, t_data *data)
 {
 	t_env		*env;
-	
-	data->stat = 0;
 
+	data->stat = 0;
 	if (!data->path)
 	{
 		perror("env");
 		data->stat = 127;
 		return ;
 	}
-
 	env = data->env;
 	while (env)
 	{
@@ -24,5 +33,4 @@ void	ft_env(t_var *exec, t_data *data)
 		}
 		env = env->next;
 	}
-	// exit(65); // 0
 }
