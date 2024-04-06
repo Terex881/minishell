@@ -24,7 +24,10 @@
 
 // export a="ls"
 
-
+// minishell : ./ls
+// ./ls: No such file or directory
+// minishell : echo $?
+// 0
 
 
 // expand in herdoc
@@ -47,6 +50,23 @@
 ///////////PROTECTION?/////////
 
 
+// check exit status 
+// cat | cat | ls 
+// cntrl c
+
+// PWD=/Users/sdemnati/Desktop/mini_shell_4
+// minishell : UNSET PWD
+// minshell: UNSET: command not found
+// minishell : unset PWD
+// minishell : ls
+// Makefile                execution.o             main.o                  signals.o
+// allocate_list.c         execution_pipe.c        minishell               syntax_error.c
+// allocate_list.o         execution_pipe.o        minishell.h             syntax_error.o
+// built_in                expand.c                norm.py                 tokenizer
+// coll.c                  expand.o                open_files.c            took.c
+// coll.o                  libft                   open_files.o            took.o
+// execution.c             main.c                  signals.c
+// minishell : cd ..
 
 typedef enum 
 {
@@ -65,6 +85,7 @@ typedef enum
 typedef struct s_list 
 {
 	char			*value;
+
 	t_type			type;
 	bool			skip;
 	struct s_list	*next;	
@@ -116,6 +137,11 @@ void	ft_colladd_back(t_coll	**head, t_coll *new1);
 void	ft_collclear(t_coll **head);
 void	*c_malloc(size_t size, int);
 
+//-----------------------UTILS---------------------
+
+void	ft_close(t_var *exec);
+void	ft_error(char *str1, char *str2, char *str3);
+
 //-----------------------LIBFT---------------------
 
 char	*ft_substr(const char *str, unsigned int start, size_t len);;
@@ -139,9 +165,10 @@ char	*ft_strtrim(char *str, char set);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_lstclear_var(t_var **exec); 
 void	ft_varadd_back(t_var **lst, t_var *new1);
-int	ft_varsize(t_var *lst);
+int		ft_varsize(t_var *lst);
 int		counter(int n);
 char	*ft_itoa(int n1);
+int		ft_lstsize_env(t_env *env);
 
 //-----------------------TOKEN---------------------
 
@@ -181,12 +208,12 @@ t_list	*ft_next(t_list *tmp);
 
 //---------------------EXECUTION---------------------
 
-void		ft_execution(t_var *exec, t_data *data, t_env *env);
-void ft_execute_pipe(t_var *exec, t_data *data, t_env *env);
+void	ft_execution(t_var *exec, t_data *data, t_env *env);
+void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env);
 char	**ft_free(char **p, int i);
-char **get_paths(char *path);
-char *valid_path(char *cmd, char *line);
-int	check_builtin(t_var *exec, t_data *data);
+char	**get_paths(char *path);
+char	*valid_path(char *cmd, char *line, t_data *data);
+int		check_builtin(t_var *exec, t_data *data);
 
 char **ft_cpy_to_2d(t_env *tmp);
 
@@ -228,45 +255,4 @@ t_env	*ft_lstcpy_env(t_env *env);
 
 
 
-int	ft_lstsize_env(t_env *env);
-
-void ft_close(t_var *exec);
-void    ft_error(char *str1, char *str2, char *str3);
-
-
-
 #endif
-
-// minishell : "ls" -'l''a' | echo -nnnnnnnnnnnnnnnnn
-// -nnnnnnnnnnnnnnnnn
-
-// nminishell : "ls" -'l''a' | echo -n -n
-// -nminishell : 
-
-
-
-
-// export myname=othame #should work
-// export username+=helloworld #should work
-// export user-id=456 #syntax error
-// export userid=4-3 #should work
-// export fullname="othmanebouchta" #should work && {'}
-// export 2full=fat #syntax error {the variable name should start with a character {a-z | A-Z}
-// export myname+=bouchta
-
-// #output
-// myname=othmanebouchta
-// username=helloworld
-// userid=4-3
-// fullname=othmanebouchta
-
-// #when typing `export` without argument should display the arguments in env in a sorted way and also the argument that is not in env like : [export abcdef] [export new]
-// export
-// #output {example} and sorted
-// declare -x COLORTERM="truecolor"
-// declare -x LANG="en_US.UTF-8"
-// declare -x LESS="-R"
-// declare -x abcdef
-// declare -x new
-
-

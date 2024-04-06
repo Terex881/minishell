@@ -29,7 +29,7 @@ void	ft_unset(t_var *exec, t_data **data, char **args)
 					(*data)->env = p->next;
 				// free(p->line);
 				// free(p);
-				p->line = NULL;
+				// p->line = NULL;
 				if (!args[i + 1])
 					return ;
 				break ;

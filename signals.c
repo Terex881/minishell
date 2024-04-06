@@ -1,18 +1,27 @@
 #include "minishell.h"
-#include <signal.h>
-
-
 
 void ft_signal_c(int num)
 {
     if (num == SIGINT)
 	{
+		// if(open(STDIN_FILENO, O_RDWR) == -1)
+		// {
+		// 	open(STDIN_FILENO, O_RDWR);
+		// 	// printf("****\n");
+		// 	return;
+		// }
 		rl_clear_history();
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
     }
+
+
+
+
+
+
 	// if (num == SIGQUIT)
 	// {
 	// 	if (waitpid(-1, NULL, WNOHANG) == 0)

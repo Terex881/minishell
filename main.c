@@ -1,6 +1,16 @@
-#include "minishell.h"
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
+/*   Updated: 2024/04/06 06:20:48 by sdemnati         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "minishell.h"
 
 void ft_close(t_var *exec)
 {
@@ -19,11 +29,6 @@ void ft_close(t_var *exec)
 		exec = exec->next;
 	}
 }
-// close of file des
-
-
-
-
 
 void ft_success(t_list **list, t_env *env, t_data *data)
 {

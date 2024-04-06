@@ -1,7 +1,18 @@
-#include "minishell.h"
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   open_files.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/06 06:15:01 by sdemnati          #+#    #+#             */
+/*   Updated: 2024/04/06 06:19:56 by sdemnati         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int ft_IN_OUT(t_list *tmp, t_var *var, t_data *data)
+#include "minishell.h"
+
+int	ft_in_out(t_list *tmp, t_var *var, t_data *data)
 {
 	char	*name;
 
@@ -14,7 +25,7 @@ int ft_IN_OUT(t_list *tmp, t_var *var, t_data *data)
 			return (perror(name), 1);
 	}
 	else if (tmp->type == R_OUT)
-		var->f_out = open(name,O_CREAT | O_RDWR | O_TRUNC, 0644);
+		var->f_out = open(name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	else if (tmp->type == APPEND)
 		var->f_out = open(name, O_CREAT | O_RDWR | O_APPEND, 0644);
 	tmp->skip = true;
@@ -31,37 +42,38 @@ int	ft_open_files(t_list **list, t_var *var, t_data *data)
 	tmp = *list;
 	while (tmp)
 	{
-		if ((tmp)->type == PIPE)
+		if (tmp->type == PIPE)
 			var = var->next;
-		if ((tmp)->type == R_IN || (tmp)->type == R_OUT || (tmp)->type == APPEND)
+		if (tmp->type == R_IN || tmp->type == R_OUT || tmp->type == APPEND)
 		{
-			check = ft_IN_OUT(tmp, var, data);
+			check = ft_in_out(tmp, var, data);
 			if (check == 1)
 				return (1);
 		}
-		tmp = (tmp)->next;
+		tmp = tmp->next;
 	}
 	return (0);
 }
 
-
-void ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
+void	ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
 {
 	char	*line;
 	char	*limter;
 	char	*str;
-
+	// rl_catch_signals = 1;
 	data->a = 0;
 	limter = ft_varjoin(&tmp->next, data);
 	while (1)
 	{
 		line = readline(">");
+		// close(0);
+		// signal(SIGINT, ft_signal_c);
 		if (!line || !ft_strcmp(limter, line))
 		{
-			free(line);
+			free (line);
 			break;
 		}
-		if(data->a == 0)
+		if (data->a == 0)
 		{
 			str = line;
 			line = ft_expand_her_doc(line, data);
@@ -73,23 +85,22 @@ void ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
 	}
 }
 
-
 void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data)
 {
 	t_list	*tmp;
-	int i;
+	int		i;
 
 	tmp = *list;
 	while (tmp)
 	{
 		if (tmp->type == PIPE)
-			exec = exec->next;	
-		if(tmp->type == HER_DOC)
+			exec = exec->next;
+		if (tmp->type == HER_DOC)
 		{
 			tmp->skip = true;
-			exec->f_in = open("/tmp/test", O_CREAT | O_RDWR | O_TRUNC, 0644); // hide this file
+			exec->f_in = open("/tmp/test", O_CREAT | O_RDWR | O_TRUNC, 0644);
 			ft_read_herdoc(tmp, exec, data);
-			close(exec->f_in);// check this
+			close(exec->f_in);
 			exec->f_in = open("/tmp/test", O_RDONLY);
 		}
 		tmp = tmp->next;

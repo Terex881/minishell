@@ -10,8 +10,6 @@ void	ft_env(t_var *exec, t_data *data)
 	if (!data->path)
 	{
 		perror("env");
-		// ft_error("env", exec->arg[1], "salah");
-		// exit(129);
 		data->stat = 127;
 		return ;
 	}

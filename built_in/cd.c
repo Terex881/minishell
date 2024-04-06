@@ -22,7 +22,7 @@ void	ft_cd(char *path, t_data *data)
 	pwd = getcwd(NULL, 0);
 	if (!n && pwd)
 	{
-		// free(pwd);
+		free(pwd); // check this/////////////////////////////////////////////
 		join = ft_strjoin("OLDPWD=", tmp + 4);
 		find = ft_lstfind_env(&data->env, "OLDPWD", join);//add protection for strjoin
 		// free(find);
@@ -49,11 +49,12 @@ void	ft_cd(char *path, t_data *data)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		perror("path");
+		printf("******\n");
 		data->stat = 1;
 	}
 	// free(tmp);
 	// free(path);
 	// data->stat =0;
+	free(pwd);
 	return ;
-	// exit(10); //  0
 }

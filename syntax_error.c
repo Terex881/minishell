@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syntax_error.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/06 06:12:37 by sdemnati          #+#    #+#             */
+/*   Updated: 2024/04/06 06:13:53 by sdemnati         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_type(t_list *lst)
@@ -8,12 +20,12 @@ int	ft_type(t_list *lst)
 		|| lst->type == APPEND)
 		return (2);
 	if (lst->type == D_Q || lst->type == S_Q)
-		return  (1);
+		return (1);
 	if (lst->type == WORD || lst->type == D_Q
 		|| lst->type == S_Q || lst->type == VARIABLE)
 		return (3);
 	if (lst->type == PIPE)
-		return  (4);
+		return (4);
 	return (0);
 }
 
@@ -34,16 +46,16 @@ int	ft_syntax_error(t_list **list)
 	ft_skip_space(list);
 	if (tmp->type == PIPE || ft_lstlast(tmp)->type == PIPE)
 		return (ft_putstr_fd("syntax error\n", 2), 1);
-	if (ft_type(ft_lstlast(tmp)) == 2 )
+	if (ft_type(ft_lstlast(tmp)) == 2)
 		return (ft_putstr_fd("syntax error\n", 2), 1);
 	while (tmp && tmp->next)
 	{
-		if(ft_type(tmp) == 2 && (ft_type(ft_next(tmp->next)) == 4))
+		if (ft_type(tmp) == 2 && (ft_type(ft_next(tmp->next)) == 4))
 			return (ft_putstr_fd("syntax error\n", 2), 1);
-		if(ft_type(tmp) == 4 && ft_type(ft_next(tmp->next)) == 4)
+		if (ft_type(tmp) == 4 && ft_type(ft_next(tmp->next)) == 4)
 			return (ft_putstr_fd("syntax error\n", 2), 1);
 		tmp->skip = false;
-		if(tmp->type == SPACE_)
+		if (tmp->type == SPACE_)
 			tmp->skip = true;
 		tmp = tmp->next;
 	}

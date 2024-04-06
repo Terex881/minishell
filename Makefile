@@ -19,13 +19,13 @@ OBJ = main.o				syntax_error.o expand.o \
     built_in/env.o			built_in/cd.o                    built_in/unset.o\
     built_in/pwd.o           took.o coll.o\
 
-CC = cc -g #-fsanitize=address # remove
+CC = cc -g -fsanitize=address # remove
 # FLAGS = -Wall -Werror -Wextra
 
 READLINE_INC = -I$(shell brew --prefix readline)/include
 READLINE_LIB = -L$(shell brew --prefix readline)/lib -lreadline
 
-all: $(NAME)
+all: $(NAME)  #rempve
 
 $(NAME): $(OBJ) $(LIBFT_SRCS)
 	$(CC) $(OBJ) $(FLAGS) -o $(NAME) $(READLINE_LIB)

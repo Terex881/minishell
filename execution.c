@@ -1,23 +1,10 @@
 #include "minishell.h"
-#include <stdlib.h>
-#include <sys/wait.h>
-
-char	**ft_free(char **p, int i)
-{
-	while (p && p[i])
-	{
-		// free(p[i]);
-		i++;
-	}
-	// free(p);
-	return (NULL);
-}
 
 char	**get_paths(char *path)
 {
-    int		j;
-    char	*tmp;
-    char	**paths;
+	int		j;
+	char	*tmp;
+	char	**paths;
 
     j = 0;
     if (!path)
@@ -25,19 +12,19 @@ char	**get_paths(char *path)
     // while (ft_strncmp(tmp_env->line, "PATH=", 5))
     //     tmp_env = tmp_env->next;
     while (path[j] != '\n' && path[j] != '\0')
-        j++;
+		j++;
     tmp = ft_substr(path, 5, --j);
     if (!tmp)
-        return (NULL);
+		return (NULL);
     paths = ft_split(tmp, ':');
     if (!paths)
-        return (NULL);
-    return (paths);
+		return (NULL);
+	return (paths);
 }
 
-void    ft_error(char *str1, char *str2, char *str3) // check this
+void	ft_error(char *str1, char *str2, char *str3) // check this
 {
-    int i;
+    int	i;
 
     i = 0;
     while (str1 && str1[i])
@@ -51,42 +38,44 @@ void    ft_error(char *str1, char *str2, char *str3) // check this
     write(2, "\n", 1);
 }
 
-char *valid_path(char *cmd, char *line)
+char	*valid_path(char *cmd, char *line, t_data *data)
 {
-    int     i;
-    char    *path;
-    char    *tmp;
-    char    **paths;
+    int		i;
+    char	*path;
+    char	*tmp;
+    char	**paths;
 
     if (cmd && ft_strlen(cmd))
     {
         if (cmd[0] == '.' && cmd[1] == '\0')
         {
-            ft_error("minshell: ", cmd, ": filename argument required");
-            ft_error(".: ", "usage: . filename [arguments]", NULL);
-            exit(2002);
+			ft_error("minshell: ", cmd, ": filename argument required");
+			ft_error(".: ", "usage: . filename [arguments]", NULL);
+            // exit(2002); why ?????????????????????
+			return (exit(2), NULL);
         }
-        if (!access(cmd, F_OK | X_OK))
-            return (ft_strdup(cmd));    //add protection for strdup
-        paths = get_paths(line);
-        if (!paths)
-            return (NULL);
-        i = 0;
-        if (cmd[i] == '.' || cmd[i] == '/')
-            return ( NULL);
-        while (paths && paths[i])
-        {
-            tmp = ft_strjoin(paths[i], "/");   
-            path = ft_strjoin(tmp, cmd);   
-            if (!access(path, F_OK | X_OK))
-                return (path);
-            i++;  
-        }
-    }
-    ft_error("minshell: ", cmd, ": command not found"); //put it
-    exit(127); // 127
+		if (!access(cmd, F_OK | X_OK))
+			return (ft_strdup(cmd));    //add protection for strdup
+		paths = get_paths(line);
+		if (!paths)
+			return (NULL);
+		i = 0;
+		if (cmd[i] == '.' || cmd[i] == '/')
+			return ( NULL);
+		while (paths && paths[i])
+		{
+			tmp = ft_strjoin(paths[i], "/");   
+			path = ft_strjoin(tmp, cmd);   
+			if (!access(path, F_OK | X_OK))
+				return (path);
+			i++;
+		}
+	}
+	ft_error("minshell: ", cmd, ": command not found"); //put it
+	exit(127); // 127
     return (NULL);
 }
+
 int check_builtin(t_var *exec, t_data *data)
 {
     if (exec->arg && !ft_strncmp(exec->arg[0], "echo", 5))
@@ -115,19 +104,15 @@ int check_builtin(t_var *exec, t_data *data)
 void ft_child(t_var *exec, t_data *data, char **new_env)
 {
     char *path;
-    path = valid_path(exec->arg[0], data->path);
+    path = valid_path(exec->arg[0], data->path, data);
     if (!path)
-        return (perror(exec->arg[0]), exit(126));
+        return (perror(exec->arg[0]), exit(127));
     if (dup2(exec->f_in, 0) == -1)
         (perror("dup2 error!\n"),  exit(1));
     if (dup2(exec->f_out, 1) == -1)
         (perror("dup2 error!\n"),  exit(1));
     if (execve(path, exec->arg, new_env) == -1)
-<<<<<<< HEAD
-        (perror(exec->arg[0]),  exit(1));       
-=======
-        (ft_error("minshell: ", exec->arg[0], ": command not found"),  exit(133));       
->>>>>>> e88ec8bd7e75408975fa93520496a6135bc2abda
+        (ft_error("minshell: ", exec->arg[0], ": command not found"),  exit(127));       
     
 }
 void ft_execution(t_var *exec, t_data *data, t_env *env)
@@ -148,7 +133,13 @@ void ft_execution(t_var *exec, t_data *data, t_env *env)
         ft_child(exec, data, new_env);
     else
     {
-        while(wait(&data->status) != -1);
-        data->stat = WEXITSTATUS(data->status);
+        // while(wait(&data->status) != -1);
+        waitpid(data->pid, &data->status, 0);
+        if (data->status == SIGINT)
+            data->stat = 130;
+        else if (data->status == SIGQUIT)
+            data->stat = 131;
+        else
+            data->stat = WEXITSTATUS(data->status);
     }
 }
