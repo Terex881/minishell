@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:24 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/05 23:29:25 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/06 16:48:59 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,8 @@ void	ft_echo(char **arg, t_var *exec, t_data *data)
 		return ;
 	while (arg && arg[i])
 	{
-		if (n == 1 && check_n(arg[i]))
-		{
-			i++;
+		if (n == 1 && check_n(arg[i]) && i++)
 			continue ;
-		}
 		ft_putstr_fd(arg[i], exec->f_out);
 		if (arg[i] && arg[i + 1])
 			ft_putstr_fd(" ", exec->f_out);

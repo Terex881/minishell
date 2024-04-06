@@ -124,7 +124,7 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env)
     if (!exec->arg)
         return ;
 	if (exec->arg && !ft_strcmp(exec->arg[0], "exit"))
-        (ft_exit(exec, &data, exec->arg, data->len)); 
+        return (ft_exit(exec, &data, exec->arg, data->len)); 
     if (check_builtin(exec, data))
         return ;
     data->pid = fork();
