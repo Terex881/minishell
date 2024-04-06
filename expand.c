@@ -1,6 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/06 23:09:35 by sdemnati          #+#    #+#             */
+/*   Updated: 2024/04/06 23:11:04 by sdemnati         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-#include <stdbool.h>
-#include <stdio.h>
 
 char	*ft_sub_variable(char *str, int *i)
 {
@@ -12,21 +22,21 @@ char	*ft_sub_variable(char *str, int *i)
 	return (ft_substr(str, j, *i - j));
 }
 
-char *ft_search_var(char *str, t_data *data)
+char	*ft_search_var(char *str, t_data *data)
 {
-	int i;
-	char *ret;
-	char *fin;
+	int		i;
+	char	*ret;
+	char	*fin;
 
 	ret = NULL;
 	fin = NULL;
 	i = 0;
-	if(!str[i])
+	if (!str[i])
 		return (ft_strdup(""));
-	while(str[i])
-	{	
-		if(str[i] == '$' && ft_isalpha(str[i+1]) == 0)
-			(fin = ft_charjoin(fin,str[i]), i++); // for 'ECURITYSESSIONID=186a8'
+	while (str[i])
+	{
+		if (str[i] == '$' && ft_isalpha(str[i + 1]) == 0)
+			(fin = ft_charjoin(fin, str[i]), i++);
 		if (str[i] == '$')
 		{
 			i++;

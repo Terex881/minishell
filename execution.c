@@ -22,7 +22,7 @@ char	**get_paths(char *path)
 
 void	ft_error(char *str1, char *str2, char *str3) // check this
 {
-    int	i;
+	int	i;
 
 	i = 0;
 	while (str1 && str1[i])
@@ -36,110 +36,107 @@ void	ft_error(char *str1, char *str2, char *str3) // check this
 	write(2, "\n", 1);
 }
 
-
 char	*valid_path(char *cmd, char *line, t_data *data)
 {
-    int		i;
-    char	*path;
-    char	*tmp;
-    char	**paths;
+	int		i;
+	char	*path;
+	char	*tmp;
+	char	**paths;
 
-    if (cmd && ft_strlen(cmd))
-    {
-        if (cmd[0] == '.' && cmd[1] == '\0')
-        {
+	if (cmd && ft_strlen(cmd))
+	{
+		if (cmd[0] == '.' && cmd[1] == '\0')
+		{
 			ft_error("minshell: ", cmd, ": filename argument required");
 			ft_error(".: ", "usage: . filename [arguments]", NULL);
 			return (exit(2), NULL);
 		}
 		if (!access(cmd, F_OK | X_OK))
-			return (ft_strdup(cmd));    //add protection for strdup
+			return (ft_strdup(cmd));
 		paths = get_paths(line);
 		if (!paths)
 			return (NULL);
 		i = 0;
 		if (cmd[i] == '.' || cmd[i] == '/')
-			return ( NULL);
+			return (NULL);
 		while (paths && paths[i])
 		{
-			tmp = ft_strjoin(paths[i], "/");   
-			path = ft_strjoin(tmp, cmd);   
+			tmp = ft_strjoin(paths[i], "/");
+			path = ft_strjoin(tmp, cmd);
 			if (!access(path, F_OK | X_OK))
 				return (path);
 			i++;
 		}
 	}
-	ft_error("minshell: ", cmd, ": command not found"); //put it
-	exit(127); // 127
-    return (NULL);
+	ft_error("minshell: ", cmd, ": command not found");
+	exit(127);
+	return (NULL);
 }
 
 int	check_builtin(t_var *exec, t_data *data)
 
 {
-    if (exec->arg && !ft_strncmp(exec->arg[0], "echo", 5))
-        return (ft_echo(exec->arg + 1, exec, data), 1);
-    if (exec->arg && !ft_strncmp(exec->arg[0], "pwd", 4))
-        return (ft_pwd(exec, data->env), 1);
-    if (exec->arg &&!ft_strncmp(exec->arg[0], "cd", 3))
-    {
-        // ft_export(exec, data, "OLDPWD=");//🌸to put back oldpwd
-        return (ft_cd(exec->arg[1], data),  1);
-    }
-    if (exec->arg && !ft_strncmp(exec->arg[0], "unset", 6))
-        return (ft_unset(exec, &data, exec->arg), 1);
-    if (exec->arg &&!ft_strncmp(exec->arg[0], "env", 4))
-    {
+	if (exec->arg && !ft_strncmp(exec->arg[0], "echo", 5))
+		return (ft_echo(exec->arg + 1, exec, data), 1);
+	if (exec->arg && !ft_strncmp(exec->arg[0], "pwd", 4))
+		return (ft_pwd(exec, data->env), 1);
+	if (exec->arg &&!ft_strncmp(exec->arg[0], "cd", 3))
+	{
+		return (ft_cd(exec->arg[1], data), 1);
+	}
+	if (exec->arg && !ft_strncmp(exec->arg[0], "unset", 6))
+		return (ft_unset(exec, &data, exec->arg), 1);
+	if (exec->arg &&!ft_strncmp(exec->arg[0], "env", 4))
+	{
 		if (exec->arg[1])
 			return (perror(exec->arg[1]), 1);
 		return (ft_env(exec, data), 1);
 	}
-    if (!ft_strncmp(exec->arg[0], "export", 7))
-        return (ft_export(exec, data, exec->arg), 1);
-    return (0);
+	if (!ft_strncmp(exec->arg[0], "export", 7))
+		return (ft_export(exec, data, exec->arg), 1);
+	return (0);
 }
-
 
 void	ft_child(t_var *exec, t_data *data, char **new_env)
 {
-    char *path;
-    path = valid_path(exec->arg[0], data->path, data);
-    if (!path)
-        return (perror(exec->arg[0]), exit(127));
-    if (dup2(exec->f_in, 0) == -1)
-        (perror("dup2 error!\n"),  exit(1));
-    if (dup2(exec->f_out, 1) == -1)
-        (perror("dup2 error!\n"),  exit(1));
-    if (execve(path, exec->arg, new_env) == -1)
-        (ft_error("minshell: ", exec->arg[0], ": command not found"),  exit(127));       
+	char	*path;
 
+	path = valid_path(exec->arg[0], data->path, data);
+	if (!path)
+		return (perror(exec->arg[0]), exit(127));
+	if (dup2(exec->f_in, 0) == -1)
+		(perror("dup2 error!\n"), exit(1));
+	if (dup2(exec->f_out, 1) == -1)
+		(perror("dup2 error!\n"), exit(1));
+	if (execve(path, exec->arg, new_env) == -1)
+		(ft_error("minshell: ", exec->arg[0], \
+		": command not found"), exit(127));
 }
-
 
 void	ft_execution(t_var *exec, t_data *data, t_env *env)
 {
-    char	**new_env ;
-    
-    new_env= ft_cpy_to_2d(env);
-    if (!exec->arg)
-        return ;
+	char	**new_env;
+
+	new_env = ft_cpy_to_2d(env);
+	if (!exec->arg)
+		return ;
 	if (exec->arg && !ft_strcmp(exec->arg[0], "exit"))
-        return (ft_exit(exec, &data, exec->arg, data->len)); 
-    if (check_builtin(exec, data))
-        return ;
-    data->pid = fork();
-    if (data->pid == -1)
-        return (perror("fork"));
-    if (data->pid == 0)
-        ft_child(exec, data, new_env);
-    else
-    {
-        waitpid(data->pid, &data->status, 0);
-        if (data->status == SIGINT)
-            data->stat = 130;
-        else if (data->status == SIGQUIT)
-            data->stat = 131;
-        else
-            data->stat = WEXITSTATUS(data->status);
-    }
+		return (ft_exit(exec, &data, exec->arg, data->len));
+	if (check_builtin(exec, data))
+		return ;
+	data->pid = fork();
+	if (data->pid == -1)
+		return (perror("fork"));
+	if (data->pid == 0)
+		ft_child(exec, data, new_env);
+	else
+	{
+		waitpid(data->pid, &data->status, 0);
+		if (data->status == SIGINT)
+			data->stat = 130;
+		else if (data->status == SIGQUIT)
+			data->stat = 131;
+		else
+			data->stat = WEXITSTATUS(data->status);
+	}
 }
