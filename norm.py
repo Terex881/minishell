@@ -6,118 +6,9 @@ Error: TOO_MANY_LINES       (line:  74, col:   1):	Function has more than 25 lin
 Error: TOO_MANY_FUNCS       (line: 116, col:   1):	Too many functions in file
 execution_pipe.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
-expand.c: Error!
-Error: TOO_FEW_TAB          (line:  39, col:  46):	Missing tabs for indent level
-Error: TOO_MANY_INSTR       (line:  39, col:  46):	Too many instructions on a single line
-Error: TOO_FEW_TAB          (line:  47, col:  46):	Missing tabs for indent level
-Error: TOO_MANY_INSTR       (line:  47, col:  46):	Too many instructions on a single line
-Error: RETURN_PARENTHESIS   (line:  49, col:  12):	Return value must be in parenthesis
-Error: SPACE_REPLACE_TAB    (line:  54, col:  11):	Found space when expecting tab
-Error: EMPTY_LINE_FUNCTION  (line:  57, col:   1):	Empty line in function
-Error: SPACE_EMPTY_LINE     (line:  57, col:   1):	Space on empty line
-Error: SPACE_AFTER_KW       (line:  60, col:   9):	Missing space after keyword
-Error: SPC_BFR_PAR          (line:  60, col:  11):	Missing space before parenthesis (brace/bracket)
-Error: SPACE_AFTER_KW       (line:  62, col:  14):	Missing space after keyword
-Error: SPC_BFR_PAR          (line:  62, col:  16):	Missing space before parenthesis (brace/bracket)
-Error: SPACE_AFTER_KW       (line:  64, col:  14):	Missing space after keyword
-Error: SPC_BFR_PAR          (line:  64, col:  16):	Missing space before parenthesis (brace/bracket)
-Error: SPACE_AFTER_KW       (line:  66, col:  14):	Missing space after keyword
-Error: SPC_BFR_PAR          (line:  66, col:  16):	Missing space before parenthesis (brace/bracket)
-Error: NO_SPC_BFR_OPR       (line:  66, col:  59):	extra space before operator
-Error: LINE_TOO_LONG        (line:  66, col:  83):	line too long
-Error: NO_SPC_AFR_PAR       (line:  67, col:  39):	Extra space after parenthesis (brace/bracket)
-Error: SPACE_AFTER_KW       (line:  68, col:  14):	Missing space after keyword
-Error: SPC_BFR_PAR          (line:  68, col:  16):	Missing space before parenthesis (brace/bracket)
-Error: NO_SPC_BFR_OPR       (line:  68, col:  59):	extra space before operator
-Error: NO_SPC_AFR_PAR       (line:  69, col:  38):	Extra space after parenthesis (brace/bracket)
-Error: NO_SPC_BFR_OPR       (line:  69, col:  40):	extra space before operator
-Error: WRONG_SCOPE_COMMENT  (line:  69, col:  42):	Comment is invalid in this scope
-Error: WRONG_SCOPE_COMMENT  (line:  69, col:  42):	Comment is invalid in this scope
-Error: SPACE_AFTER_KW       (line:  83, col:   9):	Missing space after keyword
-Error: SPC_BFR_PAR          (line:  83, col:  11):	Missing space before parenthesis (brace/bracket)
-Error: SPC_AFTER_PAR        (line:  98, col:  12):	Missing space after parenthesis (brace/bracket)
-Error: SPC_BFR_OPERATOR     (line:  98, col:  13):	missing space before operator
-Error: SPACE_AFTER_KW       (line: 111, col:   5):	Missing space after keyword
-Error: SPC_BFR_PAR          (line: 111, col:  10):	Missing space before parenthesis (brace/bracket)
-Error: SPACE_AFTER_KW       (line: 113, col:   9):	Missing space after keyword
-Error: SPC_BFR_PAR          (line: 113, col:  11):	Missing space before parenthesis (brace/bracket)
-Error: SPC_BFR_OPERATOR     (line: 113, col:  45):	missing space before operator
-Error: SPC_AFTER_OPERATOR   (line: 114, col:  35):	missing space after operator
-Error: TOO_FEW_TAB          (line: 114, col:  45):	Missing tabs for indent level
-Error: TOO_MANY_INSTR       (line: 114, col:  45):	Too many instructions on a single line
-Error: EMPTY_LINE_FUNCTION  (line: 115, col:   1):	Empty line in function
-Error: SPACE_EMPTY_LINE     (line: 115, col:   1):	Space on empty line
-Error: EMPTY_LINE_FUNCTION  (line: 124, col:   1):	Empty line in function
-Error: TOO_FEW_TAB          (line: 125, col:  46):	Missing tabs for indent level
-Error: TOO_MANY_INSTR       (line: 125, col:  46):	Too many instructions on a single line
-Error: RETURN_PARENTHESIS   (line: 128, col:  12):	Return value must be in parenthesis
+expand.c: OK!
 main.c: OK!
-minishell.h: Error!
-Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
-Error: TOO_MANY_WS          (line:   1, col:   1):	Extra whitespaces for indent level
-Error: PREPROC_BAD_INDENT   (line:   2, col:   1):	Bad preprocessor indentation
-Error: PREPROC_BAD_INDENT   (line:   4, col:   1):	Bad preprocessor indentation
-Error: PREPROC_BAD_INDENT   (line:   5, col:   1):	Bad preprocessor indentation
-Error: PREPROC_BAD_INDENT   (line:   6, col:   1):	Bad preprocessor indentation
-Error: PREPROC_BAD_INDENT   (line:   7, col:   1):	Bad preprocessor indentation
-Error: PREPROC_BAD_INDENT   (line:   8, col:   1):	Bad preprocessor indentation
-Error: PREPROC_BAD_INDENT   (line:   9, col:   1):	Bad preprocessor indentation
-Error: PREPROC_BAD_INDENT   (line:  11, col:   1):	Bad preprocessor indentation
-Error: PREPROC_BAD_INDENT   (line:  12, col:   1):	Bad preprocessor indentation
-Error: PREPROC_BAD_INDENT   (line:  13, col:   1):	Bad preprocessor indentation
-Error: PREPROC_BAD_INDENT   (line:  14, col:   1):	Bad preprocessor indentation
-Error: CONSECUTIVE_NEWLINES (line:  16, col:   1):	Consecutive newlines
-Error: CONSECUTIVE_NEWLINES (line:  17, col:   1):	Consecutive newlines
-Error: CONSECUTIVE_NEWLINES (line:  32, col:   1):	Consecutive newlines
-Error: CONSECUTIVE_NEWLINES (line:  43, col:   1):	Consecutive newlines
-Error: CONSECUTIVE_NEWLINES (line:  52, col:   1):	Consecutive newlines
-Error: LINE_TOO_LONG        (line:  62, col:   1):	line too long
-Error: LINE_TOO_LONG        (line:  62, col:  85):	line too long
-Error: LINE_TOO_LONG        (line:  63, col:   1):	line too long
-Error: LINE_TOO_LONG        (line:  63, col:  90):	line too long
-Error: LINE_TOO_LONG        (line:  64, col:   1):	line too long
-Error: LINE_TOO_LONG        (line:  64, col:  90):	line too long
-Error: LINE_TOO_LONG        (line:  65, col:   1):	line too long
-Error: LINE_TOO_LONG        (line:  65, col:  85):	line too long
-Error: LINE_TOO_LONG        (line:  66, col:   1):	line too long
-Error: LINE_TOO_LONG        (line:  66, col:  82):	line too long
-Error: LINE_TOO_LONG        (line:  67, col:   1):	line too long
-Error: LINE_TOO_LONG        (line:  67, col:  82):	line too long
-Error: MISSING_TYPEDEF_ID   (line:  71, col:   1):	Missing identifier in typedef declaration
-Error: SPC_BEFORE_NL        (line:  71, col:  13):	Space before newline
-Error: SPC_BEFORE_NL        (line:  85, col:  22):	Space before newline
-Error: NO_TAB_BF_TYPEDEF    (line:  93, col:   2):	Missing whitespace before typedef name
-Error: SPACE_EMPTY_LINE     (line: 101, col:   1):	Space on empty line
-Error: SPACE_REPLACE_TAB    (line: 102, col:   2):	Found space when expecting tab
-Error: CONSECUTIVE_SPC      (line: 104, col:  15):	Two or more consecutives spaces
-Error: TOO_FEW_TAB          (line: 106, col:   1):	Missing tabs for indent level
-Error: SPACE_REPLACE_TAB    (line: 106, col:   5):	Found space when expecting tab
-Error: TOO_FEW_TAB          (line: 107, col:   1):	Missing tabs for indent level
-Error: SPACE_REPLACE_TAB    (line: 107, col:   5):	Found space when expecting tab
-Error: CONSECUTIVE_SPC      (line: 108, col:   2):	Two or more consecutives spaces
-Error: SPACE_REPLACE_TAB    (line: 108, col:   4):	Found space when expecting tab
-Error: TOO_FEW_TAB          (line: 117, col:   1):	Missing tabs for indent level
-Error: SPACE_REPLACE_TAB    (line: 117, col:   5):	Found space when expecting tab
-Error: TOO_FEW_TAB          (line: 118, col:   1):	Missing tabs for indent level
-Error: SPACE_REPLACE_TAB    (line: 118, col:   5):	Found space when expecting tab
-Error: TOO_FEW_TAB          (line: 119, col:   1):	Missing tabs for indent level
-Error: SPACE_REPLACE_TAB    (line: 119, col:   5):	Found space when expecting tab
-Error: CONSECUTIVE_NEWLINES (line: 126, col:   1):	Consecutive newlines
-Error: NO_TAB_BF_TYPEDEF    (line: 132, col:   2):	Missing whitespace before typedef name
-Error: MISSING_IDENTIFIER   (line: 138, col:  31):	missing type qualifier or identifier in function arguments
-Error: CONSECUTIVE_SPC      (line: 163, col:   4):	Two or more consecutives spaces
-Error: SPACE_REPLACE_TAB    (line: 163, col:   4):	Found space when expecting tab
-Error: SPC_BEFORE_NL        (line: 166, col:  39):	Space before newline
-Error: CONSECUTIVE_SPC      (line: 191, col:  42):	Two or more consecutives spaces
-Error: SPACE_REPLACE_TAB    (line: 218, col:   5):	Found space when expecting tab
-Error: SPC_AFTER_POINTER    (line: 226, col:  48):	space after pointer
-Error: NO_ARGS_VOID         (line: 241, col:  19):	Empty function argument requires void
-Error: SPACE_REPLACE_TAB    (line: 242, col:   5):	Found space when expecting tab
-Error: SPACE_REPLACE_TAB    (line: 243, col:   5):	Found space when expecting tab
-Error: CONSECUTIVE_SPC      (line: 246, col:   6):	Two or more consecutives spaces
-Error: SPACE_REPLACE_TAB    (line: 246, col:   6):	Found space when expecting tab
-Error: CONSECUTIVE_NEWLINES (line: 257, col:   1):	Consecutive newlines
-Error: CONSECUTIVE_NEWLINES (line: 258, col:   1):	Consecutive newlines
+minishell.h: OK!
 open_files.c: Error!
 Error: SPACE_EMPTY_LINE     (line:  64, col:   1):	Space on empty line
 Error: SPACE_AFTER_KW       (line:  71, col:   9):	Missing space after keyword
@@ -176,9 +67,7 @@ Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 Error: BRACE_SHOULD_EOL     (line:  42, col:   1):	Expected newline after brace
 libft/ft_lstclear.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
-Error: CONSECUTIVE_NEWLINES (line:  23, col:   1):	Consecutive newlines
-Error: CONSECUTIVE_NEWLINES (line:  24, col:   1):	Consecutive newlines
-Error: SPACE_EMPTY_LINE     (line:  48, col:   1):	Space on empty line
+Error: EMPTY_LINE_EOF       (line:   2, col:   1):	Empty line at end of file
 libft/ft_lstdelone.c: Error!
 Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
 libft/ft_lstiter.c: Error!

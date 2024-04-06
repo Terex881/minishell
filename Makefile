@@ -12,7 +12,7 @@ OBJ = main.o				syntax_error.o expand.o \
     libft/ft_lstdelone.o    libft/ft_putstr_fd.o      \
     libft/ft_lstiter.o      libft/ft_lstsize.o \
     libft/ft_lstlast.o      libft/ft_strncmp.o      \
-    built_in/builtins.o     built_in/environment.o           execution.o\
+         built_in/environment.o           execution.o\
     built_in/echo.o         built_in/exit.o                  built_in/export.o\
     execution_pipe.o		built_in/export_utils.o\
     tokenizer/token.o		tokenizer/token_utils.o signals.o \

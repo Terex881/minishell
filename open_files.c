@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:15:01 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/06 22:19:41 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/06 23:30:02 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
 	char	*str;
 	int		fd;
 	
-	data->a = 0;
+	data->val = 0;
 	limter = ft_varjoin(&tmp->next, data);
 	while (1)
 	{
@@ -78,7 +78,7 @@ void	ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
 			free (line);
 			break;
 		}
-		if (data->a == 0)
+		if (data->val == 0)
 		{
 			str = line;
 			line = ft_expand_her_doc(line, data);

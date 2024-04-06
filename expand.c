@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:09:35 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/06 23:11:04 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/06 23:17:47 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_search_var(char *str, t_data *data)
 	while (str[i])
 	{
 		if (str[i] == '$' && ft_isalpha(str[i + 1]) == 0)
-			(fin = ft_charjoin(fin, str[i]), i++);
+			(1) && (fin = ft_charjoin(fin, str[i]), i++);
 		if (str[i] == '$')
 		{
 			i++;
@@ -44,29 +44,29 @@ char	*ft_search_var(char *str, t_data *data)
 			fin = ft_strjoin(fin, ft_get_line(data, ret, ft_strlen(ret)));
 		}
 		else
-			(fin = ft_charjoin(fin, str[i]), i++);
+			(1) && (fin = ft_charjoin(fin, str[i]), i++);
 	}
-	return fin;
+	return (fin);
 }
 
 void	ft_expand(t_list **list, t_data *data)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	tmp = *list;
-	
 	while (tmp)
 	{
-		if(tmp->type == HER_DOC)
+		if (tmp->type == HER_DOC)
 			tmp = ft_next(tmp->next);
-		else if(tmp && !ft_strcmp(tmp->value, "$?"))
+		else if (tmp && !ft_strcmp(tmp->value, "$?"))
 			tmp->value = ft_itoa(data->stat);
-		else if(tmp && (tmp->type == D_Q || tmp->type == VARIABLE))
+		else if (tmp && (tmp->type == D_Q || tmp->type == VARIABLE))
 			tmp->value = ft_search_var(tmp->value, data);
-		else if(tmp && tmp->next && !ft_strcmp(tmp->value , "$") && !ft_type(tmp->next))
-			tmp->value = ft_strdup("$") ;
-		else if(tmp && tmp->next && !ft_strcmp(tmp->value , "$"))
-			tmp->value = ft_strdup("") ; // 	
+		else if (tmp && tmp->next && !ft_strcmp(tmp->value, "$")
+			&& !ft_type(tmp->next))
+			tmp->value = ft_strdup("$");
+		else if (tmp && tmp->next && !ft_strcmp(tmp->value, "$"))
+			tmp->value = ft_strdup("");
 		tmp = tmp->next;
 	}
 }
@@ -80,7 +80,7 @@ char	*ft_charjoin(char const *s1, char s2)
 	if (!s1)
 	{
 		x = c_malloc(2, 1);
-		if(!x)
+		if (!x)
 			return (NULL);
 		x[i] = s2;
 		x[i + 1] = '\0';
@@ -95,7 +95,7 @@ char	*ft_charjoin(char const *s1, char s2)
 		i++;
 	}
 	x[i] = s2;
-	x[i + 1]= '\0';
+	x[i + 1] = '\0';
 	return (x);
 }
 
@@ -108,11 +108,10 @@ char	*ft_expand_her_doc(char *str, t_data *data)
 	ret = NULL;
 	fin = NULL;
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
-		if(str[i] == '$' && ft_isalpha(str[i+1]) == 0)
-			(fin = ft_charjoin(fin,str[i]), i++);
-			
+		if (str[i] == '$' && ft_isalpha(str[i + 1]) == 0)
+			(1) && (fin = ft_charjoin(fin, str[i]), i++);
 		else if (str[i] == '$')
 		{
 			i++;
@@ -120,10 +119,7 @@ char	*ft_expand_her_doc(char *str, t_data *data)
 			fin = ft_strjoin(fin, ft_get_line(data, ret, ft_strlen(ret)));
 		}
 		else
-		{
-
-			(fin = ft_charjoin(fin, str[i]), i++);
-		}
+			(1) && (fin = ft_charjoin(fin, str[i]), i++);
 	}
-	return fin;
+	return (fin);
 }

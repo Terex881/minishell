@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:03:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/06 22:26:27 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/06 23:29:50 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*ft_varjoin(t_list **tmp, t_data *data)
 		&& (*tmp)->next->skip == false && ft_type((*tmp)->next) != 2)
 	{
 		if (ft_type((*tmp)->next) == 1)
-			data->a = 1;
+			data->val = 1;
 		str = ft_strjoin(str, (*tmp)->next->value);
 		(*tmp)->skip = true;
 		*tmp = (*tmp)->next;

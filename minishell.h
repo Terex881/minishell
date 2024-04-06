@@ -1,111 +1,63 @@
-# ifndef MINISHELL_H
-#define MINISHELL_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
+/*   Updated: 2024/04/06 23:50:54 by sdemnati         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <libc.h>
-#include <errno.h>//errno
-#include <stdlib.h>
-// #include <string.h>//strerror
-#include <unistd.h>
-#include <stdbool.h>
-#include <sys/signal.h>
-#include <termios.h>
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
+# include <stddef.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <sys/signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
-
-//12
-
-// / export y
-// export y+=dsf
-// m=need diuple quots
-//              /ls
-
-// export a="ls"
-
-// minishell : ./ls
-// ./ls: No such file or directory
-// minishell : echo $?
-// 0
-
-
-// expand in herdoc
-
-// syscall
-
-// fix unset path
-
-// minishell : exit "      4"
-// exit
-// minishell: exit:        4: numeric argument required
-
-
-// minishell :$USER_d                       $USER
-//  sdemnati
-// minishell :
-
-// #define malloc(x) NULL
-
-///////////PROTECTION?/////////
-
-
-// check exit status 
-// cat | cat | ls 
-// cntrl c
-
-// PWD=/Users/sdemnati/Desktop/mini_shell_4
-// minishell : UNSET PWD
-// minshell: UNSET: command not found
-// minishell : unset PWD
-// minishell : ls
-// Makefile                execution.o             main.o                  signals.o
-// allocate_list.c         execution_pipe.c        minishell               syntax_error.c
-// allocate_list.o         execution_pipe.o        minishell.h             syntax_error.o
-// built_in                expand.c                norm.py                 tokenizer
-// coll.c                  expand.o                open_files.c            took.c
-// coll.o                  libft                   open_files.o            took.o
-// execution.c             main.c                  signals.c
-// minishell : cd ..
-
-typedef enum 
+typedef enum in
 {
-	WORD,		//0
-	PIPE,		//1
-	R_OUT,		//2
-	R_IN,		//3
-	HER_DOC,	//4
-	D_Q,		//5
-	S_Q,		//6
-	SPACE_,		//7
-	VARIABLE,	//8
-	APPEND,		//9
-}t_type;
+	WORD,
+	PIPE,
+	R_OUT,
+	R_IN,
+	HER_DOC,
+	D_Q,
+	S_Q,
+	SPACE_,
+	VARIABLE,
+	APPEND,
+}	t_type;
 
-typedef struct s_list 
+typedef struct s_list
 {
 	char			*value;
-
 	t_type			type;
 	bool			skip;
 	struct s_list	*next;	
-
-}t_list;
+}	t_list;
 
 typedef struct s_var
 {
 	int				f_out;
 	int				f_in;
 	char			**arg;
-	struct s_var	*next;
-	
-} t_var;
+	struct s_var	*next;	
+}	t_var;
 
-typedef struct  s_env
+typedef struct s_env
 {
-    char			*line;
-    struct s_env	*next;
-}   t_env;
+	char			*line;
+	struct s_env	*next;
+}	t_env;
 
 typedef struct s_data
 {
@@ -114,33 +66,18 @@ typedef struct s_data
 	char	*old_pwd;
 	int		stat;
 	int		or_in;
-    pid_t	pid;
-    int		status;
-    int		pipe_ends[2];
+	pid_t	pid;
+	int		status;
+	int		pipe_ends[2];
 	int		len;
-	int		a; // change
+	int		val;
 }	t_data;
-
-// struct    termios original_terminos;
-
 
 typedef struct s_coll
 {
 	void			*ptr;
 	struct s_coll	*next;
-
-}t_coll;
-
-t_coll	*ft_collnew(void	*ptr);
-t_coll	*ft_colllast(t_coll **head);
-void	ft_colladd_back(t_coll	**head, t_coll *new1);
-void	ft_collclear(t_coll **head);
-void	*c_malloc(size_t size, int);
-
-//-----------------------UTILS---------------------
-
-void	ft_close(t_var *exec);
-void	ft_error(char *str1, char *str2, char *str3);
+}	t_coll;
 
 //-----------------------LIBFT---------------------
 
@@ -155,20 +92,26 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *str1, char sep);
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new1);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_lstadd_back(t_list **lst, t_list *new1);
 void	ft_lstclear(t_list **lst);
 void	ft_lstdelone(t_list **lst);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
-int     ft_isalpha(int c);
+int		ft_isalpha(int c);
 char	*ft_strtrim(char *str, char set);
 void	ft_putstr_fd(char *s, int fd);
-void	ft_lstclear_var(t_var **exec); 
+// void	ft_lstclear_var(t_var **exec); 
 void	ft_varadd_back(t_var **lst, t_var *new1);
 int		ft_varsize(t_var *lst);
-int		counter(int n);
+// int		counter(int n);
 char	*ft_itoa(int n1);
 int		ft_lstsize_env(t_env *env);
+t_coll	*ft_collnew(void	*ptr);
+t_coll	*ft_colllast(t_coll **head);
+void	ft_colladd_back(t_coll	**head, t_coll *new1);
+void	ft_collclear(t_coll **head);
+void	*c_malloc(size_t size, int flag);
 
 //-----------------------TOKEN---------------------
 
@@ -180,20 +123,19 @@ void	ft_skip_space(t_list **list);
 
 //---------------------OPEN_FILES---------------------
 
-// int		ft_IN_OUT(t_list *tmp, t_var *exec);
 int		ft_open_files(t_list **list, t_var *exec, t_data *data);
 void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data);
 
 //---------------------EXPAND---------------------
 
-char	*ft_sub_variable(char *str, int *i);
+// char	*ft_sub_variable(char *str, int *i);
 void	ft_expand(t_list **list, t_data *data);
-char	*ft_charjoin(char const *s1, char  s2);
+char	*ft_charjoin(char const *s1, char s2);
 char	*ft_expand_her_doc(char *str, t_data *data);
 
 // ---------------------CREATE_NEW_LIST---------------------
 
-void	ft_print_var(t_var *list);
+// void	ft_print_var(t_var *list);
 t_var	*ft_allocate_list(t_list **list);
 t_var	*ft_varnew(void *value);
 void	ft_len_node_elem(t_list **list, t_var *exec);
@@ -214,16 +156,19 @@ char	**ft_free(char **p, int i);
 char	**get_paths(char *path);
 char	*valid_path(char *cmd, char *line, t_data *data);
 int		check_builtin(t_var *exec, t_data *data);
+char	**ft_cpy_to_2d(t_env *tmp);
 
-char **ft_cpy_to_2d(t_env *tmp);
+//-----------------------UTILS---------------------
+
+void	ft_close(t_var *exec);
+void	ft_error(char *str1, char *str2, char *str3);
 
 //---------------------BUILTS_IN---------------------
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_pwd(t_var *exec, t_env *env);
 void	ft_env(t_var *exec, t_data *data);
 void	ft_cd(char *path, t_data *data);
-void	ft_echo(char **arg, t_var *exec, t_data* data);
+void	ft_echo(char **arg, t_var *exec, t_data *data);
 void	ft_export(t_var *exec, t_data *data, char **args);
 void	ft_unset(t_var *exec, t_data **data, char **args);
 void	ft_exit(t_var *exec, t_data **data, char **arg, int len);
@@ -238,22 +183,21 @@ void	ft_error_export(char *line, t_data *data);
 
 //---------------------SIGNALS---------------------
 
-void	ft_signal();
-void ft_signal_c(int num);
-void ft_signal_her(int num);
+void	ft_signal(void);
+void	ft_signal_c(int num);
+void	ft_signal_her(int num);
 
 //---------------------ENVIRONMENT---------------------
-t_env   *ft_get_env(t_data **data, char **env);
+
+t_env	*ft_get_env(t_data **data, char **env);
 char	*ft_get_line(t_data *data, char *line, int i);
-void	ft_lstclear_env(t_env **env);
-void	ft_lstdelone_env(t_env *env);
+// void	ft_lstclear_env(t_env **env);
+// void	ft_lstdelone_env(t_env *env);
 void	ft_lstadd_back_env(t_env **env, t_env *p);
 char	*ft_lstfind_env(t_env **env, char *line, char *new_line);
 t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *));
 t_env	*ft_lstlast_env(t_env *env);
 t_env	*ft_lstnew_env(char *line);
 t_env	*ft_lstcpy_env(t_env *env);
-
-
 
 #endif
