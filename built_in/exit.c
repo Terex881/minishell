@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:56 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/06 21:47:48 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/06 20:11:54 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_exit(t_var *exec, t_data **data, char **arg, int len)
 	long long	n;
 
 	valid = 1;
-	if (len < 2) //len == 1
+	if (len < 2)
 		write(exec->f_out, "exit\n", 5);
 	if (!arg || !arg[1])
 		(c_malloc(0, 0), exit(0));
