@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:56 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/06 16:36:33 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/06 16:57:11 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static long long	ft_valid_arg(char *str, int *valid)
 	s = 1;
 	n = 0;
 	*valid = 0;
-	while(str && *str == 32 || (*str >= 9 && *str <= 13)) // i add this
+	while (str && *str == 32 || (*str >= 9 && *str <= 13))
 		str++;
 	if (*str == '+' || *str == '-')
 	{
@@ -33,14 +33,12 @@ static long long	ft_valid_arg(char *str, int *valid)
 	{
 		if (!(*str >= '0' && *str <= '9'))
 			return (0);
-		tmp = n;
-		n = n * 10 + *str - '0';
+		(1) && (tmp = n, n = n * 10 + *str - '0');
 		if (tmp > n || n > 1844674407370955169)
 			return (0);
 		str++;
 	}
-	*valid = 1;
-	return (s * n);
+	return (*valid = 1, s * n);
 }
 
 void	ft_exit(t_var *exec, t_data **data, char **arg, int len)
@@ -48,9 +46,8 @@ void	ft_exit(t_var *exec, t_data **data, char **arg, int len)
 	int			valid;
 	long long	n;
 
-
 	valid = 1;
-	if (len < 2)// len == 1
+	if (len < 2) //len == 1
 		write(exec->f_out, "exit\n", 5);
 	if (!arg || !arg[1])
 		(c_malloc(0, 0), exit(0));
