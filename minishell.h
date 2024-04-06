@@ -240,6 +240,7 @@ void	ft_error_export(char *line, t_data *data);
 
 void	ft_signal();
 void ft_signal_c(int num);
+void ft_signal_her(int num);
 
 //---------------------ENVIRONMENT---------------------
 t_env   *ft_get_env(t_data **data, char **env);

@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/06 06:20:48 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/06 21:40:27 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ int	ft_all(t_list **list, t_env *env, t_data *data)
 
 	line = NULL;
 	node = NULL;
-	ft_signal(); // check this
 	while (1)
 	{
+		ft_signal();
 		tok = ft_token(line, node, list); 
-		if (tok == 0)////Process 11421: 98 leaks for 3136 total leaked bytes.
+		if (tok == 0)
 			return(printf("exit"), c_malloc(0, 0), 0);// this
 		else if (tok > 0)
 			ft_success(list, env,data);
@@ -83,8 +83,7 @@ int	main(int ac, char **av, char **env)
 	t_list	*list;
 	t_data	*data;
 
-	// rl_catch_signals = 0;
-	// tcgetattr(STDIN_FILENO, &original_terminos);
+	rl_catch_signals = 0;
 	list = NULL;
 	t_env *env1 = ft_get_env(&data, env);
 	

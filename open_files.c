@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:15:01 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/06 06:19:56 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/06 21:58:19 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,19 @@ void	ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
 	char	*line;
 	char	*limter;
 	char	*str;
-	// rl_catch_signals = 1;
+	int		fd;
+	
 	data->a = 0;
 	limter = ft_varjoin(&tmp->next, data);
 	while (1)
 	{
+		signal(SIGINT, ft_signal_her);
 		line = readline(">");
-		// close(0);
-		// signal(SIGINT, ft_signal_c);
+		if(!ttyname(0))
+		{
+			fd  = open(ttyname(2), O_RDONLY);
+			dup2(0, fd);
+		}
 		if (!line || !ft_strcmp(limter, line))
 		{
 			free (line);
@@ -81,14 +86,12 @@ void	ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
 		}
 		write(exec->f_in, line, ft_strlen(line));
 		write(exec->f_in, "\n", 1);
-		free(line);
 	}
 }
 
 void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data)
 {
 	t_list	*tmp;
-	int		i;
 
 	tmp = *list;
 	while (tmp)

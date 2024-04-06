@@ -52,6 +52,7 @@ static char	*length_word(const char **str1, char sep)
 
 static void	libre(char **str, int i)
 {
+	(void)str;
 	while (i >= 0)
 	{
 		// free(str[i]);

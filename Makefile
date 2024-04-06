@@ -8,7 +8,7 @@ OBJ = main.o				syntax_error.o expand.o \
     libft/ft_strcmp.o       libft/ft_lstadd_back.o \
     libft/ft_strdup.o       libft/ft_substr.o   \
     libft/ft_strjoin.o      libft/ft_strtrim.o   \
-    libft/ft_lstnew.o       libft/ft_lstadd_front.o  libft/ft_itoa.o \
+    libft/ft_lstnew.o       libft/ft_itoa.o \
     libft/ft_lstdelone.o    libft/ft_putstr_fd.o      \
     libft/ft_lstiter.o      libft/ft_lstsize.o \
     libft/ft_lstlast.o      libft/ft_strncmp.o      \
@@ -19,7 +19,7 @@ OBJ = main.o				syntax_error.o expand.o \
     built_in/env.o			built_in/cd.o                    built_in/unset.o\
     built_in/pwd.o           took.o coll.o\
 
-CC = cc -g -fsanitize=address # remove
+CC = cc -g #-fsanitize=address # remove
 # FLAGS = -Wall -Werror -Wextra
 
 READLINE_INC = -I$(shell brew --prefix readline)/include
