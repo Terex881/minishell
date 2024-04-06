@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/06 19:58:27 by cmasnaou          #+#    #+#             */
+/*   Updated: 2024/04/06 20:13:30 by cmasnaou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char	*ft_var_name(char *line)
@@ -9,7 +21,7 @@ char	*ft_var_name(char *line)
 		i++;
 	if (line[i - 1] == '+')
 		i--;
-	return (ft_substr(line, 0, i));//add protection for substr
+	return (ft_substr(line, 0, i));
 }
 
 char	*ft_remove_plus(char *line)
@@ -39,12 +51,11 @@ int	ft_valid_char(char c)
 	return (0);
 }
 
-void	ft_print_export(t_var *exec, t_env *env)// fix ""
+void	ft_print_export(t_var *exec, t_env *env)
 {
 	t_env	*tmp;
 	char	*var;
 	char	*name;
-
 
 	tmp = env;
 	while (tmp)
@@ -55,7 +66,6 @@ void	ft_print_export(t_var *exec, t_env *env)// fix ""
 		{
 			name = ft_var_name(tmp->line);
 			ft_putstr_fd(name, exec->f_out);
-			// free(name);
 			ft_putstr_fd("=", exec->f_out);
 			ft_putstr_fd("\"", exec->f_out);
 			ft_putstr_fd(var + 1, exec->f_out);
@@ -66,6 +76,4 @@ void	ft_print_export(t_var *exec, t_env *env)// fix ""
 		ft_putstr_fd("\n", exec->f_out);
 		tmp = tmp -> next;
 	}
-
 }
-
