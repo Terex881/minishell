@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:56 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/05 23:29:57 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/06 16:36:33 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_exit(t_var *exec, t_data **data, char **arg, int len)
 
 
 	valid = 1;
-	if (len == 1)
+	if (len < 2)// len == 1
 		write(exec->f_out, "exit\n", 5);
 	if (!arg || !arg[1])
 		(c_malloc(0, 0), exit(0));
