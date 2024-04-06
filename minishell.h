@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/06 23:50:54 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/06 23:53:08 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env);
 void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env);
 char	**ft_free(char **p, int i);
 char	**get_paths(char *path);
-char	*valid_path(char *cmd, char *line, t_data *data);
+char	*valid_path(char *cmd, char *line);
 int		check_builtin(t_var *exec, t_data *data);
 char	**ft_cpy_to_2d(t_env *tmp);
 

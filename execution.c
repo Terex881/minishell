@@ -1,42 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
+/*   Updated: 2024/04/06 23:24:26 by cmasnaou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char	**get_paths(char *path)
+static void	check_cmd(char *cmd)
 {
-	int		j;
-	char	*tmp;
-	char	**paths;
-
-	j = 0;
-	if (!path)
-		return (NULL);
-	while (path[j] != '\n' && path[j] != '\0')
-		j++;
-	tmp = ft_substr(path, 5, --j);
-	if (!tmp)
-		return (NULL);
-	paths = ft_split(tmp, ':');
-	if (!paths)
-		return (NULL);
-	return (paths);
+	if (cmd[0] == '.' && cmd[1] == '\0')
+	{
+		ft_error("minshell: ", cmd, ": filename argument required");
+		ft_error(".: ", "usage: . filename [arguments]", NULL);
+		exit(2);
+	}
 }
 
-void	ft_error(char *str1, char *str2, char *str3) // check this
-{
-	int	i;
-
-	i = 0;
-	while (str1 && str1[i])
-		write(2, &str1[i++], 1);
-	i = 0;
-	while (str2 && str2[i])
-		write(2, &str2[i++], 1);
-	i = 0;
-	while (str3 && str3[i])
-		write(2, &str3[i++], 1);
-	write(2, "\n", 1);
-}
-
-char	*valid_path(char *cmd, char *line, t_data *data)
+char	*valid_path(char *cmd, char *line)
 {
 	int		i;
 	char	*path;
@@ -45,45 +31,34 @@ char	*valid_path(char *cmd, char *line, t_data *data)
 
 	if (cmd && ft_strlen(cmd))
 	{
-		if (cmd[0] == '.' && cmd[1] == '\0')
-		{
-			ft_error("minshell: ", cmd, ": filename argument required");
-			ft_error(".: ", "usage: . filename [arguments]", NULL);
-			return (exit(2), NULL);
-		}
+		check_cmd(cmd);
 		if (!access(cmd, F_OK | X_OK))
 			return (ft_strdup(cmd));
 		paths = get_paths(line);
 		if (!paths)
 			return (NULL);
-		i = 0;
-		if (cmd[i] == '.' || cmd[i] == '/')
+		if (cmd[0] == '.' || cmd[0] == '/')
 			return (NULL);
-		while (paths && paths[i])
+		i = -1;
+		while (paths && paths[++i])
 		{
 			tmp = ft_strjoin(paths[i], "/");
 			path = ft_strjoin(tmp, cmd);
 			if (!access(path, F_OK | X_OK))
 				return (path);
-			i++;
 		}
 	}
-	ft_error("minshell: ", cmd, ": command not found");
-	exit(127);
-	return (NULL);
+	(ft_error("minshell: ", cmd, ": command not found"), exit(127));
 }
 
 int	check_builtin(t_var *exec, t_data *data)
-
 {
 	if (exec->arg && !ft_strncmp(exec->arg[0], "echo", 5))
 		return (ft_echo(exec->arg + 1, exec, data), 1);
 	if (exec->arg && !ft_strncmp(exec->arg[0], "pwd", 4))
 		return (ft_pwd(exec, data->env), 1);
 	if (exec->arg &&!ft_strncmp(exec->arg[0], "cd", 3))
-	{
 		return (ft_cd(exec->arg[1], data), 1);
-	}
 	if (exec->arg && !ft_strncmp(exec->arg[0], "unset", 6))
 		return (ft_unset(exec, &data, exec->arg), 1);
 	if (exec->arg &&!ft_strncmp(exec->arg[0], "env", 4))
@@ -101,7 +76,7 @@ void	ft_child(t_var *exec, t_data *data, char **new_env)
 {
 	char	*path;
 
-	path = valid_path(exec->arg[0], data->path, data);
+	path = valid_path(exec->arg[0], data->path);
 	if (!path)
 		return (perror(exec->arg[0]), exit(127));
 	if (dup2(exec->f_in, 0) == -1)

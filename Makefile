@@ -17,7 +17,7 @@ OBJ = main.o				syntax_error.o expand.o \
     execution_pipe.o		built_in/export_utils.o\
     tokenizer/token.o		tokenizer/token_utils.o signals.o \
     built_in/env.o			built_in/cd.o                    built_in/unset.o\
-    built_in/pwd.o           took.o coll.o\
+    built_in/pwd.o           took.o coll.o      utils_execution.o    utils_execution.o\
 
 CC = cc -g #-fsanitize=address # remove
 # FLAGS = -Wall -Werror -Wextra
