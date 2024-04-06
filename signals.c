@@ -4,7 +4,7 @@ void ft_signal_c(int num)
 {
     if (num == SIGINT)
 	{
-<<<<<<< HEAD
+
 		// if(open(STDIN_FILENO, O_RDWR) == -1)
 		// {
 		// 	open(STDIN_FILENO, O_RDWR);
@@ -12,9 +12,7 @@ void ft_signal_c(int num)
 		// 	return;
 		// }
 		rl_clear_history();
-=======
-		// rl_clear_history();
->>>>>>> 76b65ae3c92372cc60405cb29557a6e0521675b3
+
 		write(1, "\n", 1);
 		rl_on_new_line();
 		// rl_replace_line("", 0);

@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:03:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/06 06:05:35 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/06 06:37:48 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,7 @@ void	ft_len_node_elem(t_list **list, t_var *exec)
 	if (n <= 0)
 		exec->arg = NULL;
 	else
-<<<<<<< HEAD
-		exec->arg = c_malloc(sizeof(char *) * (n + 1), 1);
-=======
 		exec->arg = c_malloc(sizeof(char *) * (n + 1), 1); // check this
->>>>>>> 76b65ae3c92372cc60405cb29557a6e0521675b3
 	if (!exec->arg)
 		return ;
 }
@@ -75,13 +71,9 @@ char	*ft_varjoin(t_list **tmp, t_data *data)
 	char	*str;
 
 	str = (*tmp)->value;
-<<<<<<< HEAD
-	while (*tmp && (*tmp)->next && (*tmp)->next->skip == false
-		&& ft_type((*tmp)->next) != 2)
-=======
+
 	while (*tmp && (*tmp)->next
 		&& (*tmp)->next->skip == false && ft_type((*tmp)->next) != 2)
->>>>>>> 76b65ae3c92372cc60405cb29557a6e0521675b3
 	{
 		if (ft_type((*tmp)->next) == 1)
 			data->a = 1;
@@ -108,22 +100,14 @@ void	ft_copy_to_list(t_list **list, t_var *exec, t_data *data)
 		{
 			i = 0;
 			exec = exec->next;
-<<<<<<< HEAD
 			tmp->skip = true;
-=======
-			tmp->skip = true; // for pipe
->>>>>>> 76b65ae3c92372cc60405cb29557a6e0521675b3
+
 			ft_len_node_elem(&tmp->next, exec);
 		}
 		if (tmp->skip == false)
 		{
-<<<<<<< HEAD
-			exec->arg[i++] = ft_varjoin(&tmp, data);
-			tmp->skip = true;
-=======
 			exec->arg[i] = ft_varjoin(&tmp, data);
 			(1) && (i++, tmp->skip = true);
->>>>>>> 76b65ae3c92372cc60405cb29557a6e0521675b3
 		}
 		if (exec->arg)
 			exec->arg[i] = NULL;
