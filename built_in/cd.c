@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:46 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/06 17:56:32 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/06 18:23:33 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int	ft_cd_home(char **path, t_data *data)
 {
 	if (!path || !*path || (*path[0] == '~' && *path[1] == '\0'))
 	{
-		// // free(path);
 		*path = ft_strdup(getenv("HOME"));
 		if (!path || !*path)
 		{
@@ -30,39 +29,30 @@ static int	ft_cd_home(char **path, t_data *data)
 			data->stat = 1;
 			return (1);
 		}
-		// // free(tmp);
 	}
 	return (0);
 }
 
-static void    ft_change_dir(int n, char *tmp, char *pwd, t_data *data)
+static void	ft_change_dir(int n, char *tmp, char *pwd, t_data *data)
 {
 	char	*join;
-	char	*find;
-	char	*p;
-	
+	char	*path;
+
 	if (!n && pwd)
 	{
 		join = ft_strjoin("OLDPWD=", tmp + 4);
-		find = ft_lstfind_env(&data->env, "OLDPWD", join);//add protection for strjoin
-		// free(join);
-
-		p = getcwd(NULL, 0);
+		ft_lstfind_env(&data->env, "OLDPWD", join);
+		path = getcwd(NULL, 0);
 		join = ft_strjoin("PWD=", pwd);
-		find = ft_lstfind_env(&data->env, "PWD", join);//add protection for strjoin
-		// free(join);
-		free(p);
-		// free(find);
+		ft_lstfind_env(&data->env, "PWD", join);
+		free(path);
 	}
 	else if (!n)
 	{
 		join = ft_strjoin("OLDPWD=", tmp + 4);
-		find = ft_lstfind_env(&data->env, "OLDPWD", join);//add protection for strjoin
-		// free(join);
+		ft_lstfind_env(&data->env, "OLDPWD", join);
 		join = ft_strjoin(tmp, "/..");
-		find = ft_lstfind_env(&data->env, "PWD", join);//add protection for strjoin
-		// free(join);
-		// free(find);
+		ft_lstfind_env(&data->env, "PWD", join);
 	}
 	else
 	{
@@ -74,12 +64,10 @@ static void    ft_change_dir(int n, char *tmp, char *pwd, t_data *data)
 void	ft_cd(char *path, t_data *data)
 {
 	char	*tmp;
-	// char	*find;
 	char	*pwd;
-	// char	*join;
 	int		n;
 
-	data->stat  = 0;
+	data->stat = 0;
 	if (ft_cd_home(&path, data))
 		return ;
 	tmp = ft_lstfind_env(&data->env, "PWD", NULL);
@@ -87,7 +75,5 @@ void	ft_cd(char *path, t_data *data)
 	pwd = getcwd(NULL, 0);
 	ft_change_dir(n, tmp, pwd, data);
 	free(pwd);
-	// data->stat =0;
 	return ;
-	// exit(10); //  0
 }
