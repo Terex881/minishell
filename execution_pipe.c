@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution_pipe.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
+/*   Updated: 2024/04/06 23:25:30 by cmasnaou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_close_pipe(t_data *data)
@@ -18,7 +30,7 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 		return (ft_exit(exec, &data, exec->arg, len));
 	if (check_builtin(exec, data))
 		(exit(data->stat));
-	path = valid_path(exec->arg[0], data->path, data);
+	path = valid_path(exec->arg[0], data->path);
 	if (!path)
 		return (perror("Invalid path!\n"));
 	if (execve(path, exec->arg, arr) == -1)
