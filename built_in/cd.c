@@ -6,66 +6,59 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:46 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/06 16:27:13 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/06 17:56:32 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void    ft_change_dir(char *path, t_data *data, ...)
-void	ft_cd(char *path, t_data *data)
+static int	ft_cd_home(char **path, t_data *data)
 {
-	char	*tmp;
-	char	*find;
-	char	*pwd;
-	char	*join;
-	int		n;
-	data->stat  = 0;
-
-	if (!path || !*path || (path[0] == '~' && path[1] == '\0'))
+	if (!path || !*path || (*path[0] == '~' && *path[1] == '\0'))
 	{
 		// // free(path);
-		// tmp = ft_lstfind_env(&data->env, "HOME", NULL);
-		// path = ft_strdup(tmp + 5);
-		path = getenv("HOME");
-		if (!path)
+		*path = ft_strdup(getenv("HOME"));
+		if (!path || !*path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 			data->stat = 1;
-			return ;
+			return (1);
 		}
 		if (!data->path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 			data->stat = 1;
-			return ;
+			return (1);
 		}
-		// printf("path = %s\n", path);
 		// // free(tmp);
 	}
-	tmp = ft_lstfind_env(&data->env, "PWD", NULL);
-	n = chdir(path);
-	pwd = getcwd(NULL, 0);
+	return (0);
+}
+
+static void    ft_change_dir(int n, char *tmp, char *pwd, t_data *data)
+{
+	char	*join;
+	char	*find;
+	char	*p;
+	
 	if (!n && pwd)
 	{
-		// free(pwd);
 		join = ft_strjoin("OLDPWD=", tmp + 4);
 		find = ft_lstfind_env(&data->env, "OLDPWD", join);//add protection for strjoin
-		// free(find);
 		// free(join);
-		pwd = getcwd(NULL, 0);
+
+		p = getcwd(NULL, 0);
 		join = ft_strjoin("PWD=", pwd);
 		find = ft_lstfind_env(&data->env, "PWD", join);//add protection for strjoin
-		// free(find);
 		// free(join);
-		// free(pwd);
+		free(p);
+		// free(find);
 	}
 	else if (!n)
 	{
 		join = ft_strjoin("OLDPWD=", tmp + 4);
 		find = ft_lstfind_env(&data->env, "OLDPWD", join);//add protection for strjoin
 		// free(join);
-		// free(find);
 		join = ft_strjoin(tmp, "/..");
 		find = ft_lstfind_env(&data->env, "PWD", join);//add protection for strjoin
 		// free(join);
@@ -74,11 +67,26 @@ void	ft_cd(char *path, t_data *data)
 	else
 	{
 		ft_putstr_fd("minishell: ", 2);
-		perror("path");
-		data->stat = 1;
+		(perror("path"), data->stat = 1);
 	}
-	// free(tmp);
-	// free(path);
+}
+
+void	ft_cd(char *path, t_data *data)
+{
+	char	*tmp;
+	// char	*find;
+	char	*pwd;
+	// char	*join;
+	int		n;
+
+	data->stat  = 0;
+	if (ft_cd_home(&path, data))
+		return ;
+	tmp = ft_lstfind_env(&data->env, "PWD", NULL);
+	n = chdir(path);
+	pwd = getcwd(NULL, 0);
+	ft_change_dir(n, tmp, pwd, data);
+	free(pwd);
 	// data->stat =0;
 	return ;
 	// exit(10); //  0
