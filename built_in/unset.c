@@ -6,11 +6,34 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:32 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/05 23:29:33 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/06 20:37:30 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	ft_unset_arg(t_data **data, char *arg, t_env *p, t_env *tmp)
+{
+	while (p)
+	{
+		if (ft_strncmp(p->line, arg, ft_strlen(arg)) == 0
+			&& (p->line[ft_strlen(arg)] == '\0'
+				|| p->line[ft_strlen(arg)] == '='))
+		{
+			if (tmp)
+				tmp->next = p->next;
+			else
+				(*data)->env = p->next;
+			p->line = NULL;
+			if (!(arg + 1))
+				return (0);
+			break ;
+		}
+		tmp = p;
+		p = p->next;
+	}
+	return (1);
+}
 
 void	ft_unset(t_var *exec, t_data **data, char **args)
 {
@@ -26,59 +49,8 @@ void	ft_unset(t_var *exec, t_data **data, char **args)
 		p = (*data)->env;
 		tmp = NULL;
 		if (ft_strncmp(args[i], "PATH", 5) == 0)
-		{
-			// free((*data)->path);
 			(*data)->path = NULL;
-		}
-		while (p)
-		{
-			if (ft_strncmp(p->line, args[i], ft_strlen(args[i])) == 0
-				&& (p->line[ft_strlen(args[i])] == '\0' || p->line[ft_strlen(args[i])] == '='))
-			{
-				if (tmp)
-					tmp->next = p->next;
-				else
-					(*data)->env = p->next;
-				// free(p->line);
-				// free(p);
-				// p->line = NULL;
-				if (!args[i + 1])
-					return ;
-				break ;
-			}
-			tmp = p;
-			p = p->next;
-		}
+		if (!ft_unset_arg(data, args[i], p, tmp))
+			return ;
 	}
 }
-
-// void	ft_unset(t_var *exec, t_data **data, char *line)
-// {
-// 	t_env *p;
-
-// 	if (!data || !(*data) || !(*data)->env || !line)
-// 		return ;
-// 	if (ft_strncmp(line, "PATH", 5) == 0)
-// 	{
-// 		free((*data)->path);
-// 		(*data)->path = NULL;
-// 	}
-// 	if (ft_strncmp((*data)->env->line, line, ft_strlen(line)) == 0)
-// 	{
-// 		// free((*data)->env->line);
-// 		(*data)->env = (*data)->env->next;
-// 		return ;
-// 	}
-// 	p = (*data)->env;
-// 	while (p && p->next)
-// 	{
-// 		if (ft_strcmp(p->next->line, line) == 0)
-// 		{
-// 			free(p->next->line);
-// 			free(p->next);
-// 			p->next = p->next->next;
-// 			return ;
-// 		}
-// 		p = p->next;
-// 	}
-// }
