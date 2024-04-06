@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:46 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/05 23:29:47 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/06 16:27:13 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,24 @@ void	ft_cd(char *path, t_data *data)
 
 	if (!path || !*path || (path[0] == '~' && path[1] == '\0'))
 	{
-		// free(path);
-		tmp = ft_lstfind_env(&data->env, "HOME", NULL);
-		path = ft_strdup(tmp + 5);
-		// free(tmp);
+		// // free(path);
+		// tmp = ft_lstfind_env(&data->env, "HOME", NULL);
+		// path = ft_strdup(tmp + 5);
+		path = getenv("HOME");
+		if (!path)
+		{
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+			data->stat = 1;
+			return ;
+		}
+		if (!data->path)
+		{
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+			data->stat = 1;
+			return ;
+		}
+		// printf("path = %s\n", path);
+		// // free(tmp);
 	}
 	tmp = ft_lstfind_env(&data->env, "PWD", NULL);
 	n = chdir(path);
