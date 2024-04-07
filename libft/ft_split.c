@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/07 01:11:22 by sdemnati          #+#    #+#             */
+/*   Updated: 2024/04/07 01:11:46 by sdemnati         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static int	count_word(const char *str, char sep)
@@ -50,17 +62,6 @@ static char	*length_word(const char **str1, char sep)
 	return (arr);
 }
 
-static void	libre(char **str, int i)
-{
-	(void)str;
-	while (i >= 0)
-	{
-		// free(str[i]);
-		i--;
-	}
-	// free(str);
-}
-
 char	**ft_split(const char *str, char sep)
 {
 	int		i;
@@ -80,7 +81,6 @@ char	**ft_split(const char *str, char sep)
 		arr[i] = length_word(&str, sep);
 		if (!arr[i])
 		{
-			libre(arr, i);
 			return (NULL);
 		}
 		i++;

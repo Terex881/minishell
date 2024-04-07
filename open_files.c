@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:15:01 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/06 23:30:02 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/07 01:29:11 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,22 @@ int	ft_open_files(t_list **list, t_var *var, t_data *data)
 	return (0);
 }
 
-void	ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
+void	ft_read_herdoc(t_var *exec, t_data *data, char *limter)
 {
 	char	*line;
-	char	*limter;
 	char	*str;
 	int		fd;
-	
-	data->val = 0;
-	limter = ft_varjoin(&tmp->next, data);
+
 	while (1)
 	{
 		signal(SIGINT, ft_signal_her);
 		line = readline(">");
-		if(!ttyname(0))
-		{
-			fd  = open(ttyname(2), O_RDONLY);
-			dup2(0, fd);
-		}
+		if (!ttyname(0))
+			(1) && (fd = open(ttyname(2), O_RDONLY), dup2(0, fd));
 		if (!line || !ft_strcmp(limter, line))
 		{
 			free (line);
-			break;
+			break ;
 		}
 		if (data->val == 0)
 		{
@@ -92,6 +86,7 @@ void	ft_read_herdoc(t_list *tmp, t_var *exec, t_data *data)
 void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data)
 {
 	t_list	*tmp;
+	char	*limter;
 
 	tmp = *list;
 	while (tmp)
@@ -102,7 +97,9 @@ void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data)
 		{
 			tmp->skip = true;
 			exec->f_in = open("/tmp/test", O_CREAT | O_RDWR | O_TRUNC, 0644);
-			ft_read_herdoc(tmp, exec, data);
+			data->val = 0;
+			limter = ft_varjoin(&tmp->next, data);
+			ft_read_herdoc(exec, data, limter);
 			close(exec->f_in);
 			exec->f_in = open("/tmp/test", O_RDONLY);
 		}

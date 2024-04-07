@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/06 23:53:08 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/07 01:29:58 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,8 @@ void	ft_env(t_var *exec, t_data *data);
 void	ft_cd(char *path, t_data *data);
 void	ft_echo(char **arg, t_var *exec, t_data *data);
 void	ft_export(t_var *exec, t_data *data, char **args);
-void	ft_unset(t_var *exec, t_data **data, char **args);
-void	ft_exit(t_var *exec, t_data **data, char **arg, int len);
+void	ft_unset(t_data **data, char **args);
+void	ft_exit(t_var *exec, char **arg, int len);
 
 //------------------BUILTS_IN_UTILS--------------------
 

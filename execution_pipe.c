@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/06 23:32:12 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/07 01:28:26 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 		exit(1);
 	arr = ft_cpy_to_2d(env);
 	if (exec->arg && !ft_strncmp(exec->arg[0], "exit", 5))
-		return (ft_exit(exec, &data, exec->arg, len));
+		return (ft_exit(exec, exec->arg, len));
 	if (check_builtin(exec, data))
 		(exit(data->stat));
 	path = valid_path(exec->arg[0], data->path);
@@ -82,8 +82,7 @@ void	ft_void(t_data *data, t_var *exec, t_env *env)
 	}
 	if (dup2(data->or_in, 0) == -1)
 		(perror("dup2 error!\n"));
-	close(data->or_in);
-	data->len = 0;
+	(close(data->or_in), data->len = 0);
 	return ;
 }
 

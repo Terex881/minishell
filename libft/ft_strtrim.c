@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/07 01:07:20 by sdemnati          #+#    #+#             */
+/*   Updated: 2024/04/07 01:14:08 by sdemnati         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char	*ft_strtrim(char *str, char set)
@@ -14,12 +26,12 @@ char	*ft_strtrim(char *str, char set)
 	end = ft_strlen(str) - 1;
 	if (ft_strlen(str) == 0)
 		return (ft_strdup(""));
-	if(start < ft_strlen(str) && str[start] == set)
+	if (start < ft_strlen(str) && str[start] == set)
 	{
 		start++;
 		count ++;
 	}
-	if(str[end] == set)
+	if (str[end] == set)
 	{
 		end--;
 		count++;

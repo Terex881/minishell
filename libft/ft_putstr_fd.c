@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/07 01:06:11 by sdemnati          #+#    #+#             */
+/*   Updated: 2024/04/07 01:06:12 by sdemnati         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	ft_putstr_fd(char *s, int fd)
@@ -13,10 +25,3 @@ void	ft_putstr_fd(char *s, int fd)
 		i++;
 	}
 }
-
-// void	ft_putstr_fd(char *s, int fd)
-// {
-// 	if (!s || fd < 0)
-// 		return ;
-// 	write(fd, s, ft_strlen(s));
-// }

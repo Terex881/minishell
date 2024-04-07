@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/06 20:20:06 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/07 01:28:13 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	ft_export_no_args(t_var *exec, t_data *data, char **args)
 	return (0);
 }
 
-static void	ft_export_args(t_var *exec, t_data *data, char *arg, char *tmp)
+static void	ft_export_args(t_data *data, char *arg, char *tmp)
 {
 	char	*name;
 	char	*var;
@@ -89,8 +89,6 @@ static void	ft_export_args(t_var *exec, t_data *data, char *arg, char *tmp)
 void	ft_export(t_var *exec, t_data *data, char **args)
 {
 	char	*tmp;
-	char	*var;
-	char	*name;
 	int		i;
 
 	data->stat = 0;
@@ -106,7 +104,7 @@ void	ft_export(t_var *exec, t_data *data, char **args)
 		}
 		tmp = ft_strchr(args[i], '=');
 		if (tmp)
-			ft_export_args(exec, data, args[i], tmp);
+			ft_export_args(data, args[i], tmp);
 		else if (ft_strchr(args[i], '+'))
 			ft_error_export(args[i], data);
 		else if (!ft_lstfind_env(&data->env, args[i], NULL))

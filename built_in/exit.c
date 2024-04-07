@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:56 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/06 20:11:54 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/07 01:27:08 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static long long	ft_valid_arg(char *str, int *valid)
 	s = 1;
 	n = 0;
 	*valid = 0;
-	while (str && *str == 32 || (*str >= 9 && *str <= 13))
+	while (str && (*str == 32 || (*str >= 9 && *str <= 13)))
 		str++;
 	if (*str == '+' || *str == '-')
 	{
@@ -41,7 +41,7 @@ static long long	ft_valid_arg(char *str, int *valid)
 	return (*valid = 1, s * n);
 }
 
-void	ft_exit(t_var *exec, t_data **data, char **arg, int len)
+void	ft_exit(t_var *exec, char **arg, int len)
 {
 	int			valid;
 	long long	n;

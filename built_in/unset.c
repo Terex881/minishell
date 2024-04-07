@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:32 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/06 20:37:30 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/07 01:29:50 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	ft_unset_arg(t_data **data, char *arg, t_env *p, t_env *tmp)
 	return (1);
 }
 
-void	ft_unset(t_var *exec, t_data **data, char **args)
+void	ft_unset(t_data **data, char **args)
 {
 	t_env	*p;
 	t_env	*tmp;
