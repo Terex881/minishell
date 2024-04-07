@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:29:34 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/06 19:56:46 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/07 03:58:19 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ t_env	*ft_get_env(t_data **data, char **env)
 		(*data)->env = p;
 		(*data)->path
 			= ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
-		return (p);
+		return (free(pwd), p);
 	}
 	while (*env)
 	{

@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/07 01:28:26 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/07 03:58:50 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,20 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 {
 	char	*path;
 	char	**arr;
+	int		i;
 
+	i = 0;
 	if (!exec->arg)
 		exit(1);
 	arr = ft_cpy_to_2d(env);
 	if (exec->arg && !ft_strncmp(exec->arg[0], "exit", 5))
 		return (ft_exit(exec, exec->arg, len));
 	if (check_builtin(exec, data))
-		(exit(data->stat));
+	{
+		while (i < 1000000)
+			i++;
+		exit(data->stat);
+	}
 	path = valid_path(exec->arg[0], data->path);
 	if (!path)
 		return (perror("Invalid path!\n"));
