@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:47:37 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/07 01:37:22 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/07 07:16:28 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void	ft_signal_c(int num)
 {
 	if (num == SIGINT)
 	{
+		if(wait(NULL) != -1)
+		{
+			printf("\n");
+			return;
+		}
 		rl_clear_history();
 		write(1, "\n", 1);
 		rl_on_new_line();
