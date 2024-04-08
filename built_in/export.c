@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/07 01:28:13 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/08 22:35:24 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,28 +62,30 @@ static int	ft_export_no_args(t_var *exec, t_data *data, char **args)
 	return (0);
 }
 
-static void	ft_export_args(t_data *data, char *arg, char *tmp)
+static void	ft_export_args(t_data **data, char *arg, char *tmp)
 {
 	char	*name;
 	char	*var;
 
 	name = ft_var_name(arg);
-	var = ft_lstfind_env(&data->env, name, NULL);
+	var = ft_lstfind_env(&(*data)->env, name, NULL);
 	if (!var && !ft_strncmp(tmp - 1, "+=", 2))
-		ft_lstadd_back_env(&data->env,
+		ft_lstadd_back_env(&(*data)->env,
 			ft_lstnew_env(ft_strdup(ft_remove_plus(arg))));
 	else if (var && !ft_strncmp(tmp - 1, "+=", 2))
 	{
 		if (!ft_strchr(var, '='))
-			ft_lstfind_env(&data->env, name,
+			ft_lstfind_env(&(*data)->env, name,
 				ft_strjoin(ft_strjoin(var, "="), tmp + 1));
 		else
-			ft_lstfind_env(&data->env, name, ft_strjoin(var, tmp + 1));
+			ft_lstfind_env(&(*data)->env, name, ft_strjoin(var, tmp + 1));
 	}
 	else if (var)
-		ft_lstfind_env(&data->env, name, arg);
+		ft_lstfind_env(&(*data)->env, name, arg);
 	else
-		ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(arg)));
+		ft_lstadd_back_env(&(*data)->env, ft_lstnew_env(ft_strdup(arg)));
+	if (ft_strcmp(name, "PATH") == 0 && arg[4] == '=') //still need to be fixed
+		(*data)->path = NULL;
 }
 
 void	ft_export(t_var *exec, t_data *data, char **args)
@@ -98,13 +100,13 @@ void	ft_export(t_var *exec, t_data *data, char **args)
 	while (args[i])
 	{
 		if (!ft_valid_export(args[i], data))
-		{
-			data->stat = 1;
-			return ;
-		}
+			return ((void)(data->stat = 1));
 		tmp = ft_strchr(args[i], '=');
+		if (!ft_strncmp(ft_var_name(args[i]), "PATH", 5)
+			&& !ft_lstfind_env(&data->env, "PATH", NULL))
+			ft_lstadd_back_env(&data->env, ft_lstnew_env(data->path));
 		if (tmp)
-			ft_export_args(data, args[i], tmp);
+			ft_export_args(&data, args[i], tmp);
 		else if (ft_strchr(args[i], '+'))
 			ft_error_export(args[i], data);
 		else if (!ft_lstfind_env(&data->env, args[i], NULL))
