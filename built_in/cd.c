@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:46 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/06 19:49:25 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/08 18:44:35 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_cd_home(char **path, t_data *data)
 {
-	if (!path || !*path || (*path[0] == '~' && *path[1] == '\0'))
+	if (!path || !*path || !ft_strncmp(*path, "~", 1))
 	{
 		*path = getenv("HOME");
 		if (!path || !*path)
