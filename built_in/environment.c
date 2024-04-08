@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:29:34 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/07 03:58:19 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/08 18:46:48 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ char	*ft_get_line(t_data *data, char *line, int i)
 	tmp = data->env;
 	while (tmp)
 	{
-		if (tmp && ft_strncmp(tmp -> line, line, ft_strlen(line)) == 0)
+		if (tmp && !ft_strncmp(tmp -> line, line, ft_strlen(line))
+			&& (tmp->line[ft_strlen(line)] == '\0' || tmp->line[ft_strlen(line)] == '='))
 		{
 			res = ft_strdup(tmp->line + i + 1);
 			return (res);
