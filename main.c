@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/06 22:25:35 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/08 20:57:15 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ int	main(int ac, char **av, char **env)
 	t_data	*data;
 	t_env	*env1;
 
-	(void)ac;
-	(void)av;
+	if (ac > 1)
+		return (ft_error("minishell: ", av[1], " : No such file or directory"), 1);
 	rl_catch_signals = 0;
 	list = NULL;
 	env1 = ft_get_env(&data, env);
