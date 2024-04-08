@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/08 22:35:24 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/08 22:43:44 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,25 @@ static int	ft_valid_export(char *line, t_data *data)
 {
 	int		i;
 	char	*name;
+	int		count;
 
 	name = NULL;
+	count = 0;
 	data->stat = 0;
 	i = 0;
+	name = ft_var_name(line);
 	if (line[0] == '=' || line[0] == '+' || (line[0] >= '0' && line[0] <= '9'))
-	{
-		name = ft_var_name(line);
 		return (ft_error_export(name, data), 0);
-	}
 	if (ft_valid_char(line[i]))
 		i++;
-	while (line[i] && line[i] != '=' && line[i] != '+')
+	while (line[i] && line[i] != '=')
 	{
-		if (!ft_valid_char(line[i]) && line[i] != '=' && line[i] != '+')
-		{
-			name = ft_var_name(line);
+		if (line[i] == '+')
+			count++;
+		if (count > 1)
 			return (ft_error_export(name, data), 0);
-		}
+		if (!ft_valid_char(line[i]) && line[i] != '=' && line[i] != '+')
+			return (ft_error_export(name, data), 0);
 		i++;
 	}
 	return (1);
