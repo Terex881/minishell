@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:15:01 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/07 01:29:11 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:58:39 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_read_herdoc(t_var *exec, t_data *data, char *limter)
 	while (1)
 	{
 		signal(SIGINT, ft_signal_her);
-		line = readline(">");
+		line = readline("> ");
 		if (!ttyname(0))
 			(1) && (fd = open(ttyname(2), O_RDONLY), dup2(0, fd));
 		if (!line || !ft_strcmp(limter, line))
@@ -78,8 +78,8 @@ void	ft_read_herdoc(t_var *exec, t_data *data, char *limter)
 			line = ft_expand_her_doc(line, data);
 			free(str);
 		}
-		write(exec->f_in, line, ft_strlen(line));
-		write(exec->f_in, "\n", 1);
+		ft_putstr_fd(line, exec->f_in);
+		ft_putstr_fd("\n", exec->f_in);
 	}
 }
 
