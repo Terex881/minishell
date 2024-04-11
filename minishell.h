@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/08 21:52:17 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/11 14:52:42 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <sys/signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+int	data_stat;
 
 typedef enum in
 {
@@ -63,7 +65,7 @@ typedef struct s_data
 {
 	t_env	*env;
 	char	*path;
-	int		stat;
+	int		stat;//to remove
 	int		or_in;
 	pid_t	pid;
 	int		status;
