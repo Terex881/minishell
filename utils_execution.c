@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_execution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:24:07 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/07 01:05:27 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:35:21 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,8 @@ void	ft_error(char *str1, char *str2, char *str3)
 	int	i;
 
 	i = 0;
-	while (str1 && str1[i])
-		write(2, &str1[i++], 1);
-	i = 0;
-	while (str2 && str2[i])
-		write(2, &str2[i++], 1);
-	i = 0;
-	while (str3 && str3[i])
-		write(2, &str3[i++], 1);
-	write(2, "\n", 1);
+	ft_putstr_fd(str1, 2);
+	ft_putstr_fd(str2, 2);
+	ft_putstr_fd(str3, 2);
+	ft_putstr_fd("\n", 2);
 }
