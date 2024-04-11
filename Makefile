@@ -6,7 +6,7 @@
 #    By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/07 01:30:33 by sdemnati          #+#    #+#              #
-#    Updated: 2024/04/11 20:53:41 by cmasnaou         ###   ########.fr        #
+#    Updated: 2024/04/11 21:41:36 by cmasnaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ OBJ = main.o				syntax_error.o 			expand.o  \
     libft/ft_lstadd_back.o  libft/ft_strdup.o       libft/ft_substr.o \
     libft/ft_strjoin.o      libft/ft_strtrim.o   	libft/ft_lstnew.o \
 	libft/ft_itoa.o 		libft/ft_putstr_fd.o    libft/ft_lstsize.o \
-    libft/ft_lstlast.o      libft/ft_strncmp.o  	libft/ft_strlcpy.o\
+    libft/ft_lstlast.o      libft/ft_strncmp.o\
     built_in/environment.o  built_in/echo.o         built_in/exit.o \
 	built_in/export.o		execution_pipe.o		built_in/export_utils.o \
    	built_in/env.o			built_in/cd.o           built_in/unset.o \
