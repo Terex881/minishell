@@ -6,15 +6,14 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:47:37 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/11 14:55:25 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:32:45 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_signal_her(int num)
+void	ft_signal_her()
 {
-	(void)num;
 	close(0);
 }
 
@@ -24,12 +23,9 @@ void	ft_signal_c(int num)
 	{
 		data_stat = 1;
 		if (wait(NULL) != -1)
-		{
-			printf("\n");
-			return ;
-		}
+			return (ft_putstr_fd("\n", 1));
 		rl_clear_history();
-		write(1, "\n", 1);
+		ft_putstr_fd("\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
