@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/11 14:52:42 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/11 17:37:15 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <stdbool.h>
 # include <stdio.h>
+# include <stdbool.h>
 # include <sys/signal.h>
-# include <readline/readline.h>
 # include <readline/history.h>
-
+# include <readline/readline.h>
+# define MAGENTA	"\033[0;35m"
+# define CYAN		"\033[1;92m"// to remove
+# define YELLOW		"\033[1;33m"// to remove
+# define NC			"\033[0m"
 int	data_stat;
 
 typedef enum in
