@@ -6,50 +6,11 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/11 21:07:18 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/11 21:40:08 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char **get_options(char *cmd)
-{
-	int i = 0;
-	int count = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] == ' ')
-			count++;
-		i++;
-	}
-	if (!count)
-		return (NULL);
-	char **options = malloc(sizeof(char *) * (count + 2));
-	if (!options)
-		return (NULL);
-	i = 0;
-	count = 0;
-	int j = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] == ' ')
-		{
-			options[count] = malloc(sizeof(char) * (i - j + 1));
-			if (!options[count])
-				return (NULL);
-			ft_strlcpy(options[count], cmd + j, i - j + 1);
-			j = i + 1;
-			count++;
-		}
-		i++;
-	}
-	options[count] = malloc(sizeof(char) * (i - j + 1));
-	if (!options[count])
-		return (NULL);
-	ft_strlcpy(options[count], cmd + j, i - j + 1);
-	options[count + 1] = NULL;
-	return (options);
-}
 
 static void	check_cmd(char *cmd)
 {
@@ -115,7 +76,7 @@ void	ft_child(t_var *exec, t_data *data, char **new_env)
 {
 	char	*path;
 
-	char **options = get_options(exec->arg[0]);
+	char **options = ft_split(exec->arg[0], ' ');
 	if (!options)
 		path = valid_path(exec->arg[0], data->path);
 	else
