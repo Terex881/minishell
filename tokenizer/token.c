@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:49:34 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/07 00:53:57 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:10:46 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	ft_token(char *line, t_list *node, t_list **list)
 	node = NULL;
 	*list = NULL;
 	i = 0;
-	line = readline("minishell : ");
+	line = readline(MAGENTA"minishell: 🌸 "NC);
 	if (line == NULL)
 		return (0);
 	if (line[i])
