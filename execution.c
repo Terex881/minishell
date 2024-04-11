@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/07 06:52:53 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:08:04 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,10 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env)
 	{
 		waitpid(data->pid, &data->status, 0);
 		if (data->status == SIGINT)
-			data->stat = 130;
+			data_stat = 130;
 		else if (data->status == SIGQUIT)
-			data->stat = 131;
+			data_stat = 131;
 		else
-			data->stat = WEXITSTATUS(data->status);
+			data_stat = WEXITSTATUS(data->status);
 	}
 }

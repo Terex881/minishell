@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:46 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/08 18:44:35 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:08:47 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static int	ft_cd_home(char **path, t_data *data)
 		if (!path || !*path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-			data->stat = 1;
+			data_stat = 1;
 			return (1);
 		}
 		if (!data->path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-			data->stat = 1;
+			data_stat = 1;
 			return (1);
 		}
 	}
@@ -57,7 +57,7 @@ static void	ft_change_dir(int n, char *tmp, char *pwd, t_data *data)
 	else
 	{
 		ft_putstr_fd("minishell: ", 2);
-		(perror("path"), data->stat = 1);
+		(perror("path"), data_stat = 1);
 	}
 }
 
@@ -67,7 +67,7 @@ void	ft_cd(char *path, t_data *data)
 	char	*pwd;
 	int		n;
 
-	data->stat = 0;
+	data_stat = 0;
 	if (ft_cd_home(&path, data))
 		return ;
 	tmp = ft_lstfind_env(&data->env, "PWD", NULL);

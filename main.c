@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/08 20:57:15 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:44:58 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int	main(int ac, char **av, char **env)
 	t_env	*env1;
 
 	if (ac > 1)
-		return (ft_error("minishell: ", av[1], " : No such file or directory"), 1);
+	{
+		write(2, "minishell: ", 11);
+		return (ft_error(av[1], ": ", strerror(ac)), 1);
+	}
 	rl_catch_signals = 0;
 	list = NULL;
 	env1 = ft_get_env(&data, env);

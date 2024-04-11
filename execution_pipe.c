@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/07 03:58:50 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:06:21 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 	{
 		while (i < 1000000)
 			i++;
-		exit(data->stat);
+		exit(data_stat);
 	}
 	path = valid_path(exec->arg[0], data->path);
 	if (!path)
@@ -98,9 +98,9 @@ void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env)
 	while (wait(&data->status) != -1)
 		;
 	if (data->status == SIGINT)
-		data->stat = 130;
+		data_stat = 130;
 	else if (data->status == SIGQUIT)
-		data->stat = 131;
+		data_stat = 131;
 	else
-		data->stat = WEXITSTATUS(data->status);
+		data_stat = WEXITSTATUS(data->status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:09:35 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/06 23:17:47 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:08:22 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_expand(t_list **list, t_data *data)
 		if (tmp->type == HER_DOC)
 			tmp = ft_next(tmp->next);
 		else if (tmp && !ft_strcmp(tmp->value, "$?"))
-			tmp->value = ft_itoa(data->stat);
+			tmp->value = ft_itoa(data_stat);
 		else if (tmp && (tmp->type == D_Q || tmp->type == VARIABLE))
 			tmp->value = ft_search_var(tmp->value, data);
 		else if (tmp && tmp->next && !ft_strcmp(tmp->value, "$")
