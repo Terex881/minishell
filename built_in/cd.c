@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:46 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/11 13:08:47 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:41:01 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ static int	ft_cd_home(char **path, t_data *data)
 		*path = getenv("HOME");
 		if (!path || !*path)
 		{
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+			ft_error("minishell: ", "cd: ", "HOME not set\n");
 			data_stat = 1;
 			return (1);
 		}
 		if (!data->path)
 		{
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+			ft_error("minishell: ", "cd: ", "HOME not set\n");
 			data_stat = 1;
 			return (1);
 		}
