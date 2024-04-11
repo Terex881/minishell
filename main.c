@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/11 13:44:58 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/11 17:10:56 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	ft_all(t_list **list, t_env *env, t_data *data)
 		ft_signal();
 		tok = ft_token(line, node, list);
 		if (tok == 0)
-			return (printf("exit"), c_malloc(0, 0), 0);
+			return (ft_putstr_fd("exit", 2), c_malloc(0, 0), 0);
 		else if (tok > 0)
 			ft_success(list, env, data);
 	}
@@ -82,7 +82,7 @@ int	main(int ac, char **av, char **env)
 
 	if (ac > 1)
 	{
-		write(2, "minishell: ", 11);
+		ft_putstr_fd("minishell: ", 2);
 		return (ft_error(av[1], ": ", strerror(ac)), 1);
 	}
 	rl_catch_signals = 0;
