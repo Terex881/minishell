@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:56 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/07 01:27:08 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:38:43 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,15 @@ void	ft_exit(t_var *exec, char **arg, int len)
 
 	valid = 1;
 	if (len < 2)
-		write(exec->f_out, "exit\n", 5);
+		ft_putstr_fd("exit\n", exec->f_out);
 	if (!arg || !arg[1])
 		(c_malloc(0, 0), exit(0));
 	if (arg[2])
-		return ((void)write(2, "minishell: exit: too many arguments\n", 36));
+		return ((void)ft_error("minishell: ", "exit: ", "too many arguments\n"));
 	n = ft_valid_arg(arg[1], &valid);
 	if (!valid)
 	{
-		write(2, "minishell: exit: ", 17);
-		write(2, arg[1], ft_strlen(arg[1]));
-		write(2, ": numeric argument required\n", 29);
+		ft_error("minishell: exit: ", arg[1], ": numeric argument required\n");
 		(c_malloc(0, 0), exit(255));
 	}
 	(c_malloc(0, 0), exit(n));
