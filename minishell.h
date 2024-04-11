@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/11 17:37:15 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/11 20:54:27 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_coll
 
 char	*ft_substr(const char *str, unsigned int start, size_t len);;
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+size_t	ft_strlcpy(char *dst, const char *src, size_t n);
 int		ft_strcmp(char *str1, char *str2);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *str);
