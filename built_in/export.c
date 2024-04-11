@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/11 13:09:37 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:42:54 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 void	ft_error_export(char *line, t_data *data)
 {
-	ft_putstr_fd("minishell: export: `", 2);
-	ft_putstr_fd(line, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
+	ft_error("minishell: export: `", line, "': not a valid identifier");
 	if (data)
 		data_stat = 1;
 }
