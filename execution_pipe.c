@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/11 13:06:21 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/12 08:57:17 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 	{
 		while (i < 1000000)
 			i++;
-		exit(data_stat);
+		exit(g_stat);
 	}
 	path = valid_path(exec->arg[0], data->path);
 	if (!path)
@@ -98,9 +98,9 @@ void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env)
 	while (wait(&data->status) != -1)
 		;
 	if (data->status == SIGINT)
-		data_stat = 130;
+		g_stat = 130;
 	else if (data->status == SIGQUIT)
-		data_stat = 131;
+		g_stat = 131;
 	else
-		data_stat = WEXITSTATUS(data->status);
+		g_stat = WEXITSTATUS(data->status);
 }
