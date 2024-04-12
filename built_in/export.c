@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/11 16:42:54 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/12 09:06:26 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_error_export(char *line, t_data *data)
 {
 	ft_error("minishell: export: `", line, "': not a valid identifier");
 	if (data)
-		data_stat = 1;
+		g_stat = 1;
 }
 
 static int	ft_valid_export(char *line, t_data *data)
@@ -27,7 +27,7 @@ static int	ft_valid_export(char *line, t_data *data)
 
 	name = NULL;
 	count = 0;
-	data_stat = 0;
+	g_stat = 0;
 	i = 0;
 	name = ft_var_name(line);
 	if (line[0] == '=' || line[0] == '+' || (line[0] >= '0' && line[0] <= '9'))
@@ -51,7 +51,7 @@ static int	ft_export_no_args(t_var *exec, t_data *data, char **args)
 {
 	t_env	*env_cpy;
 
-	data_stat = 0;
+	g_stat = 0;
 	if (!args[1])
 	{
 		env_cpy = ft_lstcpy_env(data->env);
@@ -92,14 +92,14 @@ void	ft_export(t_var *exec, t_data *data, char **args)
 	char	*tmp;
 	int		i;
 
-	data_stat = 0;
+	g_stat = 0;
 	if (ft_export_no_args(exec, data, args))
 		return ;
 	i = 1;
 	while (args[i])
 	{
 		if (!ft_valid_export(args[i], data))
-			return ((void)(data_stat = 1));
+			return ((void)(g_stat = 1));
 		tmp = ft_strchr(args[i], '=');
 		if (!ft_strncmp(ft_var_name(args[i]), "PATH", 5)
 			&& !ft_lstfind_env(&data->env, "PATH", NULL))
