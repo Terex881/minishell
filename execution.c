@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/12 08:50:25 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/12 08:57:31 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,10 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env)
 	{
 		waitpid(data->pid, &data->status, 0);
 		if (data->status == SIGINT)
-			data_stat = 130;
+			g_stat = 130;
 		else if (data->status == SIGQUIT)
-			data_stat = 131;
+			g_stat = 131;
 		else
-			data_stat = WEXITSTATUS(data->status);
+			g_stat = WEXITSTATUS(data->status);
 	}
 }
