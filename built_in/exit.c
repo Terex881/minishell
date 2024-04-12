@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:56 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/11 16:38:43 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/11 21:49:12 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ void	ft_exit(t_var *exec, char **arg, int len)
 	if (!arg || !arg[1])
 		(c_malloc(0, 0), exit(0));
 	if (arg[2])
-		return ((void)ft_error("minishell: ", "exit: ", "too many arguments\n"));
+	{
+		ft_error("minishell: ", "exit: ", "too many arguments\n");
+		return ;
+	}
 	n = ft_valid_arg(arg[1], &valid);
 	if (!valid)
 	{
