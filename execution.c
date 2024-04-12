@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/11 21:40:08 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/12 08:50:25 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,30 +75,21 @@ int	check_builtin(t_var *exec, t_data *data)
 void	ft_child(t_var *exec, t_data *data, char **new_env)
 {
 	char	*path;
+	char	**args;
 
-	char **options = ft_split(exec->arg[0], ' ');
-	if (!options)
-		path = valid_path(exec->arg[0], data->path);
-	else
-		path = valid_path(options[0], data->path);
+	args = ft_split(exec->arg[0], ' ');
+	if (!args)
+		(perror("malloc error!\n"), exit(1));
+	path = valid_path(args[0], data->path);
 	if (!path)
 		return (perror(exec->arg[0]), exit(127));
 	if (dup2(exec->f_in, 0) == -1)
 		(perror("dup2 error!\n"), exit(1));
 	if (dup2(exec->f_out, 1) == -1)
 		(perror("dup2 error!\n"), exit(1));
-	if (!options)
-	{
-		if (execve(path, exec->arg, new_env) == -1)
-			(ft_error("minshell: ", exec->arg[0], \
+	if (execve(path, args, new_env) == -1)
+		(ft_error("minshell: ", exec->arg[0], \
 			": command not found"), exit(127));
-	}
-	else
-	{
-		if (execve(path, options, new_env) == -1)
-			(ft_error("minshell: ", exec->arg[0], \
-			": command not found"), exit(127));
-	}
 }
 
 void	ft_execution(t_var *exec, t_data *data, t_env *env)
