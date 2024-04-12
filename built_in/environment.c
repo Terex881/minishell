@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:29:34 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/11 21:54:45 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/12 08:58:44 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_env	*ft_get_env(t_data **data, char **env)
 	*data = c_malloc(sizeof(t_data), 1);
 	if (!*data)
 		return (NULL);
-	data_stat = 0;
+	g_stat = 0;
 	if (!env || !*env)
 	{
 		pwd = getcwd(NULL, 0);
