@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/11 21:41:52 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/11 21:54:12 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # define MAGENTA	"\033[0;35m"
-# define CYAN		"\033[1;92m"// to remove
-# define YELLOW		"\033[1;33m"// to remove
 # define NC			"\033[0m"
+
 int	data_stat;
 
 typedef enum in
@@ -68,7 +67,6 @@ typedef struct s_data
 {
 	t_env	*env;
 	char	*path;
-	int		stat;//to remove
 	int		or_in;
 	pid_t	pid;
 	int		status;
@@ -105,10 +103,8 @@ t_list	*ft_lstlast(t_list *lst);
 int		ft_isalpha(int c);
 char	*ft_strtrim(char *str, char set);
 void	ft_putstr_fd(char *s, int fd);
-// void	ft_lstclear_var(t_var **exec); 
 void	ft_varadd_back(t_var **lst, t_var *new1);
 int		ft_varsize(t_var *lst);
-// int		counter(int n);
 char	*ft_itoa(int n1);
 int		ft_lstsize_env(t_env *env);
 t_coll	*ft_collnew(void	*ptr);
@@ -132,14 +128,12 @@ void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data);
 
 //---------------------EXPAND---------------------
 
-// char	*ft_sub_variable(char *str, int *i);
 void	ft_expand(t_list **list, t_data *data);
 char	*ft_charjoin(char const *s1, char s2);
 char	*ft_expand_her_doc(char *str, t_data *data);
 
 // ---------------------CREATE_NEW_LIST---------------------
 
-// void	ft_print_var(t_var *list);
 t_var	*ft_allocate_list(t_list **list);
 t_var	*ft_varnew(void *value);
 void	ft_len_node_elem(t_list **list, t_var *exec);
@@ -195,8 +189,6 @@ void	ft_signal_her(int num);
 
 t_env	*ft_get_env(t_data **data, char **env);
 char	*ft_get_line(t_data *data, char *line, int i);
-// void	ft_lstclear_env(t_env **env);
-// void	ft_lstdelone_env(t_env *env);
 void	ft_lstadd_back_env(t_env **env, t_env *p);
 char	*ft_lstfind_env(t_env **env, char *line, char *new_line);
 t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *));
