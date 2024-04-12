@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:15:01 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/11 16:58:39 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/12 09:40:48 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void	ft_read_herdoc(t_var *exec, t_data *data, char *limter)
 		}
 		if (data->val == 0)
 		{
-			str = line;
-			line = ft_expand_her_doc(line, data);
-			free(str);
+			str = ft_strdup(line);
+			free(line);
+			line = ft_expand_her_doc(str, data);
 		}
 		ft_putstr_fd(line, exec->f_in);
 		ft_putstr_fd("\n", exec->f_in);
