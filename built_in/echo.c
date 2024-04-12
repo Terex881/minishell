@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:24 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/11 13:11:07 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/12 08:58:18 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_echo(char **arg, t_var *exec, t_data *data)
 	(void)data;//to remove
 	i = 0;
 	n = 0;
-	data_stat = 0;
+	g_stat = 0;
 	if (!arg || !*arg)
 		return (ft_putstr_fd("\n", exec->f_out));
 	if (check_n(arg[0]))
