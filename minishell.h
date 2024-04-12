@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/11 21:54:12 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/12 08:56:51 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define MAGENTA	"\033[0;35m"
 # define NC			"\033[0m"
 
-int	data_stat;
+int	g_stat;
 
 typedef enum in
 {
