@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 20:39:39 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/11 13:09:02 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/12 08:58:28 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	ft_env(t_var *exec, t_data *data)
 {
 	t_env		*env;
 
-	data_stat = 0;
+	g_stat = 0;
 	if (!data->path)
 	{
 		perror("env");
-		data_stat = 127;
+		g_stat = 127;
 		return ;
 	}
 	env = data->env;
