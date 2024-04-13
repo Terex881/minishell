@@ -6,7 +6,7 @@
 #    By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/07 01:30:33 by sdemnati          #+#    #+#              #
-#    Updated: 2024/04/11 21:41:36 by cmasnaou         ###   ########.fr        #
+#    Updated: 2024/04/13 20:29:07 by cmasnaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 OBJ = main.o				syntax_error.o 			expand.o  \
 	allocate_list.o			open_files.o 			coll.o \
 	execution.o  			signals.o				tokenizer/token.o \
-	utils_execution.o		tokenizer/token_utils.o  \
+	execution_utils.o		tokenizer/token_utils.o  \
     libft/ft_isalpha.o      libft/ft_strlen.o       libft/ft_memcpy.o \
     libft/ft_strchr.o       libft/ft_split.o   		libft/ft_strcmp.o \
     libft/ft_lstadd_back.o  libft/ft_strdup.o       libft/ft_substr.o \
