@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/12 08:57:31 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/13 20:17:25 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,19 +76,19 @@ void	ft_child(t_var *exec, t_data *data, char **new_env)
 {
 	char	*path;
 	char	**args;
-
-	args = ft_split(exec->arg[0], ' ');
-	if (!args)
+	
+	args = get_args(exec);
+	if (!args || !args[0])
 		(perror("malloc error!\n"), exit(1));
 	path = valid_path(args[0], data->path);
 	if (!path)
-		return (perror(exec->arg[0]), exit(127));
+		return (perror(args[0]), exit(127));
 	if (dup2(exec->f_in, 0) == -1)
 		(perror("dup2 error!\n"), exit(1));
 	if (dup2(exec->f_out, 1) == -1)
 		(perror("dup2 error!\n"), exit(1));
 	if (execve(path, args, new_env) == -1)
-		(ft_error("minshell: ", exec->arg[0], \
+		(ft_error("minshell: ", args[0], \
 			": command not found"), exit(127));
 }
 
