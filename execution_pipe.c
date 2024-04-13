@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/12 08:57:17 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/13 20:17:39 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 {
 	char	*path;
 	char	**arr;
+	char	**args;
 	int		i;
 
 	i = 0;
@@ -36,10 +37,13 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 			i++;
 		exit(g_stat);
 	}
-	path = valid_path(exec->arg[0], data->path);
+	args = get_args(exec);
+	if (!args || !args[0])
+		(perror("malloc error!\n"), exit(1));////to check	
+	path = valid_path(args[0], data->path);
 	if (!path)
 		return (perror("Invalid path!\n"));
-	if (execve(path, exec->arg, arr) == -1)
+	if (execve(path, args, arr) == -1)
 		(perror("execve"), exit(1));
 }
 
