@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/13 20:18:53 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/17 19:19:20 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_list
 	char			*value;
 	t_type			type;
 	bool			skip;
+	char			*tmp;
 	struct s_list	*next;	
 }	t_list;
 
