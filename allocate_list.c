@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   allocate_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:03:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/06 23:29:50 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/17 18:54:35 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ char	*ft_varjoin(t_list **tmp, t_data *data)
 	char	*str;
 
 	str = (*tmp)->value;
+	if ((*tmp)->tmp)
+		str = ft_strjoin(str, (*tmp)->tmp);
 	while (*tmp && (*tmp)->next
 		&& (*tmp)->next->skip == false && ft_type((*tmp)->next) != 2)
 	{
