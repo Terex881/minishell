@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/13 20:17:25 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:15:15 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,19 @@ char	*valid_path(char *cmd, char *line)
 
 	if (cmd && ft_strlen(cmd))
 	{
-		check_cmd(cmd);
+		(check_cmd(cmd), i = -1);
 		if (!access(cmd, F_OK | X_OK))
 			return (ft_strdup(cmd));
 		paths = get_paths(line);
 		if (!paths)
-			return (NULL);
+			return (g_stat = 126, NULL);
+		if ((cmd[0] == '.' || cmd[0] == '/') && !access(cmd, F_OK))
+			return (g_stat = 126, NULL);
 		if (cmd[0] == '.' || cmd[0] == '/')
-			return (NULL);
-		i = -1;
+			return (g_stat = 127, NULL);
 		while (paths && paths[++i])
 		{
-			tmp = ft_strjoin(paths[i], "/");
-			path = ft_strjoin(tmp, cmd);
+			(tmp = ft_strjoin(paths[i], "/"), path = ft_strjoin(tmp, cmd));
 			if (!access(path, F_OK | X_OK))
 				return (path);
 		}
@@ -82,14 +82,20 @@ void	ft_child(t_var *exec, t_data *data, char **new_env)
 		(perror("malloc error!\n"), exit(1));
 	path = valid_path(args[0], data->path);
 	if (!path)
-		return (perror(args[0]), exit(127));
+		return (perror(args[0]), exit(g_stat));//127
 	if (dup2(exec->f_in, 0) == -1)
 		(perror("dup2 error!\n"), exit(1));
 	if (dup2(exec->f_out, 1) == -1)
 		(perror("dup2 error!\n"), exit(1));
 	if (execve(path, args, new_env) == -1)
-		(ft_error("minshell: ", args[0], \
-			": command not found"), exit(127));
+	{
+		if (ft_strchr(args[0], '/'))
+			(ft_error("minshell: ", args[0], \
+				": No such file or directory"), exit(126));
+		else
+			(ft_error("minshell: ", args[0], \
+				": command not found"), exit(127));
+	}
 }
 
 void	ft_execution(t_var *exec, t_data *data, t_env *env)
