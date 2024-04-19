@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/11 17:10:56 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:37:06 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	ft_all(t_list **list, t_env *env, t_data *data)
 		ft_signal();
 		tok = ft_token(line, node, list);
 		if (tok == 0)
-			return (ft_putstr_fd("exit", 2), c_malloc(0, 0), 0);
+			return (ft_putstr_fd("exit", 1), c_malloc(0, 0), 0);
 		else if (tok > 0)
 			ft_success(list, env, data);
 	}
