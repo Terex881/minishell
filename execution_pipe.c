@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/13 20:17:39 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:32:08 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 	}
 	args = get_args(exec);
 	if (!args || !args[0])
-		(perror("malloc error!\n"), exit(1));////to check	
+		return (perror("malloc error!\n"));////to check	
+		// (perror("malloc error!\n"), exit(1));////to check	
 	path = valid_path(args[0], data->path);
 	if (!path)
 		return (perror("Invalid path!\n"));
