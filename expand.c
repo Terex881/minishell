@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:09:35 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/17 19:14:53 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/19 18:05:21 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,10 @@ void	ft_expand(t_list **list, t_data *data)
 	tmp = *list;
 	while (tmp)
 	{
-		tmp->tmp = NULL;
 		if (tmp->type == HER_DOC)
 			tmp = ft_next(tmp->next);
-		else if (tmp && !ft_strncmp(tmp->value, "$?", 2))
-		{
-			tmp->tmp = ft_substr(tmp->value, 2, ft_strlen(tmp->value) - 2);
+		else if (tmp && !ft_strcmp(tmp->value, "$?"))
 			tmp->value = ft_itoa(g_stat);
-		}
 		else if (tmp && (tmp->type == D_Q || tmp->type == VARIABLE))
 			tmp->value = ft_search_var(tmp->value, data);
 		else if (tmp && tmp->next && !ft_strcmp(tmp->value, "$")
