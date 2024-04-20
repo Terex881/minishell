@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/19 19:37:06 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/20 18:23:27 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ int	main(int ac, char **av, char **env)
 	rl_catch_signals = 0;
 	list = NULL;
 	env1 = ft_get_env(&data, env);
+	ft_lstfind_env(&data->env, "SHLVL", ft_strjoin("SHLVL=", data->shlvl));
 	ft_all(&list, env1, data);
 }
