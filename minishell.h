@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/19 18:14:17 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/20 17:52:58 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <paths.h>
 # include <stdbool.h>
 # include <sys/signal.h>
 # include <readline/history.h>
@@ -67,6 +68,7 @@ typedef struct s_data
 {
 	t_env	*env;
 	char	*path;
+	char		*shlvl;
 	int		or_in;
 	pid_t	pid;
 	int		status;
@@ -178,6 +180,7 @@ void	ft_exit(t_var *exec, char **arg, int len);
 char	*ft_var_name(char *line);
 char	*ft_remove_plus(char *line);
 int		ft_valid_char(char c);
+long long	ft_valid_arg(char *str, int *valid);
 void	ft_print_export(t_var *exec, t_env *env);
 void	ft_error_export(char *line, t_data *data);
 
