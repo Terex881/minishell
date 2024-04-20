@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/19 19:15:15 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/19 21:25:56 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,10 @@ void	ft_child(t_var *exec, t_data *data, char **new_env)
 	{
 		if (ft_strchr(args[0], '/'))
 			(ft_error("minshell: ", args[0], \
-				": No such file or directory"), exit(126));
+				": is a directory"), exit(126));
+		// if (ft_strchr(args[0], '/'))
+		// 	(ft_error("minshell: ", args[0], \
+		// 		": No such file or directory"), exit(126));
 		else
 			(ft_error("minshell: ", args[0], \
 				": command not found"), exit(127));
@@ -105,6 +108,8 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env)
 	new_env = ft_cpy_to_2d(env);
 	if (!exec->arg)
 		return ;
+	if (!exec->arg[0] && exec->arg[1])
+		return (exec->arg++, ft_execution(exec, data, env));
 	if (exec->arg && !ft_strcmp(exec->arg[0], "exit"))
 		return (ft_exit(exec, exec->arg, data->len));
 	if (check_builtin(exec, data))
