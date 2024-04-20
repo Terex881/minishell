@@ -6,13 +6,13 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:56 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/17 18:02:31 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/20 17:52:06 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static long long	ft_valid_arg(char *str, int *valid)
+long long	ft_valid_arg(char *str, int *valid)
 {
 	short				s;
 	unsigned long long	n;
