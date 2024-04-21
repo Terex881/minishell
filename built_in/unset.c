@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:32 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/07 01:29:50 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/21 10:58:45 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	ft_unset(t_data **data, char **args)
 		p = (*data)->env;
 		tmp = NULL;
 		if (ft_strncmp(args[i], "PATH", 5) == 0)
-			(*data)->path = NULL;
+			ft_lstfind_env(&(*data)->env, "PATH=", "");
+			// (*data)->path = NULL;
 		if (!ft_unset_arg(data, args[i], p, tmp))
 			return ;
 	}
