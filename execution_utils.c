@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:24:07 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/21 16:03:36 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/21 16:58:32 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,5 @@ char	*get_path(t_data *data, char *cmd)
 		if (!access(path, F_OK | X_OK))
 			return (path);
 	}
-	return (NULL);
+	return (cmd);
 }
