@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/20 17:52:58 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/21 16:45:36 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ typedef struct s_data
 {
 	t_env	*env;
 	char	*path;
-	char		*shlvl;
+	char	*shlvl;
+	int		no_env;
 	int		or_in;
 	pid_t	pid;
 	int		status;
@@ -159,6 +160,7 @@ char	*valid_path(char *cmd, char *line);
 int		check_builtin(t_var *exec, t_data *data);
 char	**ft_cpy_to_2d(t_env *tmp);
 char	**arg_join(char **args, char **arg);
+char	*get_path(t_data *data, char *cmd);
 
 //-----------------------UTILS---------------------
 
