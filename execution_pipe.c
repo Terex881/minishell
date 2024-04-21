@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/19 19:32:08 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/21 10:51:27 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 	if (!args || !args[0])
 		return (perror("malloc error!\n"));////to check	
 		// (perror("malloc error!\n"), exit(1));////to check	
-	path = valid_path(args[0], data->path);
+	path = valid_path(args[0], ft_get_line(data, "PATH", 5) + 5);
 	if (!path)
 		return (perror("Invalid path!\n"));
 	if (execve(path, args, arr) == -1)
@@ -100,6 +100,8 @@ void	ft_void(t_data *data, t_var *exec, t_env *env)
 void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env)
 {
 	ft_void(data, exec, env);
+	// while (waitpid(data->pid, &data->status, 0) != -1)
+	// 	;
 	while (wait(&data->status) != -1)
 		;
 	if (data->status == SIGINT)
