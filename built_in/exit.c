@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:56 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/20 17:52:06 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/20 20:22:49 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_exit(t_var *exec, char **arg, int len)
 	if (len < 2)
 		ft_putstr_fd("exit\n", exec->f_out);
 	if (!arg || !arg[1])
-		(c_malloc(0, 0), exit(0));
+		(c_malloc(0, 0), exit(g_stat));
 	n = ft_valid_arg(arg[1], &valid);
 	if (!valid)
 	{
