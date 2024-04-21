@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:29:34 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/20 18:20:15 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/21 14:44:29 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,15 @@ t_env	*ft_get_env(t_data **data, char **env)
 		p = ft_lstnew_env(ft_strjoin("PWD=", pwd));
 		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));
 		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strjoin("PATH=", _PATH_STDPATH)));
+		(*data)->path = "/usr/bin/env";
+		if ((*data)->path)
+			ft_lstadd_back_env(&p, ft_lstnew_env(ft_strjoin("_=", (*data)->path)));
 		(*data)->env = p;
 		(*data)->shlvl = "1";
-		(*data)->path
-			= ft_strdup(_PATH_STDPATH);
+		// (*data)->path
+		// 	= ft_strdup(_PATH_STDPATH);
 			// = ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+		(*data)->no_env = 1;
 		return (free(pwd), p);
 	}
 	while (*env)
@@ -139,6 +143,7 @@ t_env	*ft_get_env(t_data **data, char **env)
 	}
 	(*data)->env = p;
 	(*data)->shlvl = ft_itoa(ft_valid_arg(ft_get_line(*data, "SHLVL", 5), &i) + 1);
-	(*data)->path = ft_get_line((*data), "PATH", 5);
+	// (*data)->path = ft_get_line((*data), "PATH", 5);
+	(*data)->no_env = 0;
 	return (p);
 }
