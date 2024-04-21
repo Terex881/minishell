@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/20 18:23:27 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/21 16:24:36 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,13 @@ int	ft_all(t_list **list, t_env *env, t_data *data)
 		if (tok == 0)
 			return (ft_putstr_fd("exit", 1), c_malloc(0, 0), 0);
 		else if (tok > 0)
+		{
 			ft_success(list, env, data);
+			if (data->path)// check if second arg -> error
+				ft_lstfind_env(&data->env, "_", ft_strjoin("_=", data->path));
+			else
+				ft_lstfind_env(&data->env, "_", ft_strjoin("_=", "cmd"));// replace cmd by args[0]
+		}
 	}
 	c_malloc(0, 0);
 	return (1);
