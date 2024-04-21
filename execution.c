@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/19 21:25:56 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/21 16:41:34 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*valid_path(char *cmd, char *line)
 				return (path);
 		}
 	}
-	(ft_error("minshell: ", cmd, ": command not found"), exit(127));
+	(ft_error("minshell: ", cmd, ": command not found"), g_stat = 127, exit(g_stat));
 }
 
 int	check_builtin(t_var *exec, t_data *data)
@@ -79,8 +79,9 @@ void	ft_child(t_var *exec, t_data *data, char **new_env)
 	
 	args = get_args(exec);
 	if (!args || !args[0])
-		(perror("malloc error!\n"), exit(1));
-	path = valid_path(args[0], data->path);
+		(ft_error("minshell: ", args[0], \
+				": command not found"), exit(1));
+	path = valid_path(args[0], ft_get_line(data, "PATH", 4));
 	if (!path)
 		return (perror(args[0]), exit(g_stat));//127
 	if (dup2(exec->f_in, 0) == -1)
@@ -114,6 +115,7 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env)
 		return (ft_exit(exec, exec->arg, data->len));
 	if (check_builtin(exec, data))
 		return ;
+	data->path = get_path(data, exec->arg[0]);//
 	data->pid = fork();
 	if (data->pid == -1)
 		return (perror("fork"));
