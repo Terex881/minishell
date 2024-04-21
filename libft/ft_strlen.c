@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:06:58 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/07 01:13:13 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/04/21 16:54:08 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,3 +23,16 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
+
+int ft_arglen(char **arg)
+{
+	int	i;
+
+	i = 0;
+	if (!arg || !*arg)
+		return (0);
+	while (arg[i])
+		i++;
+	return (i);
+}
+
