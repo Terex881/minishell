@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/21 16:45:36 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/21 16:54:31 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ void	ft_exit(t_var *exec, char **arg, int len);
 char	*ft_var_name(char *line);
 char	*ft_remove_plus(char *line);
 int		ft_valid_char(char c);
+int		ft_arglen(char **arg);
 long long	ft_valid_arg(char *str, int *valid);
 void	ft_print_export(t_var *exec, t_env *env);
 void	ft_error_export(char *line, t_data *data);
