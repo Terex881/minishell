@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_execution.c                                  :+:      :+:    :+:   */
+/*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:24:07 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/13 20:18:38 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/21 16:03:36 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,23 @@ char	**arg_join(char **args, char **arg)
 		new_args[i++] = ft_strdup(arg[j]);
 	new_args[i] = NULL;
 	return (new_args);
+}
+
+char	*get_path(t_data *data, char *cmd)
+{
+	char	**paths;
+	char	*tmp;
+	char	*path;
+	int		i;
+
+	paths = get_paths(ft_lstfind_env(&data->env, "PATH", NULL));
+	i  = -1;
+	while (paths && paths[++i])
+	{
+		(tmp = ft_strjoin(paths[i], "/"), path = ft_strjoin(tmp, cmd));
+		// data->path = path;
+		if (!access(path, F_OK | X_OK))
+			return (path);
+	}
+	return (NULL);
 }
