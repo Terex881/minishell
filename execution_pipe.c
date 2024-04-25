@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/21 10:51:27 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:30:21 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,18 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 void	ft_multi_childs(t_var *exec, t_data *data, t_env *env)
 {
 	if (dup2(exec->f_in, 0) == -1)
-		(perror("dup2 error!\n"), exit(1));
+		(/*perror("dup2 error!\n"), */exit(1));
 	if (exec->next != NULL)
 	{
 		if ((exec->f_out != 1) && dup2(exec->f_out, 1) == -1)
-			(perror("dup2 error!\n"), exit(1));
+			(/*perror("dup2 error!\n"), */exit(1));
 		else if ((exec->f_out == 1) && dup2(data->pipe_ends[1], 1) == -1)
-			(perror("dup2 error!\n"), exit(1));
+			(/*perror("dup2 error!\n"), */exit(1));
 	}
 	else
 	{
 		if (dup2(exec->f_out, 1) == -1)
-			(perror("dup2 error!\n"), exit(1));
+			(/*perror("dup2 error!\n"), */exit(1));
 	}
 	ft_close_pipe(data);
 	ft_execution_(exec, data, env, data->len);
