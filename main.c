@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/21 17:02:53 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:28:02 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_success(t_list **list, t_env *env, t_data *data)
 		ft_expand(list, data);
 		exec = ft_allocate_list(list);
 		ft_open_her_doc(list, exec, data);
-		if (ft_open_files(list, exec, data) == 0)
+		if (ft_open_files(list, exec, data) == 0 || exec->next)
 		{
 			ft_len_node_elem(list, exec);
 			ft_copy_to_list(list, exec, data);
@@ -66,7 +66,7 @@ int	ft_all(t_list **list, t_env *env, t_data *data)
 		ft_signal();
 		tok = ft_token(line, node, list);
 		if (tok == 0)
-			return (ft_putstr_fd("exit", 1), c_malloc(0, 0), 0);
+			return (ft_putstr_fd("exit\n", 1), c_malloc(0, 0), 0);
 		else if (tok > 0)
 		{
 			ft_success(list, env, data);
