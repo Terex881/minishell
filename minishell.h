@@ -6,9 +6,17 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/21 18:14:19 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:48:11 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+// fix export a="a   b"        ls > $a
+// fix echo $?hello 
+// fix echo $+   and echo $1
+// fix exit status of last command ls|lss 
+// fix << l | ls
+// fix exit_status for pipe
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -101,7 +109,7 @@ void	ft_lstadd_front(t_list **lst, t_list *new1);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_lstadd_back(t_list **lst, t_list *new1);
 void	ft_lstclear(t_list **lst);
-void	ft_lstdelone(t_list **lst);
+// void	ft_lstdelone(t_list **lst);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 int		ft_isalpha(int c);
