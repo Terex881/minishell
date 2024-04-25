@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/21 17:03:13 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:07:14 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*valid_path(char *cmd, char *line)
 		if (!paths)
 			return (g_stat = 126, NULL);
 		if ((cmd[0] == '.' || cmd[0] == '/') && !access(cmd, F_OK))
-			return (g_stat = 126, NULL);
+			(g_stat = 126, ft_error("minshell: ", cmd, ": Permission denied"), exit(g_stat));
+			// return (g_stat = 126, NULL);
 		if (cmd[0] == '.' || cmd[0] == '/')
 			return (g_stat = 127, NULL);
 		while (paths && paths[++i])
@@ -47,6 +48,8 @@ char	*valid_path(char *cmd, char *line)
 			if (!access(path, F_OK | X_OK))
 				return (path);
 		}
+		if (ft_strchr(cmd, '/'))
+			(g_stat = 127, ft_error("minshell: ", cmd, ": No such file or directory"), exit(g_stat));
 	}
 	(ft_error("minshell: ", cmd, ": command not found"), g_stat = 127, exit(g_stat));
 }
@@ -76,21 +79,20 @@ void	ft_child(t_var *exec, t_data *data, char **new_env)
 {
 	char	*path;
 	char	**args;
-	
 	args = get_args(exec);
 	if (!args || !args[0])
 		(ft_error("minshell: ", args[0], \
 				": command not found"), exit(1));
 	path = valid_path(args[0], ft_get_line(data, "PATH", 4));
 	if (!path)
-		return (perror(args[0]), exit(g_stat));//127
+		return (ft_error("minshell: ", args[0], ": No such file or directory"), exit(g_stat));//127
 	if (dup2(exec->f_in, 0) == -1)
 		(perror("dup2 error!\n"), exit(1));
 	if (dup2(exec->f_out, 1) == -1)
 		(perror("dup2 error!\n"), exit(1));
 	if (execve(path, args, new_env) == -1)
 	{
-		if (ft_strchr(args[0], '/'))
+		if (ft_strchr(args[0], '/'))//?
 			(ft_error("minshell: ", args[0], \
 				": is a directory"), exit(126));
 		// if (ft_strchr(args[0], '/'))
