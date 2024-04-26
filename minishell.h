@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/25 18:48:11 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:54:37 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@
 // fix exit status of last command ls|lss 
 // fix << l | ls
 // fix exit_status for pipe
+
+//fix unset pwd then cd
+//fix findenv
+//fix export a++ b++ c++ f=w
+//fix 
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -78,6 +83,7 @@ typedef struct s_data
 	t_env	*env;
 	char	*path;
 	char	*shlvl;
+	char	*pwd;//
 	int		no_env;
 	int		or_in;
 	pid_t	pid;
@@ -178,7 +184,7 @@ void	ft_error(char *str1, char *str2, char *str3);
 
 //---------------------BUILTS_IN---------------------
 
-void	ft_pwd(t_var *exec, t_env *env);
+void	ft_pwd(t_var *exec, t_env *env, t_data *data);
 void	ft_env(t_var *exec, t_data *data);
 void	ft_cd(char *path, t_data *data);
 void	ft_echo(char **arg, t_var *exec, t_data *data);
