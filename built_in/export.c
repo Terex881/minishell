@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/21 16:38:56 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/27 15:11:05 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	ft_valid_export(char *line, t_data *data)
 	i = 0;
 	name = ft_var_name(line);
 	if (line[0] == '=' || line[0] == '+' || (line[0] >= '0' && line[0] <= '9'))
-		return (ft_error_export(name, data), 0);
+		return (ft_error_export(line, data), 0);
 	if (ft_valid_char(line[i]))
 		i++;
 	while (line[i] && line[i] != '=')
@@ -39,9 +39,9 @@ static int	ft_valid_export(char *line, t_data *data)
 		if (line[i] == '+')
 			count++;
 		if (count > 1)
-			return (ft_error_export(name, data), 0);
+			return (ft_error_export(line, data), 0);
 		if (!ft_valid_char(line[i]) && line[i] != '=' && line[i] != '+')
-			return (ft_error_export(name, data), 0);
+			return (ft_error_export(line, data), 0);
 		i++;
 	}
 	return (1);
@@ -100,7 +100,11 @@ void	ft_export(t_var *exec, t_data *data, char **args)
 	while (args[i])
 	{
 		if (!ft_valid_export(args[i], data))
-			return ((void)(g_stat = 1));
+		{
+			g_stat = 1;
+			i++;
+			continue ;
+		}
 		tmp = ft_strchr(args[i], '=');
 		if (!ft_strcmp(args[i], "PATH"))
 			data->no_env = 0;
