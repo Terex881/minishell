@@ -6,22 +6,17 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/26 17:54:37 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/27 17:54:20 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 // fix export a="a   b"        ls > $a
-// fix echo $?hello 
-// fix echo $+   and echo $1
 // fix exit status of last command ls|lss 
 // fix << l | ls
 // fix exit_status for pipe
-
-//fix unset pwd then cd
-//fix findenv
-//fix export a++ b++ c++ f=w
-//fix 
+// fix printenv
+// fix $_ with builtins
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
