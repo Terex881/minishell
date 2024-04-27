@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:03:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/19 17:59:40 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/27 18:55:11 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	ft_len_node_elem(t_list **list, t_var *exec)
 			n++;
 		tmp = tmp->next;
 	}
-	if (n <= 0)
-		exec->arg = NULL;
-	else
+	// if (n <= 0)
+	// 	exec->arg = NULL;
+	// else
 		exec->arg = c_malloc(sizeof(char *) * (n + 1), 1);
 	if (!exec->arg)
 		return ;
