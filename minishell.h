@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/27 17:54:20 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/27 17:55:10 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <stdio.h>
 # include <paths.h>
 # include <stdbool.h>
+# include <sys/wait.h>
 # include <sys/signal.h>
 # include <readline/history.h>
 # include <readline/readline.h>
