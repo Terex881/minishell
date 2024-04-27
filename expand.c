@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:09:35 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/25 18:16:31 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/27 17:40:30 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,19 @@ void	ft_expand(t_list **list, t_data *data)
 	while (tmp)
 	{
 	str = ft_strchr(tmp->value, '$');
-		// printf("str: %s\n", str);
-		// printf("%s\t%s\t%d\n", tmp->value, str, ft_strncmp(str, "$?", 2));
 		if (tmp->type == HER_DOC)
 			tmp = ft_next(tmp->next);
         if (tmp && tmp->value && !ft_strncmp(tmp->value, "$?", 2))
+		{
 			tmp->value = ft_strjoin(ft_itoa(g_stat), ft_substr(tmp->value, 2,
 						ft_strlen(tmp->value) - 2));
+		}
 		if (str && !ft_strncmp(str, "$?", 2) && tmp->type == D_Q)
 		{
 			tmp->value = ft_strjoin(ft_substr(tmp->value, 0, str - tmp->value),
 					ft_itoa(g_stat));
 			tmp->value = ft_strjoin(tmp->value, ft_substr(str, 2,
 						ft_strlen(str) - 2));	
-			// printf("val: %s\n", tmp->value);
 		}
 		if (tmp && !ft_strcmp(tmp->value, "$?"))
 			tmp->value = ft_itoa(g_stat);
@@ -81,8 +80,11 @@ void	ft_expand(t_list **list, t_data *data)
 			&& !ft_type(tmp->next))
 			tmp->value = ft_strdup("$");
 		else if (tmp && tmp->next && !ft_strcmp(tmp->value, "$"))
-			tmp->value = ft_strdup("");
-	// printf("here\n");
+			;
+		else if (str && *str && *(str + 1) == '0')
+			tmp->value = ft_strjoin("minishell", str + 2);
+		else if (str && *str && *(str + 1) >= '0' && *(str + 1) <= '9')
+			tmp->value = ft_strdup(str + 2);
 		tmp = tmp->next;
 	}
 }
