@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:09:35 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/27 17:40:30 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/28 09:44:17 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,11 @@ void	ft_expand(t_list **list, t_data *data)
 	{
 	str = ft_strchr(tmp->value, '$');
 		if (tmp->type == HER_DOC)
+		{
 			tmp = ft_next(tmp->next);
+			tmp = tmp->next;
+			continue ;
+		}
         if (tmp && tmp->value && !ft_strncmp(tmp->value, "$?", 2))
 		{
 			tmp->value = ft_strjoin(ft_itoa(g_stat), ft_substr(tmp->value, 2,
