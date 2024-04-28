@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/27 17:55:10 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/28 09:50:35 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 // fix exit_status for pipe
 // fix printenv
 // fix $_ with builtins
+// fix export $s a=b the last is ignored
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
