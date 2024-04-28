@@ -6,18 +6,26 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/28 09:50:35 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/28 18:24:11 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
+// check g_stat for each builtin!!!
 // fix export a="a   b"        ls > $a
-// fix exit status of last command ls|lss 
-// fix << l | ls
 // fix exit_status for pipe
 // fix printenv
-// fix $_ with builtins
+// fix _= in env, its no longer working 
+// fix $_ with exit 2 3 and printenv
 // fix export $s a=b the last is ignored
+
+// fix exit status of last command ls|lss 
+// fix << l | ls
+// <<< g
+// bash-3.2$ export b="1   2"
+// bash-3.2$ ls > b
+// bash-3.2$ ls > $b
+// bash: $b: ambiguous redirect
+// bash-3.2$ ls > "$b"
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -104,6 +112,7 @@ int		ft_strcmp(char *str1, char *str2);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *str);
 char	*ft_strchr(char *s1, int chr);
+// char	*ft_strrchr(char *s, int c);
 void	*ft_memcpy(void *dest1, const void *src1, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *str1, char sep);
