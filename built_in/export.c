@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/27 15:11:05 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/28 09:47:00 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	ft_export_args(t_data **data, char *arg, char *tmp)
 		// (*data)->path = NULL;
 }
 
-void	ft_export(t_var *exec, t_data *data, char **args)
+void	ft_export(t_var *exec, t_data *data, char **args)//fix $s
 {
 	char	*tmp;
 	int		i;
