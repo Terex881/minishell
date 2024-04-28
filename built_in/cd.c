@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:46 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/26 21:43:26 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/28 17:39:02 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	ft_cd_home(char **path, t_data *data)
 	return (0);
 }
 
-static void	ft_change_dir(int n, char *tmp, char *pwd, t_data *data)
+static int	ft_change_dir(int n, char *tmp, char *pwd, t_data *data)
 {
 	char	*join;
 	char	*path;
@@ -63,10 +63,8 @@ static void	ft_change_dir(int n, char *tmp, char *pwd, t_data *data)
 		data->pwd = ft_strdup(join);
 	}
 	else
-	{
-		ft_putstr_fd("minishell: ", 2);
-		(perror("path"), g_stat = 1);
-	}
+		return (0);
+	return (1);
 }
 
 void	ft_cd(char *path, t_data *data)
@@ -90,7 +88,11 @@ void	ft_cd(char *path, t_data *data)
 	tmp = ft_lstfind_env(&data->env, "PWD", NULL);
 	if (!tmp)
 		tmp = ft_strdup(pwd);
-	ft_change_dir(n, tmp, pwd, data);
+	if (!ft_change_dir(n, tmp, pwd, data))
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		(perror(path), g_stat = 1);
+	}
 	free(pwd);
 	return ;
 }
