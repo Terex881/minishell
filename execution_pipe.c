@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/25 18:30:21 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/28 18:19:52 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 		return (ft_exit(exec, exec->arg, len));
 	if (check_builtin(exec, data))
 	{
-		while (i < 1000000)
-			i++;
+		// while (i < 1000000)
+		// 	i++;
 		exit(g_stat);
 	}
 	args = get_args(exec);
@@ -100,10 +100,10 @@ void	ft_void(t_data *data, t_var *exec, t_env *env)
 void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env)
 {
 	ft_void(data, exec, env);
-	// while (waitpid(data->pid, &data->status, 0) != -1)
-	// 	;
-	while (wait(&data->status) != -1)
+	while (waitpid(data->pid, &data->status, 0) != -1)
 		;
+	// while (wait(&data->status) != -1)
+	// 	;
 	if (data->status == SIGINT)
 		g_stat = 130;
 	else if (data->status == SIGQUIT)
