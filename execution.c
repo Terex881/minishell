@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/26 17:55:01 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/04/28 17:21:04 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int	check_builtin(t_var *exec, t_data *data)
 	if (exec->arg &&!ft_strncmp(exec->arg[0], "env", 4))
 	{
 		if (exec->arg[1])
-			return (perror(exec->arg[1]), 1);
+			return (ft_putstr_fd("env: ", 1)
+				, perror(exec->arg[1]), g_stat = 127, 1);
 		return (ft_env(exec, data), 1);
 	}
 	if (!ft_strncmp(exec->arg[0], "export", 7))
