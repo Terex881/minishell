@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment.c                                      :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:29:34 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/26 17:34:21 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/01 10:05:03 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,69 +81,46 @@ t_env	*ft_lstcpy_env(t_env *env)
 	return (copy);
 }
 
-t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *))
+t_env	*ft_no_env(t_data **data)
 {
-	t_env	*tmp;
-	t_env	*t;
-	char	*m;
+	t_env	*p;
+	char	*pwd;
 
-	if (!env || !cmp)
-		return ((t_env *){0});
-	tmp = env;
-	while (tmp && tmp->next)
-	{
-		t = tmp -> next;
-		while (t)
-		{
-			if (cmp(tmp -> line, t -> line) > 0)
-			{
-				m = tmp -> line;
-				tmp -> line = t -> line;
-				t -> line = m;
-			}
-			t = t -> next;
-		}
-		tmp = tmp -> next;
-	}
-	return (env);
+	pwd = getcwd(NULL, 0);
+	p = ft_lstnew_env(ft_strjoin("PWD=", pwd));
+	ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));
+	ft_lstadd_back_env(&p, ft_lstnew_env(ft_strjoin("PATH=", _PATH_STDPATH)));
+	(*data)->path = "/usr/bin/env";
+	if ((*data)->path)
+		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strjoin("_=", (*data)->path)));
+	(*data)->env = p;
+	(*data)->pwd = ft_strdup(pwd);//
+	(*data)->shlvl = "1";
+	(*data)->no_env = 1;
+	return (free(pwd), p);
 }
 
 t_env	*ft_get_env(t_data **data, char **env)
 {
 	t_env	*p;
-	char	*pwd;
-	int i = 0;
+	int		i;
 
+	i = 0;
 	p = NULL;
 	*data = c_malloc(sizeof(t_data), 1);
 	if (!*data)
 		return (NULL);
 	g_stat = 0;
 	if (!env || !*env)
-	{
-		pwd = getcwd(NULL, 0);
-		p = ft_lstnew_env(ft_strjoin("PWD=", pwd));
-		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));
-		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strjoin("PATH=", _PATH_STDPATH)));
-		(*data)->path = "/usr/bin/env";
-		if ((*data)->path)
-			ft_lstadd_back_env(&p, ft_lstnew_env(ft_strjoin("_=", (*data)->path)));
-		(*data)->env = p;
-		(*data)->pwd = ft_strdup(pwd);//
-		(*data)->shlvl = "1";
-		// (*data)->path
-		// 	= ft_strdup(_PATH_STDPATH);
-			// = ft_strdup("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
-		(*data)->no_env = 1;
-		return (free(pwd), p);
-	}
+		return (ft_no_env(data));
 	while (*env)
 	{
 		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup(*env)));
 		env++;
 	}
 	(*data)->env = p;
-	(*data)->shlvl = ft_itoa(ft_valid_arg(ft_get_line(*data, "SHLVL", 5), &i) + 1);
+	(*data)->shlvl = ft_itoa(ft_valid_arg(ft_get_line(*data,
+					"SHLVL", 5), &i) + 1);
 	// (*data)->path = ft_get_line((*data), "PATH", 5);
 	(*data)->no_env = 0;
 	return (p);
