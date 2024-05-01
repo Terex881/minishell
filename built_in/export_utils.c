@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 19:58:27 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/06 20:13:30 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:58:37 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,33 @@ int	ft_valid_char(char c)
 	if ((c >= '0' && c <= '9') || c == '_')
 		return (1);
 	return (0);
+}
+
+t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *))
+{
+	t_env	*tmp;
+	t_env	*t;
+	char	*m;
+
+	if (!env || !cmp)
+		return ((t_env *){0});
+	tmp = env;
+	while (tmp && tmp->next)
+	{
+		t = tmp -> next;
+		while (t)
+		{
+			if (cmp(tmp -> line, t -> line) > 0)
+			{
+				m = tmp -> line;
+				tmp -> line = t -> line;
+				t -> line = m;
+			}
+			t = t -> next;
+		}
+		tmp = tmp -> next;
+	}
+	return (env);
 }
 
 void	ft_print_export(t_var *exec, t_env *env)
