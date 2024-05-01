@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:06:58 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/21 16:54:08 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:47:32 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-int ft_arglen(char **arg)
+int	ft_arglen(char **arg)
 {
 	int	i;
 
@@ -35,4 +35,3 @@ int ft_arglen(char **arg)
 		i++;
 	return (i);
 }
-
