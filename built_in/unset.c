@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:32 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/27 20:10:41 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:49:57 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	ft_valid_unset(char *arg)
 {
-	if ((arg[0] >= 'a' && arg[0] <= 'z') || (arg[0] >= 'A' && arg[0] <= 'Z') || arg[0] == '_')
+	if ((arg[0] >= 'a' && arg[0] <= 'z')
+		|| (arg[0] >= 'A' && arg[0] <= 'Z') || arg[0] == '_')
 		return (1);
 	ft_error("minishell: unset: `", arg, "': not a valid identifier");
 	g_stat = 1;
@@ -48,7 +49,7 @@ void	ft_unset(t_data **data, char **args)
 {
 	t_env	*p;
 	t_env	*tmp;
-	char 	*pwd;
+	char	*pwd;
 	int		i;
 
 	i = 0;
