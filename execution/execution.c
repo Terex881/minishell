@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/01 11:25:17 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/01 14:19:59 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env)
 	new_env = ft_cpy_to_2d(env);
 	if (!exec->arg)
 		return ;
-	if (!exec->arg[0] && exec->arg[1])
+	if (!exec->arg[0]/* && exec->arg[1]*/)
 		return (exec->arg++, ft_execution(exec, data, env));
 	if (exec->arg && !ft_strcmp(exec->arg[0], "exit"))
 		return (ft_exit(exec, exec->arg, data->len));
