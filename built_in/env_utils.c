@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:29:34 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/01 10:05:03 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:05:10 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ t_env	*ft_no_env(t_data **data)
 	if ((*data)->path)
 		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strjoin("_=", (*data)->path)));
 	(*data)->env = p;
-	(*data)->pwd = ft_strdup(pwd);//
+	(*data)->pwd = ft_strdup(pwd);
+	(*data)->home = ft_gethome(pwd);
 	(*data)->shlvl = "1";
 	(*data)->no_env = 1;
 	return (free(pwd), p);
