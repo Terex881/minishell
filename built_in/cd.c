@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:46 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/28 17:39:02 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/01 10:15:09 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,26 @@ static int	ft_cd_home(char **path, t_data *data)
 
 static int	ft_change_dir(int n, char *tmp, char *pwd, t_data *data)
 {
-	char	*join;
 	char	*path;
 
 	if (!n && pwd)
 	{
 		if (!tmp)
 			tmp = data->pwd;
-		join = ft_strjoin("OLDPWD=", tmp + 4);
-		ft_lstfind_env(&data->env, "OLDPWD", join);
+		ft_lstfind_env(&data->env, "OLDPWD", ft_strjoin("OLDPWD=", tmp + 4));
 		path = getcwd(NULL, 0);
 		if (path)
 			data->pwd = ft_strdup(path);
-		join = ft_strjoin("PWD=", pwd);
-		ft_lstfind_env(&data->env, "PWD", join);
+		ft_lstfind_env(&data->env, "PWD", ft_strjoin("PWD=", pwd));
 		free(path);
 	}
 	else if (!n)
 	{
 		if (!tmp)
 			tmp = data->pwd;
-		join = ft_strjoin("OLDPWD=", tmp + 4);
-		ft_lstfind_env(&data->env, "OLDPWD", join);
-		join = ft_strjoin(tmp, "/..");
-		ft_lstfind_env(&data->env, "PWD", join);
-		data->pwd = ft_strdup(join);
+		ft_lstfind_env(&data->env, "OLDPWD", ft_strjoin("OLDPWD=", tmp + 4));
+		data->pwd = ft_strdup(ft_strjoin(tmp, "/.."));
+		ft_lstfind_env(&data->env, "PWD", data->pwd);
 	}
 	else
 		return (0);
@@ -74,15 +69,14 @@ void	ft_cd(char *path, t_data *data)
 	int		n;
 
 	g_stat = 0;
-
 	if (ft_cd_home(&path, data))
 		return ;
 	n = chdir(path);
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		ft_error("cd: error retrieving current directory: "
-			, "getcwd: cannot access parent directories: "
-			, "No such file or directory");
+		ft_error("cd: error retrieving current directory: ",
+			"getcwd: cannot access parent directories: ",
+			"No such file or directory");
 	if (pwd)
 		data->pwd = ft_strdup(pwd);
 	tmp = ft_lstfind_env(&data->env, "PWD", NULL);
@@ -93,6 +87,5 @@ void	ft_cd(char *path, t_data *data)
 		ft_putstr_fd("minishell: cd: ", 2);
 		(perror(path), g_stat = 1);
 	}
-	free(pwd);
-	return ;
+	return (free(pwd));
 }
