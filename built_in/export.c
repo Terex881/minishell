@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/28 09:47:00 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:53:11 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,7 @@ void	ft_export(t_var *exec, t_data *data, char **args)//fix $s
 	{
 		if (!ft_valid_export(args[i], data))
 		{
-			g_stat = 1;
-			i++;
+			(1) && (g_stat = 1, i++);
 			continue ;
 		}
 		tmp = ft_strchr(args[i], '=');
