@@ -6,25 +6,26 @@
 #    By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/07 01:30:33 by sdemnati          #+#    #+#              #
-#    Updated: 2024/04/13 20:29:07 by cmasnaou         ###   ########.fr        #
+#    Updated: 2024/05/01 11:24:28 by cmasnaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-OBJ = main.o				syntax_error.o 			expand.o  \
-	allocate_list.o			open_files.o 			coll.o \
-	execution.o  			signals.o				tokenizer/token.o \
-	execution_utils.o		tokenizer/token_utils.o  \
+OBJ = main.o				syntax_error.o\
+	allocate_list.o			open_files.o\
+	tokenizer/token_utils.o tokenizer/token.o  			coll.o \
+	signals.o				expand/expand.o  			expand/expand_utils.o  \
+    built_in/cd.o 			built_in/echo.o         	built_in/exit.o \
+   	built_in/env.o			built_in/env_utils.o        built_in/unset.o\
+    built_in/export.o		built_in/export_utils.o		built_in/pwd.o\
+	execution/execution.o	execution/execution_utils.o	execution/execution_pipe.o\
+	\
     libft/ft_isalpha.o      libft/ft_strlen.o       libft/ft_memcpy.o \
     libft/ft_strchr.o       libft/ft_split.o   		libft/ft_strcmp.o \
     libft/ft_lstadd_back.o  libft/ft_strdup.o       libft/ft_substr.o \
     libft/ft_strjoin.o      libft/ft_strtrim.o   	libft/ft_lstnew.o \
 	libft/ft_itoa.o 		libft/ft_putstr_fd.o    libft/ft_lstsize.o \
     libft/ft_lstlast.o      libft/ft_strncmp.o\
-    built_in/environment.o  built_in/echo.o         built_in/exit.o \
-	built_in/export.o		execution_pipe.o		built_in/export_utils.o \
-   	built_in/env.o			built_in/cd.o           built_in/unset.o \
-    built_in/pwd.o                    
 
 CC = cc
 FLAGS = -Wall -Werror -Wextra
