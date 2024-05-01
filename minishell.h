@@ -6,9 +6,13 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/28 18:24:11 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/01 11:29:12 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// ADD MAKEFILE TO LIBFT!!!
+// fix here_doc with pipe
+// fix norm
 
 // check g_stat for each builtin!!!
 // fix export a="a   b"        ls > $a
@@ -112,7 +116,6 @@ int		ft_strcmp(char *str1, char *str2);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *str);
 char	*ft_strchr(char *s1, int chr);
-// char	*ft_strrchr(char *s, int c);
 void	*ft_memcpy(void *dest1, const void *src1, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *str1, char sep);
@@ -121,7 +124,6 @@ void	ft_lstadd_front(t_list **lst, t_list *new1);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_lstadd_back(t_list **lst, t_list *new1);
 void	ft_lstclear(t_list **lst);
-// void	ft_lstdelone(t_list **lst);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 int		ft_isalpha(int c);
@@ -153,7 +155,8 @@ void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data);
 //---------------------EXPAND---------------------
 
 void	ft_expand(t_list **list, t_data *data);
-char	*ft_charjoin(char const *s1, char s2);
+char	*ft_search_var(char *str, t_data *data);
+// char	*ft_charjoin(char const *s1, char s2);
 char	*ft_expand_her_doc(char *str, t_data *data);
 
 // ---------------------CREATE_NEW_LIST---------------------
