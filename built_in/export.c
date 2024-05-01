@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/01 09:53:11 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/01 13:51:35 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	ft_valid_export(char *line, t_data *data)
 	{
 		if (line[i] == '+')
 			count++;
-		if (count > 1)
+		if (count > 1 || (line[i] == '+' && line[i + 1] != '=')) 
 			return (ft_error_export(line, data), 0);
 		if (!ft_valid_char(line[i]) && line[i] != '=' && line[i] != '+')
 			return (ft_error_export(line, data), 0);
