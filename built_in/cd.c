@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:46 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/01 10:15:09 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:07:29 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 static int	ft_cd_home(char **path, t_data *data)
 {
 	(void)data;
+	if (*path && *path[0] == '~')
+	{
+		*path = getenv("HOME");
+		if (!path || !*path)
+			*path = ft_strdup(data->home);
+		return (0);
+	}
 	if (!path || !*path || !ft_strncmp(*path, "~", 1))
 	{
 		*path = getenv("HOME");
@@ -24,12 +31,6 @@ static int	ft_cd_home(char **path, t_data *data)
 			g_stat = 1;
 			return (1);
 		}
-		// if (!data->path)
-		// {
-		// 	ft_error("minishell: ", "cd: ", "HOME not set\n");
-		// 	g_stat = 1;
-		// 	return (1);
-		// }
 	}
 	return (0);
 }
@@ -88,4 +89,24 @@ void	ft_cd(char *path, t_data *data)
 		(perror(path), g_stat = 1);
 	}
 	return (free(pwd));
+}
+
+char	*ft_gethome(char *pwd)
+{
+	char	*home;
+	int		count;
+	int		i;
+
+	i = 0;
+	count = 0;
+	if (!pwd)
+		return (NULL);
+	while (pwd[i] && count != 3)
+	{
+		if (pwd[i] == '/')
+			count++;
+		i++;
+	}
+	home = ft_substr(pwd, 0, i);
+	return (home);
 }
