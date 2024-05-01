@@ -6,11 +6,27 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:15:01 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/25 18:35:45 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:41:31 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// static int check_outfile(char *name)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	if (!name)
+// 		return (0);
+// 	while (name[i])
+// 	{
+// 		if (name[i] == ' ')
+// 			return (0);
+// 		i++;
+// 	}
+// 	return (1);
+// }
 
 int	ft_in_out(t_list *tmp, t_var *var, t_data *data)
 {
@@ -23,7 +39,11 @@ int	ft_in_out(t_list *tmp, t_var *var, t_data *data)
 		tmp->skip = true;
 		if (var->f_in == -1)
 			return (ft_error("minishell: ", name, ": No such file or directory"), g_stat = 1, 1);
-			// return (perror(name), g_stat = 1, 1);//
+	}
+	else if (tmp->type == R_OUT && !name)//!check_outfile(name)
+	{
+		ft_error("minishell: ", name, ": ambiguous redirect");
+		return (g_stat = 1, 1);
 	}
 	else if (tmp->type == R_OUT)
 		var->f_out = open(name, O_CREAT | O_RDWR | O_TRUNC, 0644);
