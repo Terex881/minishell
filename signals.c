@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:47:37 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/12 08:59:26 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:14:36 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_signal_c(int num)
 		g_stat = 1;
 		if (wait(NULL) != -1)
 			return (ft_putstr_fd("\n", 1));
-		rl_clear_history();
+		// rl_clear_history();
 		ft_putstr_fd("\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
