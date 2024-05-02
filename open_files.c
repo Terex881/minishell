@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:15:01 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/01 09:41:31 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:55:54 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int	ft_open_files(t_list **list, t_var *var, t_data *data)
 void	ft_read_herdoc(t_var *exec, t_data *data, char *limter)
 {
 	char	*line;
-	char	*str;
 	int		fd;
+	char *res;
 
 	while (1)
 	{
@@ -88,8 +88,6 @@ void	ft_read_herdoc(t_var *exec, t_data *data, char *limter)
 		line = readline("> ");
 		if (!ttyname(0))
 			(1) && (fd = open(ttyname(2), O_RDONLY), dup2(0, fd));
-		// if (fd < 0)
-		// 	g_stat = 1;
 		if (!line || !ft_strcmp(limter, line))
 		{
 			free (line);
@@ -97,12 +95,13 @@ void	ft_read_herdoc(t_var *exec, t_data *data, char *limter)
 		}
 		if (data->val == 0)
 		{
-			str = ft_strdup(line);
-			free(line);
-			line = ft_expand_her_doc(str, data);
+			res = ft_expand_her_doc(line, data);
+			ft_putstr_fd(res, exec->f_in);
 		}
-		ft_putstr_fd(line, exec->f_in);
+		else
+			ft_putstr_fd(line, exec->f_in);
 		ft_putstr_fd("\n", exec->f_in);
+		free(line);
 	}
 }
 

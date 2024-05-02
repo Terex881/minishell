@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:12:37 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/06 06:13:53 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:56:22 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	ft_syntax_error(t_list **list)
 		if (ft_type(tmp) == 2 && (ft_type(ft_next(tmp->next)) == 4))
 			return (ft_putstr_fd("syntax error\n", 2), 1);
 		if (ft_type(tmp) == 4 && ft_type(ft_next(tmp->next)) == 4)
+			return (ft_putstr_fd("syntax error\n", 2), 1);
+		if (ft_type(tmp) == 2 && ft_type(ft_next(tmp->next)) == 2)
 			return (ft_putstr_fd("syntax error\n", 2), 1);
 		tmp->skip = false;
 		if (tmp->type == SPACE_)
