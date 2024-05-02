@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   allocate_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:03:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/27 19:02:08 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:59:41 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ void	ft_copy_to_list(t_list **list, t_var *exec, t_data *data)
 	t_list	*tmp;
 	int		i;
 
-	if (!exec->arg)
-		return ;
+	// if (!exec->arg)
+	// 	return ;
 	tmp = *list;
 	i = 0;
 	while (tmp)
