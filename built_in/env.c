@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 20:39:39 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/04 18:35:16 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:42:46 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ static int	check_no_env(t_data *data)
 	return (1);
 }
 
-void	ft_env(t_var *exec, t_data *data, int *g_stat)
+void	ft_env(t_var *exec, t_data *data)
 {
 	t_env		*env;
 
-	*g_stat = 0;
+	// exit_status(0, 1);
 	if (check_no_env(data))
 	{
 		perror("env");
-		*g_stat = 127;
+		exit_status(127, 1);
 		return ;
 	}
 	env = data->env;
