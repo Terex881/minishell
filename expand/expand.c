@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:09:35 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/08 16:34:58 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:09:40 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_expand_var(t_list **list, char *str, int *g_stat)
 	}
 }
 
-void	ft_expand_val(t_list **list, t_data *data, char *str, int *g_stat)
+void	ft_expand_val(t_list **list, t_list **old_tmp, t_data *data, char *str, int *g_stat)
 {
 	t_list	*tmp;
 
@@ -43,7 +43,11 @@ void	ft_expand_val(t_list **list, t_data *data, char *str, int *g_stat)
 		tmp->value = ft_itoa(*g_stat);
 	}
 	else if (tmp && (tmp->type == D_Q || tmp->type == VARIABLE))
+	{
 		tmp->value = ft_search_var(tmp->value, data);
+		if (!tmp->value)
+			(*old_tmp)->next = tmp->next;
+	}
 	else if (tmp && tmp->next && !ft_strcmp(tmp->value, "$") && !ft_type(tmp->next))
 		tmp->value = ft_strdup("$");
 	else if (tmp && tmp->next && !ft_strcmp(tmp->value, "$"));
@@ -56,9 +60,11 @@ void	ft_expand_val(t_list **list, t_data *data, char *str, int *g_stat)
 void	ft_expand(t_list **list, t_data *data, int *g_stat)
 {
 	t_list	*tmp;
+	t_list	*old_tmp;
 	char	*str;
 
 	tmp = *list;
+	old_tmp = tmp;
 	while (tmp)
 	{
 		str = ft_strchr(tmp->value, '$');
@@ -69,7 +75,8 @@ void	ft_expand(t_list **list, t_data *data, int *g_stat)
 			continue ;
 		}
 		ft_expand_var(&tmp, str, g_stat);
-		ft_expand_val(&tmp, data, str, g_stat);
+		ft_expand_val(&tmp, &old_tmp, data, str, g_stat);
+		old_tmp = tmp;
 		tmp = tmp->next;
 	}
 }
