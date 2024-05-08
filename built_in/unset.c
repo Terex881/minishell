@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:32 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/04 15:27:52 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:23:35 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ft_valid_unset(char *arg, int *g_stat)
+static int	ft_valid_unset(char *arg)
 {
 	if ((arg[0] >= 'a' && arg[0] <= 'z')
 		|| (arg[0] >= 'A' && arg[0] <= 'Z') || arg[0] == '_')
 		return (1);
 	ft_error("minishell: unset: `", arg, "': not a valid identifier");
-	*g_stat = 1;
+	exit_status(1, 1);
 	return (0);
 }
 
@@ -45,7 +45,7 @@ static int	ft_unset_arg(t_data **data, char *arg, t_env *p, t_env *tmp)
 	return (1);
 }
 
-void	ft_unset(t_data **data, char **args, int *g_stat)
+void	ft_unset(t_data **data, char **args)
 {
 	t_env	*p;
 	t_env	*tmp;
@@ -57,7 +57,7 @@ void	ft_unset(t_data **data, char **args, int *g_stat)
 		return ;
 	while (args && args[++i])
 	{
-		if (!ft_valid_unset(args[i], g_stat))
+		if (!ft_valid_unset(args[i]))
 			return ;
 		p = (*data)->env;
 		pwd = ft_lstfind_env(&(*data)->env, "PWD", NULL);
