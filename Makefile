@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+         #
+#    By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/07 01:30:33 by sdemnati          #+#    #+#              #
-#    Updated: 2024/05/01 11:24:28 by cmasnaou         ###   ########.fr        #
+#    Updated: 2024/05/05 10:31:32 by sdemnati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,12 +27,9 @@ OBJ = main.o				syntax_error.o\
 	libft/ft_itoa.o 		libft/ft_putstr_fd.o    libft/ft_lstsize.o \
     libft/ft_lstlast.o      libft/ft_strncmp.o\
 
-CC = cc
-FLAGS = -Wall -Werror -Wextra
-MAGENTA	=	\033[0;35m
-CYAN	=	\033[1;92m
-YELLOW	=	\033[1;33m
-NC		=	\033[0m
+CC = cc #-g -fsanitize=address
+# FLAGS = -Wall -Werror -Wextra
+
 
 READLINE_INC = -I$(shell brew --prefix readline)/include
 READLINE_LIB = -L$(shell brew --prefix readline)/lib -lreadline
@@ -41,14 +38,12 @@ all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT_SRCS)
 	$(CC) $(OBJ) $(FLAGS) -o $(NAME) $(READLINE_LIB)
-	echo "🌸 ${CYAN}Done! 🌸 ${NC}use ${MAGENTA}./minishell 🌸"
 
 %.o: %.c minishell.h Makefile
 	$(CC) $(FLAGS) $(READLINE_INC) -c $< -o $@
 
 clean:
 	rm -rf $(OBJ)
-	echo "🌸 ${YELLOW}Cleanup done! 🌸"
 
 fclean: clean
 	rm -rf $(NAME)
@@ -57,6 +52,6 @@ re: fclean all
 
 m: all clean
 
-.PHONY: clean
+
  
 .SILENT:

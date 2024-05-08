@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:29:34 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/01 15:05:10 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:35:13 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_env	*ft_get_env(t_data **data, char **env)
 	*data = c_malloc(sizeof(t_data), 1);
 	if (!*data)
 		return (NULL);
-	g_stat = 0;
+	// *g_stat = 0;
 	if (!env || !*env)
 		return (ft_no_env(data));
 	while (*env)

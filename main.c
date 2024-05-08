@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/04/25 18:28:02 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/07 21:06:27 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,47 +30,51 @@ void	ft_close(t_var *exec)
 	}
 }
 
-void	ft_success(t_list **list, t_env *env, t_data *data)
+void	ft_success(t_list **list, t_env *env, t_data *data, int *g_stat)
 {
 	t_var	*exec;
 
 	exec = NULL;
-	if (ft_syntax_error(list) == 0)
+	if (ft_syntax_error(list, g_stat) == 0)
 	{
-		ft_expand(list, data);
+		ft_expand(list, data, g_stat);
 		exec = ft_allocate_list(list);
 		ft_open_her_doc(list, exec, data);
-		if (ft_open_files(list, exec, data) == 0 || exec->next)
+		if (ft_open_files(list, exec, data, g_stat) == 0 || exec->next)
 		{
 			ft_len_node_elem(list, exec);
 			ft_copy_to_list(list, exec, data);
 			if (exec->next)
-				ft_execute_pipe(exec, data, env);
+				ft_execute_pipe(exec, data, env, g_stat);
 			else
-				ft_execution(exec, data, env);
+				ft_execution(exec, data, env, g_stat);
 		}
 		ft_close(exec);
 	}
 }
 
-int	ft_all(t_list **list, t_env *env, t_data *data)
+int	ft_all(t_list **list, t_env *env, t_data *data, int g_stat)
 {
 	t_list	*node;
 	char	*line;
 	int		tok;
+	global = 1;
+	
 
 	line = NULL;
 	node = NULL;
 	while (1)
 	{
-		ft_signal();
-		tok = ft_token(line, node, list);
+		ft_signal(data, &g_stat);
+		tok = ft_token(line, node, list, &g_stat);
 		if (tok == 0)
 			return (ft_putstr_fd("exit\n", 1), c_malloc(0, 0), 0);
 		else if (tok > 0)
 		{
-			ft_success(list, env, data);
-			ft_lstfind_env(&data->env, "_", ft_strjoin("_=", data->path));
+			global = 1;
+			ft_success(list, env, data, &g_stat);
+			global = 0;
+			// ft_lstfind_env(&data->env, "_", ft_strjoin("_=", data->path));
 		}
 	}
 	c_malloc(0, 0);
@@ -82,6 +86,7 @@ int	main(int ac, char **av, char **env)
 	t_list	*list;
 	t_data	*data;
 	t_env	*env1;
+	static int g_stat;
 
 	if (ac > 1)
 	{
@@ -92,5 +97,5 @@ int	main(int ac, char **av, char **env)
 	list = NULL;
 	env1 = ft_get_env(&data, env);
 	ft_lstfind_env(&data->env, "SHLVL", ft_strjoin("SHLVL=", data->shlvl));
-	ft_all(&list, env1, data);
+	ft_all(&list, env1, data, g_stat);
 }

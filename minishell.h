@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/01 15:02:58 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/07 20:08:37 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,18 @@
 // bash: $b: ambiguous redirect
 // bash-3.2$ ls > "$b"
 
+
+
+// minishell:ls $qq -l
+
+// minishell:< aaa << d
+// > 
+// minishell: aaa: ambiguous redirect
+// minishell:< aaa << d >
+// syntax error
+// minishell:
+
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -46,10 +58,14 @@
 # include <sys/signal.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# define MAGENTA	"\033[0;35m"
-# define NC			"\033[0m"
 
-int	g_stat;
+#include <readline/history.h>
+#include <stdio.h>
+#include <sys/signal.h>
+#include <sys/wait.h>
+
+int	global;
+int lvl1;
 
 typedef enum in
 {
@@ -143,19 +159,19 @@ void	*c_malloc(size_t size, int flag);
 //-----------------------TOKEN---------------------
 
 int		ft_check(char c);
-int		ft_token(char *line, t_list *node, t_list **list);
-int		ft_all(t_list **list, t_env *env, t_data	*data);
-void	ft_print(t_list *list);
+int		ft_token(char *line, t_list *node, t_list **list, int *g_stat);
+// int		ft_all(t_list **list, t_env *env, t_data	*data);
+// void	ft_print(t_list *list);
 void	ft_skip_space(t_list **list);
 
 //---------------------OPEN_FILES---------------------
 
-int		ft_open_files(t_list **list, t_var *exec, t_data *data);
+int		ft_open_files(t_list **list, t_var *exec, t_data *data, int *g_stat);
 void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data);
 
 //---------------------EXPAND---------------------
 
-void	ft_expand(t_list **list, t_data *data);
+void	ft_expand(t_list **list, t_data *data, int *g_stat);
 char	*ft_search_var(char *str, t_data *data);
 // char	*ft_charjoin(char const *s1, char s2);
 char	*ft_expand_her_doc(char *str, t_data *data);
@@ -170,37 +186,37 @@ void	ft_copy_to_list(t_list **list, t_var *exec, t_data *data);
 
 //---------------------SYNTAX_ERROR---------------------
 
-int		ft_syntax_error(t_list **list);
+int		ft_syntax_error(t_list **list, int *g_stat);
 int		ft_type(t_list *lst);
 t_list	*ft_next(t_list *tmp);
 
 //---------------------EXECUTION---------------------
 
-void	ft_execution(t_var *exec, t_data *data, t_env *env);
-void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env);
-char	**ft_free(char **p, int i);
+void	ft_execution(t_var *exec, t_data *data, t_env *env, int *g_stat);
+void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env, int *g_stat);
+// char	**ft_free(char **p, int i);
 char	**get_paths(char *path);
 char	**get_args(t_var *exec);
-char	*valid_path(char *cmd, char *line);
-int		check_builtin(t_var *exec, t_data *data);
+char	*valid_path(char *cmd, char *line, int *g_stat);
+int		check_builtin(t_var *exec, t_data *data, int *g_stat);
 char	**ft_cpy_to_2d(t_env *tmp);
 char	**arg_join(char **args, char **arg);
 char	*get_path(t_data *data, char *cmd);
 
 //-----------------------UTILS---------------------
 
-void	ft_close(t_var *exec);
+// void	ft_close(t_var *exec);
 void	ft_error(char *str1, char *str2, char *str3);
 
 //---------------------BUILTS_IN---------------------
 
 void	ft_pwd(t_var *exec, t_env *env, t_data *data);
-void	ft_env(t_var *exec, t_data *data);
-void	ft_cd(char *path, t_data *data);
-void	ft_echo(char **arg, t_var *exec, t_data *data);
-void	ft_export(t_var *exec, t_data *data, char **args);
-void	ft_unset(t_data **data, char **args);
-void	ft_exit(t_var *exec, char **arg, int len);
+void	ft_env(t_var *exec, t_data *data, int *g_stat);
+void	ft_cd(char *path, t_data *data, int *g_stat);
+void	ft_echo(char **arg, t_var *exec, t_data *data, int *g_stat);
+void	ft_export(t_var *exec, t_data *data, char **args, int *g_stat);
+void	ft_unset(t_data **data, char **args, int *g_stat);
+void	ft_exit(t_var *exec, char **arg, int len, int *g_stat);
 
 //------------------BUILTS_IN_UTILS--------------------
 
@@ -211,12 +227,13 @@ int		ft_arglen(char **arg);
 char	*ft_gethome(char *pwd);
 long long	ft_valid_arg(char *str, int *valid);
 void	ft_print_export(t_var *exec, t_env *env);
-void	ft_error_export(char *line, t_data *data);
+void	ft_error_export(char *line, t_data *data, int *g_stat);
 
 //---------------------SIGNALS---------------------
 
-void	ft_signal(void);
+void	ft_signal(t_data *data, int *g_stat);
 void	ft_signal_c(int num);
+void	ft_signal_q(int num);
 void	ft_signal_her(int num);
 
 //---------------------ENVIRONMENT---------------------

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/01 11:25:37 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/07 22:01:07 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
+#include <sys/wait.h>
 
 void	ft_close_pipe(t_data *data)
 {
@@ -18,7 +20,7 @@ void	ft_close_pipe(t_data *data)
 	close(data->pipe_ends[1]);
 }
 
-void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
+void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len, int *g_stat)
 {
 	char	*path;
 	char	**arr;
@@ -30,46 +32,45 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 		exit(1);
 	arr = ft_cpy_to_2d(env);
 	if (exec->arg && !ft_strncmp(exec->arg[0], "exit", 5))
-		return (ft_exit(exec, exec->arg, len));
-	if (check_builtin(exec, data))
+		return (ft_exit(exec, exec->arg, len, g_stat));
+	if (check_builtin(exec, data, g_stat))
 	{
-		// while (i < 1000000)
-		// 	i++;
-		exit(g_stat);
+		exit(*g_stat);//
 	}
 	args = get_args(exec);
 	if (!args || !args[0])
 		return (perror("malloc error!\n"));////to check	
-		// (perror("malloc error!\n"), exit(1));////to check	
-	path = valid_path(args[0], ft_get_line(data, "PATH", 5) + 5);
+	path = valid_path(args[0], ft_get_line(data, "PATH", 5) + 5, g_stat);
 	if (!path)
 		return (perror("Invalid path!\n"));
 	if (execve(path, args, arr) == -1)
 		(perror("execve"), exit(1));
 }
 
-void	ft_multi_childs(t_var *exec, t_data *data, t_env *env)
+void	ft_multi_childs(t_var *exec, t_data *data, t_env *env, int *g_stat)
 {
 	if (dup2(exec->f_in, 0) == -1)
-		(/*perror("dup2 error!\n"), */exit(1));
+		(exit(1));
 	if (exec->next != NULL)
 	{
 		if ((exec->f_out != 1) && dup2(exec->f_out, 1) == -1)
-			(/*perror("dup2 error!\n"), */exit(1));
+			(exit(1));
 		else if ((exec->f_out == 1) && dup2(data->pipe_ends[1], 1) == -1)
-			(/*perror("dup2 error!\n"), */exit(1));
+			(exit(1));
 	}
 	else
 	{
 		if (dup2(exec->f_out, 1) == -1)
-			(/*perror("dup2 error!\n"), */exit(1));
+			(exit(1));
 	}
 	ft_close_pipe(data);
-	ft_execution_(exec, data, env, data->len);
+	ft_execution_(exec, data, env, data->len, g_stat);
+	
 }
 
-void	ft_void(t_data *data, t_var *exec, t_env *env)
+void	ft_void(t_data *data, t_var *exec, t_env *env, int *g_stat)
 {
+	data->status = 0;
 	data->len = ft_varsize(exec);
 	data->or_in = dup(STDIN_FILENO);
 	if (data->or_in == -1)
@@ -82,7 +83,11 @@ void	ft_void(t_data *data, t_var *exec, t_env *env)
 		if (data->pid == -1)
 			return (perror("fork\n"));
 		else if (data->pid == 0)
-			ft_multi_childs(exec, data, env);
+		{
+			// signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, ft_signal_c);
+			ft_multi_childs(exec, data, env, g_stat);
+		}
 		else
 		{
 			if (dup2(data->pipe_ends[0], 0) == -1)
@@ -97,17 +102,17 @@ void	ft_void(t_data *data, t_var *exec, t_env *env)
 	return ;
 }
 
-void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env)
+void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env, int *g_stat)
 {
-	ft_void(data, exec, env);
-	while (waitpid(data->pid, &data->status, 0) != -1)
+	ft_void(data, exec, env, g_stat);
+
+	waitpid(-1, &data->status, 0);
+	while (waitpid(-1,NULL, 0) != -1)
 		;
-	// while (wait(&data->status) != -1)
-	// 	;
-	if (data->status == SIGINT)
-		g_stat = 130;
-	else if (data->status == SIGQUIT)
-		g_stat = 131;
+	if(WIFSIGNALED(data->status) != 0)
+	{
+		*g_stat = WTERMSIG(data->status) + 128;
+	}
 	else
-		g_stat = WEXITSTATUS(data->status);
+		*g_stat = WEXITSTATUS(data->status);
 }

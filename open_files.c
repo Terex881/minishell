@@ -6,44 +6,31 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:15:01 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/02 13:55:54 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/04 16:57:29 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static int check_outfile(char *name)
-// {
-// 	int	i;
 
-// 	i = 0;
-// 	if (!name)
-// 		return (0);
-// 	while (name[i])
-// 	{
-// 		if (name[i] == ' ')
-// 			return (0);
-// 		i++;
-// 	}
-// 	return (1);
-// }
-
-int	ft_in_out(t_list *tmp, t_var *var, t_data *data)
+int	ft_in_out(t_list *tmp, t_var *var, t_data *data, int *g_stat)
 {
 	char	*name;
 
 	name = ft_varjoin(&tmp->next, data);
-	if (tmp->type == R_IN)
+	if (((tmp->type == R_OUT || tmp->type == R_IN) && !name)
+		|| (tmp->next->type != D_Q && ft_strchr(tmp->next->value, ' ')))
+	{
+		ft_error("minishell: ", name, ": ambiguous redirect");
+		return (*g_stat = 1, 1);
+	}
+	else if (tmp->type == R_IN)
 	{
 		var->f_in = open(name, O_RDWR);
 		tmp->skip = true;
 		if (var->f_in == -1)
-			return (ft_error("minishell: ", name, ": No such file or directory"), g_stat = 1, 1);
-	}
-	else if (tmp->type == R_OUT && !name)//!check_outfile(name)
-	{
-		ft_error("minishell: ", name, ": ambiguous redirect");
-		return (g_stat = 1, 1);
+			return (ft_error("minishell: ", name, ": No such file or directory"),\
+		*g_stat = 1, 1);
 	}
 	else if (tmp->type == R_OUT)
 		var->f_out = open(name, O_CREAT | O_RDWR | O_TRUNC, 0644);
@@ -51,11 +38,11 @@ int	ft_in_out(t_list *tmp, t_var *var, t_data *data)
 		var->f_out = open(name, O_CREAT | O_RDWR | O_APPEND, 0644);
 	tmp->skip = true;
 	if (var->f_out == -1)
-		return (perror(name), g_stat = 1, 1);//
+		return (perror(name), *g_stat = 1, 1);
 	return (0);
 }
 
-int	ft_open_files(t_list **list, t_var *var, t_data *data)
+int	ft_open_files(t_list **list, t_var *var, t_data *data, int *g_stat)
 {
 	t_list	*tmp;
 	int		check;
@@ -67,7 +54,7 @@ int	ft_open_files(t_list **list, t_var *var, t_data *data)
 			var = var->next;
 		if (tmp->type == R_IN || tmp->type == R_OUT || tmp->type == APPEND)
 		{
-			check = ft_in_out(tmp, var, data);
+			check = ft_in_out(tmp, var, data, g_stat);
 			if (check == 1)
 				return (1);
 		}

@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/01 13:51:35 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:35:29 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_error_export(char *line, t_data *data)
+void	ft_error_export(char *line, t_data *data, int *g_stat)
 {
 	ft_error("minishell: export: `", line, "': not a valid identifier");
 	if (data)
-		g_stat = 1;
+		*g_stat = 1;
 }
 
-static int	ft_valid_export(char *line, t_data *data)
+static int	ft_valid_export(char *line, t_data *data, int *g_stat)
 {
 	int		i;
 	char	*name;
@@ -27,11 +27,11 @@ static int	ft_valid_export(char *line, t_data *data)
 
 	name = NULL;
 	count = 0;
-	g_stat = 0;
+	*g_stat = 0; //0
 	i = 0;
 	name = ft_var_name(line);
 	if (line[0] == '=' || line[0] == '+' || (line[0] >= '0' && line[0] <= '9'))
-		return (ft_error_export(line, data), 0);
+		return (ft_error_export(line, data, g_stat), 0);
 	if (ft_valid_char(line[i]))
 		i++;
 	while (line[i] && line[i] != '=')
@@ -39,19 +39,19 @@ static int	ft_valid_export(char *line, t_data *data)
 		if (line[i] == '+')
 			count++;
 		if (count > 1 || (line[i] == '+' && line[i + 1] != '=')) 
-			return (ft_error_export(line, data), 0);
+			return (ft_error_export(line, data, g_stat), 0);
 		if (!ft_valid_char(line[i]) && line[i] != '=' && line[i] != '+')
-			return (ft_error_export(line, data), 0);
+			return (ft_error_export(line, data, g_stat), 0);
 		i++;
 	}
 	return (1);
 }
 
-static int	ft_export_no_args(t_var *exec, t_data *data, char **args)
+static int	ft_export_no_args(t_var *exec, t_data *data, char **args, int *g_stat)
 {
 	t_env	*env_cpy;
 
-	g_stat = 0;
+	*g_stat = 0;
 	if (!args[1])
 	{
 		env_cpy = ft_lstcpy_env(data->env);
@@ -88,20 +88,20 @@ void	ft_export_args(t_data **data, char *arg, char *tmp)
 		// (*data)->path = NULL;
 }
 
-void	ft_export(t_var *exec, t_data *data, char **args)//fix $s
+void	ft_export(t_var *exec, t_data *data, char **args, int *g_stat)//fix $s
 {
 	char	*tmp;
 	int		i;
 
-	g_stat = 0;
-	if (ft_export_no_args(exec, data, args))
+	*g_stat = 0;
+	if (ft_export_no_args(exec, data, args, g_stat))
 		return ;
 	i = 1;
 	while (args[i])
 	{
-		if (!ft_valid_export(args[i], data))
+		if (!ft_valid_export(args[i], data, g_stat))
 		{
-			(1) && (g_stat = 1, i++);
+			(1) && (*g_stat = 1, i++);
 			continue ;
 		}
 		tmp = ft_strchr(args[i], '=');
@@ -113,7 +113,7 @@ void	ft_export(t_var *exec, t_data *data, char **args)//fix $s
 		if (tmp)
 			ft_export_args(&data, args[i], tmp);
 		else if (ft_strchr(args[i], '+'))
-			ft_error_export(args[i], data);
+			ft_error_export(args[i], data, g_stat);
 		else if (!ft_lstfind_env(&data->env, args[i], NULL))
 			ft_lstadd_back_env(&data->env, ft_lstnew_env(ft_strdup(args[i])));
 		i++;
