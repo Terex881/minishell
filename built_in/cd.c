@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:46 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/05 10:59:32 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:42:40 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ft_cd_home(char **path, t_data *data, int *g_stat)
+static int	ft_cd_home(char **path, t_data *data)
 {
 	(void)data;
 	if (*path && *path[0] == '~')
@@ -28,7 +28,7 @@ static int	ft_cd_home(char **path, t_data *data, int *g_stat)
 		if (!path || !*path)
 		{
 			ft_error("minishell: ", "cd: ", "HOME not set");
-			*g_stat = 1;
+			exit_status(1, 1);
 			return (1);
 		}
 	}
@@ -63,14 +63,14 @@ static int	ft_change_dir(int n, char *tmp, char *pwd, t_data *data)
 	return (1);
 }
 
-void	ft_cd(char *path, t_data *data, int *g_stat)
+void	ft_cd(char *path, t_data *data)
 {
 	char	*tmp;
 	char	*pwd;
 	int		n;
 
-	*g_stat = 0;//0
-	if (ft_cd_home(&path, data, g_stat))
+	// exit_status(0, 1);
+	if (ft_cd_home(&path, data))
 		return ;
 	n = chdir(path);
 	pwd = getcwd(NULL, 0);
@@ -86,7 +86,7 @@ void	ft_cd(char *path, t_data *data, int *g_stat)
 	if (!ft_change_dir(n, tmp, pwd, data))
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
-		(perror(path), *g_stat = 1);
+		(perror(path), exit_status(1, 1));
 	}
 	return (free(pwd));
 }
