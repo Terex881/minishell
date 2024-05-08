@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:49:34 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/05 11:58:17 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:48:27 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_list	*ft_add_special_character(t_list *node, char *c, int *i)
 	return (node);
 }
 
-t_list	*ft_add_douple_single(char *line, int *i, t_list *node, int *g_stat)
+t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 {
 	int		j;
 	char	*tmp;
@@ -51,7 +51,7 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node, int *g_stat)
 	tmp = ft_strtrim(tmp, line[j]);
 	node = ft_lstnew(tmp);
 	if ((line[j] == '\"' || line[j] == '\'') && line[*i] == '\0')
-		return (ft_putstr_fd("syntax error\n",   2),*g_stat = 258, NULL);
+		return (ft_putstr_fd("syntax error\n",   2), exit_status(258, 1), NULL);
 	if (line[j] == '\"')
 		node->type = D_Q;
 	else if (line[j] == '\'')
@@ -80,14 +80,14 @@ t_list	*ft_add_var(char *line, int *i, t_list *node)
 	return (node);
 }
 
-t_list	*ft_add_word(char *line, int *i, t_list *node, int *g_stat)
+t_list	*ft_add_word(char *line, int *i, t_list *node)
 {
 	int		j;
 	char	*tmp;
 
 	j = *i;
 	if (ft_check(line[*i]) == 2)
-		return (ft_add_douple_single(line, i, node, g_stat));
+		return (ft_add_douple_single(line, i, node));
 	else if (ft_check(line[*i]) == 3)
 		return (ft_add_var(line, i, node));
 	else
@@ -101,14 +101,14 @@ t_list	*ft_add_word(char *line, int *i, t_list *node, int *g_stat)
 	return (node);
 }
 
-int	ft_token(char *line, t_list *node, t_list **list, int *g_stat)
+int	ft_token(char *line, t_list *node, t_list **list)
 {
 	int	i;
 
 	node = NULL;
 	*list = NULL;
 	i = 0;
-	line = readline("minishell:");
+	line = readline("minishell: ");
 	if (line == NULL)
 		return (0);
 	if (line[i])
@@ -122,7 +122,7 @@ int	ft_token(char *line, t_list *node, t_list **list, int *g_stat)
 		if (line[i] && ft_check(line[i]) == 1)
 			node = ft_add_special_character(node, &line[i], &i);
 		else if (line[i])
-			node = ft_add_word(line, &i, node, g_stat);
+			node = ft_add_word(line, &i, node);
 		if (!node)
 			return (free(line), -1);
 		(ft_lstadd_back(list, node), i++);
