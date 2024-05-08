@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/08 16:35:57 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:43:16 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
-#include <sys/wait.h>
+#include <stdio.h>//////??
+#include <sys/wait.h>/////??
 
 void	ft_close_pipe(t_data *data)
 {
@@ -20,7 +20,7 @@ void	ft_close_pipe(t_data *data)
 	close(data->pipe_ends[1]);
 }
 
-void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len, int *g_stat)
+void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 {
 	char	*path;
 	char	**arr;
@@ -32,22 +32,22 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len, int *g_stat)
 		exit(1);
 	arr = ft_cpy_to_2d(env);
 	if (exec->arg && !ft_strncmp(exec->arg[0], "exit", 5))
-		return (ft_exit(exec, exec->arg, len, g_stat));
-	if (check_builtin(exec, data, g_stat))
+		return (ft_exit(exec, exec->arg, len));
+	if (check_builtin(exec, data))
 	{
-		exit(*g_stat);//
+		exit(exit_status(0, 0));//
 	}
 	args = get_args(exec);
 	if (!args || !args[0])
 		return (perror("malloc error!\n"));////to check	
-	path = valid_path(args[0], ft_get_line(data, "PATH", 5) + 5, g_stat);
+	path = valid_path(args[0], ft_get_line(data, "PATH", 5) + 5);
 	if (!path)
-		return (ft_error("minshell: ", args[0], ": No such file or directory"), exit(*g_stat));
+		return (ft_error("minshell: ", args[0], ": No such file or directory"), exit(exit_status(0, 0)));
 	if (execve(path, args, arr) == -1)
 		(perror("execve"), exit(1));
 }
 
-void	ft_multi_childs(t_var *exec, t_data *data, t_env *env, int *g_stat)
+void	ft_multi_childs(t_var *exec, t_data *data, t_env *env)
 {
 	if (dup2(exec->f_in, 0) == -1)
 		(exit(1));
@@ -64,11 +64,11 @@ void	ft_multi_childs(t_var *exec, t_data *data, t_env *env, int *g_stat)
 			(exit(1));
 	}
 	ft_close_pipe(data);
-	ft_execution_(exec, data, env, data->len, g_stat);
+	ft_execution_(exec, data, env, data->len);
 	
 }
 
-void	ft_void(t_data *data, t_var *exec, t_env *env, int *g_stat)
+void	ft_void(t_data *data, t_var *exec, t_env *env)
 {
 	data->status = 0;
 	data->len = ft_varsize(exec);
@@ -86,7 +86,7 @@ void	ft_void(t_data *data, t_var *exec, t_env *env, int *g_stat)
 		{
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, ft_signal);
-			ft_multi_childs(exec, data, env, g_stat);
+			ft_multi_childs(exec, data, env);
 		}
 		else
 		{
@@ -102,27 +102,27 @@ void	ft_void(t_data *data, t_var *exec, t_env *env, int *g_stat)
 	return ;
 }
 
-void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env, int *g_stat)
+void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env)
 {
-	ft_void(data, exec, env, g_stat);
+	ft_void(data, exec, env);
 
 	// waitpid(-1, &data->status, 0);
 	while (waitpid(data->pid, &data->status, 0) != -1)
 		;
 	if(WIFSIGNALED(data->status))
 	{
-		*g_stat = WTERMSIG(data->status) + 128;
+		exit_status(WTERMSIG(data->status) + 128, 1);
 		if (WTERMSIG(data->status) == SIGQUIT)
 			printf("Quit: 3\n");
 		// printf("ter is %d\n", WTERMSIG(data->status));
 
-		// *g_stat = 89;
+		// *gstat = 89;
 	}
 	else
-		*g_stat = WEXITSTATUS(data->status);
+		exit_status(WEXITSTATUS(data->status), 1);
 	if(WTERMSIG(data->status) == SIGINT)
 	{
 		ft_putstr_fd("\n", 1);
 	}
-	global = 0;
+	// exit_status(0, 1);
 }
