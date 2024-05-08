@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:24 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/08 16:57:17 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:45:21 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ static int	check_n(char *s)
 	return (1);
 }
 
-void	ft_echo(char **arg, t_var *exec, t_data *data, int *g_stat)
+void	ft_echo(char **arg, t_var *exec, t_data *data)
 {
 	int	i;
 	int	n;
 	int	count;
 
 	(void)data;//to remove
-	(1) && (i = 0, n = 0, count = 0, *g_stat = 0);
+	(1) && (i = 0, n = 0, count = 0, exit_status(0, 1));
 	if (!arg || !*arg)
 		return (ft_putstr_fd("\n", exec->f_out));
 	if (check_n(arg[0]))
