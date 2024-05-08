@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:12:37 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/04 14:50:27 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:19:40 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_list	*ft_next(t_list *tmp)
 	return (tmp);
 }
 
-int	ft_syntax_error(t_list **list, int *g_stat)
+int	ft_syntax_error(t_list **list)
 {
 	t_list	*tmp;
 
@@ -45,17 +45,17 @@ int	ft_syntax_error(t_list **list, int *g_stat)
 		return (1);
 	ft_skip_space(list);
 	if (tmp->type == PIPE || ft_lstlast(tmp)->type == PIPE)
-		return (ft_putstr_fd("syntax error\n", 2), *g_stat= 258, 1);
+		return (ft_putstr_fd("syntax error\n", 2), exit_status(258, 1), 1);
 	if (ft_type(ft_lstlast(tmp)) == 2)
-		return (ft_putstr_fd("syntax error\n", 2), *g_stat= 258, 1);
+		return (ft_putstr_fd("syntax error\n", 2), exit_status(258, 1), 1);
 	while (tmp && tmp->next)
 	{
 		if (ft_type(tmp) == 2 && (ft_type(ft_next(tmp->next)) == 4))
-			return (ft_putstr_fd("syntax error\n", 2), *g_stat= 258, 1);
+			return (ft_putstr_fd("syntax error\n", 2), exit_status(258, 1), 1);
 		if (ft_type(tmp) == 4 && ft_type(ft_next(tmp->next)) == 4)
-			return (ft_putstr_fd("syntax error\n", 2), *g_stat= 258, 1);
+			return (ft_putstr_fd("syntax error\n", 2), exit_status(258, 1), 1);
 		if (ft_type(tmp) == 2 && ft_type(ft_next(tmp->next)) == 2)
-			return (ft_putstr_fd("syntax error\n", 2),*g_stat= 258, 1);
+			return (ft_putstr_fd("syntax error\n", 2),exit_status(258, 1), 1);
 		tmp->skip = false;
 		if (tmp->type == SPACE_)
 			tmp->skip = true;
