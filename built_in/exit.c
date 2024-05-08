@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:56 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/04 15:27:39 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:22:04 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ long long	ft_valid_arg(char *str, int *valid)
 	return (*valid = 1, s * n);
 }
 
-void	ft_exit(t_var *exec, char **arg, int len, int *g_stat)
+void	ft_exit(t_var *exec, char **arg, int len)
 {
 	int			valid;
 	long long	n;
@@ -49,7 +49,7 @@ void	ft_exit(t_var *exec, char **arg, int len, int *g_stat)
 	if (len < 2)
 		ft_putstr_fd("exit\n", exec->f_out);
 	if (!arg || !arg[1])
-		(c_malloc(0, 0), exit(*g_stat));
+		(c_malloc(0, 0), exit(exit_status(0, 0)));
 	n = ft_valid_arg(arg[1], &valid);
 	if (!valid)
 	{
@@ -59,7 +59,7 @@ void	ft_exit(t_var *exec, char **arg, int len, int *g_stat)
 	if (arg[2])
 	{
 		ft_error("minishell: ", "exit: ", "too many arguments");
-		*g_stat = 1;
+		exit_status(1, 1);
 		return ;
 	}
 	(c_malloc(0, 0), exit(n));
