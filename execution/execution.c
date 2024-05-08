@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/08 16:45:00 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:46:47 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	check_cmd(char *cmd)
 	}
 }
 
-char	*valid_path(char *cmd, char *line, int *g_stat)
+char	*valid_path(char *cmd, char *line)
 {
 	int		i;
 	char	*path;
@@ -38,13 +38,11 @@ char	*valid_path(char *cmd, char *line, int *g_stat)
 			return (ft_strdup(cmd));
 		paths = get_paths(line);
 		if (!paths)
-			return (*g_stat = 126, NULL);
+			return (exit_status(126, 1), NULL);
 		if ((cmd[0] == '.' || cmd[0] == '/') && !access(cmd, F_OK))
-			(*g_stat = 126, ft_error("minshell: ", cmd, ": Permission denied"), exit(*g_stat));
-			
-			// return (g_stat = 126, NULL);
+			(exit_status(126, 1), ft_error("minshell: ", cmd, ": Permission denied"), exit(exit_status(0, 0)));
 		if (cmd[0] == '.' || cmd[0] == '/')
-			return (*g_stat = 127, NULL);
+			return (exit_status(127, 1), NULL);
 		while (paths && paths[++i])
 		{
 			(tmp = ft_strjoin(paths[i], "/"), path = ft_strjoin(tmp, cmd));
@@ -52,34 +50,34 @@ char	*valid_path(char *cmd, char *line, int *g_stat)
 				return (path);
 		}
 		if (ft_strchr(cmd, '/'))
-			(*g_stat = 127, ft_error("minshell: ", cmd, ": No such file or directory"), exit(*g_stat));
+			(exit_status(127, 1), ft_error("minshell: ", cmd, ": No such file or directory"), exit(exit_status(0, 0)));
 	}
-	(ft_error("minshell: ", cmd, ": command not found"), *g_stat = 127, exit(*g_stat));
+	(ft_error("minshell: ", cmd, ": command not found"), exit_status(127, 1), exit(exit_status(0, 0)));
 }
 
-int	check_builtin(t_var *exec, t_data *data, int *g_stat)
+int	check_builtin(t_var *exec, t_data *data)
 {
 	if (exec->arg && !ft_strncmp(exec->arg[0], "echo", 5))
-		return (ft_echo(exec->arg + 1, exec, data, g_stat), 1);
+		return (ft_echo(exec->arg + 1, exec, data), 1);
 	if (exec->arg && !ft_strncmp(exec->arg[0], "pwd", 4))
 		return (ft_pwd(exec, data->env, data), 1);
 	if (exec->arg &&!ft_strncmp(exec->arg[0], "cd", 3))
-		return (ft_cd(exec->arg[1], data, g_stat), 1);
+		return (ft_cd(exec->arg[1], data), 1);
 	if (exec->arg && !ft_strncmp(exec->arg[0], "unset", 6))
-		return (ft_unset(&data, exec->arg, g_stat), 1);
+		return (ft_unset(&data, exec->arg), 1);
 	if (exec->arg &&!ft_strncmp(exec->arg[0], "env", 4))
 	{
 		if (exec->arg[1])
 			return (ft_putstr_fd("env: ", 1)
-				, perror(exec->arg[1]), *g_stat = 127, 1);
-		return (ft_env(exec, data, g_stat), 1);
+				, perror(exec->arg[1]), exit_status(127, 1), 1);
+		return (ft_env(exec, data), 1);
 	}
 	if (!ft_strncmp(exec->arg[0], "export", 7))
-		return (ft_export(exec, data, exec->arg, g_stat), 1);
+		return (ft_export(exec, data, exec->arg), 1);
 	return (0);
 }
 
-void	ft_child(t_var *exec, t_data *data, char **new_env, int *g_stat)
+void	ft_child(t_var *exec, t_data *data, char **new_env)
 {
 	char	*path;
 	char	**args;
@@ -87,9 +85,9 @@ void	ft_child(t_var *exec, t_data *data, char **new_env, int *g_stat)
 	if (!args || !args[0])
 		(ft_error("minshell: ", args[0], \
 				": command not found"), exit(1));
-	path = valid_path(args[0], ft_get_line(data, "PATH", 4), g_stat);
+	path = valid_path(args[0], ft_get_line(data, "PATH", 4));
 	if (!path)
-		return (ft_error("minshell: ", args[0], ": No such file or directory"), exit(*g_stat));//127
+		return (ft_error("minshell: ", args[0], ": No such file or directory"), exit(exit_status(0, 0)));//127
 	if (dup2(exec->f_in, 0) == -1)
 		(perror("dup2 error!\n"), exit(1));
 	if (dup2(exec->f_out, 1) == -1)
@@ -105,7 +103,7 @@ void	ft_child(t_var *exec, t_data *data, char **new_env, int *g_stat)
 	}
 }
 
-void	ft_execution(t_var *exec, t_data *data, t_env *env, int *g_stat)
+void	ft_execution(t_var *exec, t_data *data, t_env *env)
 {
 	char	**new_env;
 
@@ -113,11 +111,11 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env, int *g_stat)
 	if (!exec->arg)
 		return ;
 	if (!exec->arg[0])
-		return (exec->arg++, ft_execution(exec, data, env, g_stat));
+		return (exec->arg++, ft_execution(exec, data, env));
 	if (exec->arg && !ft_strcmp(exec->arg[0], "exit"))
-		return (ft_exit(exec, exec->arg, data->len, g_stat));
+		return (ft_exit(exec, exec->arg, data->len));
 	data->path = get_path(data, exec->arg[ft_arglen(exec->arg) - 1]);
-	if (check_builtin(exec, data, g_stat))
+	if (check_builtin(exec, data))
 		return ;
 	data->pid = fork();
 	if (data->pid == -1)
@@ -126,27 +124,26 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env, int *g_stat)
 	{
 		signal(SIGQUIT, ft_signal);
 		signal(SIGINT, SIG_DFL);
-		ft_child(exec, data, new_env, g_stat);
+		ft_child(exec, data, new_env);
 	}
 	else
 	{
 		waitpid(data->pid, &data->status, 0);
 		if(WIFSIGNALED(data->status))
 		{
-			*g_stat = WTERMSIG(data->status) + 128;
+			exit_status(WTERMSIG(data->status) + 128, 1);
 			if (WTERMSIG(data->status) == SIGQUIT)
 				printf("Quit: 3\n");
 			if (WTERMSIG(data->status) == 11)
-				*g_stat= 0;
+				exit_status(0, 1);
 		}
 		else
 		{
-			*g_stat = WEXITSTATUS(data->status);
+			exit_status(WEXITSTATUS(data->status), 1);
 		}
 		if(WTERMSIG(data->status) == SIGINT)
 		{
 			ft_putstr_fd("\n", 1);
 		}
-		global = 0;
 	}
 }
