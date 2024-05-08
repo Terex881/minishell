@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/07 20:08:37 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 15:19:58 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,7 +231,7 @@ void	ft_error_export(char *line, t_data *data, int *g_stat);
 
 //---------------------SIGNALS---------------------
 
-void	ft_signal(t_data *data, int *g_stat);
+void	ft_signal();
 void	ft_signal_c(int num);
 void	ft_signal_q(int num);
 void	ft_signal_her(int num);

@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/07 22:01:07 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:35:57 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len, int *g_stat)
 		return (perror("malloc error!\n"));////to check	
 	path = valid_path(args[0], ft_get_line(data, "PATH", 5) + 5, g_stat);
 	if (!path)
-		return (perror("Invalid path!\n"));
+		return (ft_error("minshell: ", args[0], ": No such file or directory"), exit(*g_stat));
 	if (execve(path, args, arr) == -1)
 		(perror("execve"), exit(1));
 }
@@ -84,8 +84,8 @@ void	ft_void(t_data *data, t_var *exec, t_env *env, int *g_stat)
 			return (perror("fork\n"));
 		else if (data->pid == 0)
 		{
-			// signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, ft_signal_c);
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, ft_signal);
 			ft_multi_childs(exec, data, env, g_stat);
 		}
 		else
@@ -106,13 +106,23 @@ void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env, int *g_stat)
 {
 	ft_void(data, exec, env, g_stat);
 
-	waitpid(-1, &data->status, 0);
-	while (waitpid(-1,NULL, 0) != -1)
+	// waitpid(-1, &data->status, 0);
+	while (waitpid(data->pid, &data->status, 0) != -1)
 		;
-	if(WIFSIGNALED(data->status) != 0)
+	if(WIFSIGNALED(data->status))
 	{
 		*g_stat = WTERMSIG(data->status) + 128;
+		if (WTERMSIG(data->status) == SIGQUIT)
+			printf("Quit: 3\n");
+		// printf("ter is %d\n", WTERMSIG(data->status));
+
+		// *g_stat = 89;
 	}
 	else
 		*g_stat = WEXITSTATUS(data->status);
+	if(WTERMSIG(data->status) == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
+	}
+	global = 0;
 }

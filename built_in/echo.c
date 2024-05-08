@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:24 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/04 17:58:13 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:57:17 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ void	ft_echo(char **arg, t_var *exec, t_data *data, int *g_stat)
 	int	count;
 
 	(void)data;//to remove
-	// (1) && (i = 0, n = 0, count = 0, *g_stat = 0);
-	(1) && (i = 0, n = 0, count = 0);
+	(1) && (i = 0, n = 0, count = 0, *g_stat = 0);
 	if (!arg || !*arg)
 		return (ft_putstr_fd("\n", exec->f_out));
 	if (check_n(arg[0]))

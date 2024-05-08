@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 11:24:55 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/01 11:38:20 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:11:05 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ char	*ft_search_var(char *str, t_data *data)
 		{
 			i++;
 			ret = ft_sub_variable(str, &i);
-			fin = ft_strjoin(fin, ft_get_line(data, ret, ft_strlen(ret)));
+			if(ret)
+				fin = ft_strjoin(fin, ft_get_line(data, ret, ft_strlen(ret)));
 		}
 		else
 			(1) && (fin = ft_charjoin(fin, str[i]), i++);

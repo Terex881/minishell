@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/07 21:06:27 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:22:56 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,22 @@ int	ft_all(t_list **list, t_env *env, t_data *data, int g_stat)
 	t_list	*node;
 	char	*line;
 	int		tok;
-	global = 1;
+	
 	
 
 	line = NULL;
 	node = NULL;
 	while (1)
 	{
-		ft_signal(data, &g_stat);
+		ft_signal();
 		tok = ft_token(line, node, list, &g_stat);
 		if (tok == 0)
 			return (ft_putstr_fd("exit\n", 1), c_malloc(0, 0), 0);
 		else if (tok > 0)
 		{
-			global = 1;
+	
 			ft_success(list, env, data, &g_stat);
-			global = 0;
+	
 			// ft_lstfind_env(&data->env, "_", ft_strjoin("_=", data->path));
 		}
 	}

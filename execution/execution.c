@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/07 20:58:47 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:45:00 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,8 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env, int *g_stat)
 		return (perror("fork"));
 	if (data->pid == 0)
 	{
-		signal(SIGQUIT, ft_signal_c);
-		// signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, ft_signal);
+		signal(SIGINT, SIG_DFL);
 		ft_child(exec, data, new_env, g_stat);
 	}
 	else
@@ -136,13 +136,17 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env, int *g_stat)
 			*g_stat = WTERMSIG(data->status) + 128;
 			if (WTERMSIG(data->status) == SIGQUIT)
 				printf("Quit: 3\n");
+			if (WTERMSIG(data->status) == 11)
+				*g_stat= 0;
 		}
 		else
+		{
 			*g_stat = WEXITSTATUS(data->status);
+		}
 		if(WTERMSIG(data->status) == SIGINT)
 		{
-			ft_putstr_fd("\n", 1);		
-			
+			ft_putstr_fd("\n", 1);
 		}
+		global = 0;
 	}
 }

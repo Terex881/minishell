@@ -6,7 +6,7 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:09:35 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/07 18:29:59 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:34:58 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ void	ft_expand_val(t_list **list, t_data *data, char *str, int *g_stat)
 	t_list	*tmp;
 
 	tmp = *list;
+	// printf("global is %d\n", global);
+	if(global == 12)
+		(*g_stat = 1, global = 0);
+	if(global == 10)
+		(*g_stat = 0, global = 0);
 	if (tmp && !ft_strcmp(tmp->value, "$?"))
 	{
 		tmp->value = ft_itoa(*g_stat);
