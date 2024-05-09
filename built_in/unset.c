@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:32 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/08 18:23:35 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:13:48 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static int	ft_valid_unset(char *arg)
 	if ((arg[0] >= 'a' && arg[0] <= 'z')
 		|| (arg[0] >= 'A' && arg[0] <= 'Z') || arg[0] == '_')
 		return (1);
-	ft_error("minishell: unset: `", arg, "': not a valid identifier");
+	ft_error(arg, "': not a valid identifier");
+	// ft_error("minishell: unset: `", arg, "': not a valid identifier");
 	exit_status(1, 1);
 	return (0);
 }
@@ -53,6 +54,7 @@ void	ft_unset(t_data **data, char **args)
 	int		i;
 
 	i = 0;
+	exit_status(0,1);//
 	if (!data || !(*data) || !(*data)->env || !args || !*args)
 		return ;
 	while (args && args[++i])

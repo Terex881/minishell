@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 20:20:39 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/04/26 18:06:59 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:59:55 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_pwd(t_var *exec, t_env *env, t_data *data)
 {
 	char	*tmp;
-
+	exit_status(0, 1); //add this
 	tmp = ft_lstfind_env(&env, "PWD", NULL);
 	if (tmp)
 	{

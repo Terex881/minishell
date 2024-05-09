@@ -3,47 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:47:37 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/08 18:36:43 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 13:57:03 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <sys/signal.h>
-#include <sys/wait.h>
 
 void	ft_signal_her(int num)
 {
 	(void)num;
+	exit_status(1, 1);
 	close(0);
 }
 
 void	ft_signal_c(int num)
 {
-
-	if(num == SIGINT)
+	if(!global)
 	{
-		exit_status(1, 1);
-		ft_putstr_fd("\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();	
-		// global = 12;
-		return;
+		if(num == SIGINT)
+		{
+			exit_status(1, 1);	
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			ft_putstr_fd("\n", 1);
+			rl_redisplay();	
+		}
 	}
-	// global = 10;
-	
 }
-
-
 
 void	ft_signal()
 {
-
 	signal(SIGQUIT, ft_signal_c);
-	signal(SIGINT, ft_signal_c);
-		
-	
+	signal(SIGINT, ft_signal_c);		
 }

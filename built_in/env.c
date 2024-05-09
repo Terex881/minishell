@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 20:39:39 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/08 18:42:46 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:21:11 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_env(t_var *exec, t_data *data)
 {
 	t_env		*env;
 
-	// exit_status(0, 1);
+	exit_status(0, 1); // add this
 	if (check_no_env(data))
 	{
 		perror("env");

@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:24:07 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/01 11:25:24 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:05:30 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_error(char *str1, char *str2, char *str3)
+void	ft_error(char *str2, char *str3)
 {
 	int	i;
 
 	i = 0;
-	ft_putstr_fd(str1, 2);
+	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(str2, 2);
 	ft_putstr_fd(str3, 2);
 	ft_putstr_fd("\n", 2);
@@ -47,7 +47,7 @@ char	**get_args(t_var *exec)
 {
 	char	**arg;
 	char	**args;
-	
+
 	arg = ft_split(exec->arg[0], ' ');
 	if (!arg || !arg[0])
 		return (NULL);
@@ -94,11 +94,10 @@ char	*get_path(t_data *data, char *cmd)
 	int		i;
 
 	paths = get_paths(ft_lstfind_env(&data->env, "PATH", NULL));
-	i  = -1;
+	i = -1;
 	while (paths && paths[++i])
 	{
-		(tmp = ft_strjoin(paths[i], "/"), path = ft_strjoin(tmp, cmd));
-		// data->path = path;
+		(1) && (tmp = ft_strjoin(paths[i], "/"), path = ft_strjoin(tmp, cmd));
 		if (!access(path, F_OK | X_OK))
 			return (path);
 	}

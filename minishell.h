@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/08 18:21:41 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:05:55 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,14 @@
 // fix $_ with exit 2 3 and printenv
 // fix export $s a=b the last is ignored
 
-// fix exit status of last command ls|lss 
-// fix << l | ls
-// <<< g
-// bash-3.2$ export b="1   2"
-// bash-3.2$ ls > b
-// bash-3.2$ ls > $b
-// bash: $b: ambiguous redirect
-// bash-3.2$ ls > "$b"
+// minishell: cd ..
+// cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+// minishell: cd: ..: No such file or directory
+// minishell: 
 
 
 
-// minishell:ls $qq -l
-
-// minishell:< aaa << d
-// > 
-// minishell: aaa: ambiguous redirect
-// minishell:< aaa << d >
-// syntax error
-// minishell:
+// export a=b | ls
 
 
 #ifndef MINISHELL_H
@@ -51,6 +40,9 @@
 # include <limits.h>
 # include <fcntl.h>
 # include <stdio.h>
+#include <readline/history.h>
+#include <sys/signal.h>
+#include <sys/wait.h>
 # include <paths.h>
 # include <stdbool.h>
 # include <sys/wait.h>
@@ -62,9 +54,10 @@
 #include <stdio.h>
 #include <sys/signal.h>
 #include <sys/wait.h>
+#include <stdio.h>//////??
+#include <sys/wait.h>/////??
 
-// int	global;
-// int lvl1;
+int	global;
 
 typedef enum in
 {
@@ -206,7 +199,7 @@ char	*get_path(t_data *data, char *cmd);
 
 // void	ft_close(t_var *exec);
 int		exit_status(int new_stat, int set);
-void	ft_error(char *str1, char *str2, char *str3);
+void	ft_error(char *str2, char *str3);
 
 //---------------------BUILTS_IN---------------------
 

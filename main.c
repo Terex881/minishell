@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/08 18:44:43 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:24:20 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ int	ft_all(t_list **list, t_env *env, t_data *data)
 	t_list	*node;
 	char	*line;
 	int		tok;
-	
-	
 
 	line = NULL;
 	node = NULL;
@@ -80,10 +78,10 @@ int	ft_all(t_list **list, t_env *env, t_data *data)
 			return (ft_putstr_fd("exit\n", 1), c_malloc(0, 0), 0);
 		else if (tok > 0)
 		{
-	
+			global = 1;
 			ft_success(list, env, data);
-			// exit_status(0, 1);
-			// ft_lstfind_env(&data->env, "_", ft_strjoin("_=", data->path));
+			global = 0;
+			ft_lstfind_env(&data->env, "_", ft_strjoin("_=", data->path));
 		}
 	}
 	c_malloc(0, 0);
@@ -99,7 +97,9 @@ int	main(int ac, char **av, char **env)
 	if (ac > 1)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		return (ft_error(av[1], ": ", strerror(ac)), 1);
+		ft_putstr_fd(av[1], 2);
+		ft_putstr_fd("No such file or directory\n", 2);
+		return 1;
 	}
 	rl_catch_signals = 0;
 	list = NULL;

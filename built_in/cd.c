@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:46 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/08 18:42:40 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:12:08 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_cd_home(char **path, t_data *data)
 		*path = getenv("HOME");
 		if (!path || !*path)
 		{
-			ft_error("minishell: ", "cd: ", "HOME not set");
+			ft_error("cd: ", "HOME not set");
 			exit_status(1, 1);
 			return (1);
 		}
@@ -69,15 +69,15 @@ void	ft_cd(char *path, t_data *data)
 	char	*pwd;
 	int		n;
 
-	// exit_status(0, 1);
+	exit_status(0, 1);
 	if (ft_cd_home(&path, data))
 		return ;
 	n = chdir(path);
 	pwd = getcwd(NULL, 0);
-	if (!pwd)
-		ft_error("cd: error retrieving current directory: ",
-			"getcwd: cannot access parent directories: ",
-			"No such file or directory");
+	// if (!pwd)
+		// ft_error("cd: error retrieving current directory: ",
+		// 	"getcwd: cannot access parent directories: ",
+		// 	"No such file or directory");
 	if (pwd)
 		data->pwd = ft_strdup(pwd);
 	tmp = ft_lstfind_env(&data->env, "PWD", NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:49:34 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/08 18:48:27 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:42:28 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_list	*ft_add_douple_single(char *line, int *i, t_list *node)
 	tmp = ft_strtrim(tmp, line[j]);
 	node = ft_lstnew(tmp);
 	if ((line[j] == '\"' || line[j] == '\'') && line[*i] == '\0')
-		return (ft_putstr_fd("syntax error\n",   2), exit_status(258, 1), NULL);
+		return (ft_putstr_fd("syntax error\n", 2), exit_status(258, 1), NULL);
 	if (line[j] == '\"')
 		node->type = D_Q;
 	else if (line[j] == '\'')

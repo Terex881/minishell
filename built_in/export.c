@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/08 18:43:10 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:14:04 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	ft_error_export(char *line, t_data *data)
 {
-	ft_error("minishell: export: `", line, "': not a valid identifier");
+	ft_error(line, "': not a valid identifier");
+	// ft_error("minishell: export: `", line, "': not a valid identifier");
 	if (data)
 		exit_status(1, 1);
 }
@@ -93,7 +94,7 @@ void	ft_export(t_var *exec, t_data *data, char **args)//fix $s
 	char	*tmp;
 	int		i;
 
-	// exit_status(0, 1);;
+	exit_status(0, 1);// check this
 	if (ft_export_no_args(exec, data, args))
 		return ;
 	i = 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:15:01 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/08 18:19:02 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:11:05 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_in_out(t_list *tmp, t_var *var, t_data *data)
 	if (((tmp->type == R_OUT || tmp->type == R_IN) && !name)
 		|| (tmp->next->type != D_Q && ft_strchr(tmp->next->value, ' ')))
 	{
-		ft_error("minishell: ", name, ": ambiguous redirect");
+		ft_error(name, ": ambiguous redirect");
 		return (exit_status(1, 1), 1);
 	}
 	else if (tmp->type == R_IN)
@@ -29,7 +29,7 @@ int	ft_in_out(t_list *tmp, t_var *var, t_data *data)
 		var->f_in = open(name, O_RDWR);
 		tmp->skip = true;
 		if (var->f_in == -1)
-			return (ft_error("minishell: ", name, ": No such file or directory"),\
+			return (ft_error(name, ": No such file or directory"),\
 		exit_status(1, 1), 1);
 	}
 	else if (tmp->type == R_OUT)
