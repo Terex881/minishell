@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/09 15:24:20 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/09 20:06:15 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ int	ft_all(t_list **list, t_env *env, t_data *data)
 			return (ft_putstr_fd("exit\n", 1), c_malloc(0, 0), 0);
 		else if (tok > 0)
 		{
-			global = 1;
+			g_stat = 1;
 			ft_success(list, env, data);
-			global = 0;
+			g_stat = 0;
 			ft_lstfind_env(&data->env, "_", ft_strjoin("_=", data->path));
 		}
 	}
@@ -95,15 +95,11 @@ int	main(int ac, char **av, char **env)
 	t_env	*env1;
 
 	if (ac > 1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(av[1], 2);
-		ft_putstr_fd("No such file or directory\n", 2);
-		return 1;
-	}
+		return (ft_error(av[1], ": No such file or directory"), 1);
 	rl_catch_signals = 0;
 	list = NULL;
 	env1 = ft_get_env(&data, env);
 	ft_lstfind_env(&data->env, "SHLVL", ft_strjoin("SHLVL=", data->shlvl));
 	ft_all(&list, env1, data);
+	return (0);
 }
