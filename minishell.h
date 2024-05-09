@@ -3,33 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/09 15:05:55 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/09 20:08:06 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// ADD MAKEFILE TO LIBFT!!!
-// fix here_doc with pipe
-// fix norm
-
-// fix export a="a   b"        ls > $a
-// fix exit_status for pipe
-// fix printenv
-// fix _= in env, its no longer working 
-// fix $_ with exit 2 3 and printenv
-// fix export $s a=b the last is ignored
-
-// minishell: cd ..
-// cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
-// minishell: cd: ..: No such file or directory
-// minishell: 
-
-
-
-// export a=b | ls
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -40,24 +19,23 @@
 # include <limits.h>
 # include <fcntl.h>
 # include <stdio.h>
-#include <readline/history.h>
-#include <sys/signal.h>
-#include <sys/wait.h>
+# include <readline/history.h>
+# include <sys/signal.h>
+# include <sys/wait.h>
 # include <paths.h>
 # include <stdbool.h>
 # include <sys/wait.h>
 # include <sys/signal.h>
-# include <readline/history.h>
+
 # include <readline/readline.h>
 
-#include <readline/history.h>
-#include <stdio.h>
-#include <sys/signal.h>
-#include <sys/wait.h>
-#include <stdio.h>//////??
-#include <sys/wait.h>/////??
+# include <stdio.h>
+# include <sys/signal.h>
+# include <sys/wait.h>
+# include <stdio.h>
+# include <sys/wait.h>
 
-int	global;
+int	g_stat;
 
 typedef enum in
 {
@@ -142,9 +120,9 @@ void	ft_varadd_back(t_var **lst, t_var *new1);
 int		ft_varsize(t_var *lst);
 char	*ft_itoa(int n1);
 int		ft_lstsize_env(t_env *env);
-t_coll	*ft_collnew(void	*ptr);
+t_coll	*ft_collnew(void *ptr);
 t_coll	*ft_colllast(t_coll **head);
-void	ft_colladd_back(t_coll	**head, t_coll *new1);
+void	ft_colladd_back(t_coll **head, t_coll *new1);
 void	ft_collclear(t_coll **head);
 void	*c_malloc(size_t size, int flag);
 
@@ -152,8 +130,6 @@ void	*c_malloc(size_t size, int flag);
 
 int		ft_check(char c);
 int		ft_token(char *line, t_list *node, t_list **list);
-// int		ft_all(t_list **list, t_env *env, t_data	*data);
-// void	ft_print(t_list *list);
 void	ft_skip_space(t_list **list);
 
 //---------------------OPEN_FILES---------------------
@@ -165,7 +141,6 @@ void	ft_open_her_doc(t_list **list, t_var *exec, t_data *data);
 
 void	ft_expand(t_list **list, t_data *data);
 char	*ft_search_var(char *str, t_data *data);
-// char	*ft_charjoin(char const *s1, char s2);
 char	*ft_expand_her_doc(char *str, t_data *data);
 
 // ---------------------CREATE_NEW_LIST---------------------
@@ -186,9 +161,9 @@ t_list	*ft_next(t_list *tmp);
 
 void	ft_execution(t_var *exec, t_data *data, t_env *env);
 void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env);
-// char	**ft_free(char **p, int i);
 char	**get_paths(char *path);
 char	**get_args(t_var *exec);
+void	ft_close_pipe(t_data *data);
 char	*valid_path(char *cmd, char *line);
 int		check_builtin(t_var *exec, t_data *data);
 char	**ft_cpy_to_2d(t_env *tmp);
@@ -197,7 +172,6 @@ char	*get_path(t_data *data, char *cmd);
 
 //-----------------------UTILS---------------------
 
-// void	ft_close(t_var *exec);
 int		exit_status(int new_stat, int set);
 void	ft_error(char *str2, char *str3);
 
@@ -206,7 +180,7 @@ void	ft_error(char *str2, char *str3);
 void	ft_pwd(t_var *exec, t_env *env, t_data *data);
 void	ft_env(t_var *exec, t_data *data);
 void	ft_cd(char *path, t_data *data);
-void	ft_echo(char **arg, t_var *exec, t_data *data);
+void	ft_echo(char **arg, t_var *exec);
 void	ft_export(t_var *exec, t_data *data, char **args);
 void	ft_unset(t_data **data, char **args);
 void	ft_exit(t_var *exec, char **arg, int len);
@@ -221,6 +195,7 @@ char	*ft_gethome(char *pwd);
 long long	ft_valid_arg(char *str, int *valid);
 void	ft_print_export(t_var *exec, t_env *env);
 void	ft_error_export(char *line, t_data *data);
+void	ft_put_line(t_var *exec, char *var, char *name);
 
 //---------------------SIGNALS---------------------
 
