@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:12:37 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/08 18:19:40 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 20:04:25 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_syntax_error(t_list **list)
 		if (ft_type(tmp) == 4 && ft_type(ft_next(tmp->next)) == 4)
 			return (ft_putstr_fd("syntax error\n", 2), exit_status(258, 1), 1);
 		if (ft_type(tmp) == 2 && ft_type(ft_next(tmp->next)) == 2)
-			return (ft_putstr_fd("syntax error\n", 2),exit_status(258, 1), 1);
+			return (ft_putstr_fd("syntax error\n", 2), exit_status(258, 1), 1);
 		tmp->skip = false;
 		if (tmp->type == SPACE_)
 			tmp->skip = true;
