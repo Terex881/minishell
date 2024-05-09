@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:56 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/09 15:13:04 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:44:21 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,12 @@ void	ft_exit(t_var *exec, char **arg, int len)
 	n = ft_valid_arg(arg[1], &valid);
 	if (!valid)
 	{
-		ft_error(arg[1], ": numeric argument required");
-		// ft_error("minishell: exit: ", arg[1], ": numeric argument required");
+		ft_error(ft_strjoin("exit: ", arg[1]), ": numeric argument required");
 		(c_malloc(0, 0), exit(255));
 	}
 	if (arg[2])
 	{
 		ft_error("exit: ", "too many arguments");
-		// ft_error("minishell: ", "exit: ", "too many arguments");
 		exit_status(1, 1);
 		return ;
 	}

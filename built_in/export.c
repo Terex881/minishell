@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/09 15:14:04 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:25:17 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	ft_error_export(char *line, t_data *data)
 {
-	ft_error(line, "': not a valid identifier");
-	// ft_error("minishell: export: `", line, "': not a valid identifier");
+	ft_error(ft_strjoin("export: `", line), "': not a valid identifier");
 	if (data)
 		exit_status(1, 1);
 }
@@ -28,7 +27,6 @@ static int	ft_valid_export(char *line, t_data *data)
 
 	name = NULL;
 	count = 0;
-	// exit_status(0, 1);
 	i = 0;
 	name = ft_var_name(line);
 	if (line[0] == '=' || line[0] == '+' || (line[0] >= '0' && line[0] <= '9'))
@@ -39,7 +37,7 @@ static int	ft_valid_export(char *line, t_data *data)
 	{
 		if (line[i] == '+')
 			count++;
-		if (count > 1 || (line[i] == '+' && line[i + 1] != '=')) 
+		if (count > 1 || (line[i] == '+' && line[i + 1] != '='))
 			return (ft_error_export(line, data), 0);
 		if (!ft_valid_char(line[i]) && line[i] != '=' && line[i] != '+')
 			return (ft_error_export(line, data), 0);
@@ -52,8 +50,7 @@ static int	ft_export_no_args(t_var *exec, t_data *data, char **args)
 {
 	t_env	*env_cpy;
 
-	// exit_status(0, 1);;
-	if (!args[1])
+	if (!args[1] || args[1][0] == '#')
 	{
 		env_cpy = ft_lstcpy_env(data->env);
 		ft_print_export(exec, ft_sort_env(env_cpy, ft_strcmp));
@@ -84,17 +81,16 @@ void	ft_export_args(t_data **data, char *arg, char *tmp)
 		ft_lstfind_env(&(*data)->env, name, arg);
 	else
 		ft_lstadd_back_env(&(*data)->env, ft_lstnew_env(ft_strdup(arg)));
-	if (ft_strcmp(name, "PATH") == 0 && arg[4] == '=') //still need to be fixed
+	if (ft_strcmp(name, "PATH") == 0 && arg[4] == '=')
 		ft_lstfind_env(&(*data)->env, "PATH=", "");
-		// (*data)->path = NULL;
 }
 
-void	ft_export(t_var *exec, t_data *data, char **args)//fix $s
+void	ft_export(t_var *exec, t_data *data, char **args)
 {
 	char	*tmp;
 	int		i;
 
-	exit_status(0, 1);// check this
+	exit_status(0, 1);
 	if (ft_export_no_args(exec, data, args))
 		return ;
 	i = 1;
@@ -108,9 +104,6 @@ void	ft_export(t_var *exec, t_data *data, char **args)//fix $s
 		tmp = ft_strchr(args[i], '=');
 		if (!ft_strcmp(args[i], "PATH"))
 			data->no_env = 0;
-		// if (!ft_strncmp(ft_var_name(args[i]), "PATH", 5)
-		// 	&& !ft_lstfind_env(&data->env, "PATH", NULL))
-		// 	ft_lstadd_back_env(&data->env, ft_lstnew_env(data->path));
 		if (tmp)
 			ft_export_args(&data, args[i], tmp);
 		else if (ft_strchr(args[i], '+'))

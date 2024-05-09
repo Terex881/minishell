@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 19:58:27 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/01 09:58:37 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:11:51 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,17 @@ void	ft_print_export(t_var *exec, t_env *env)
 	tmp = env;
 	while (tmp)
 	{
+		if (!ft_strncmp(tmp->line, "_=", 2))
+		{
+			tmp = tmp -> next;
+			continue ;
+		}
 		ft_putstr_fd("declare -x ", exec->f_out);
 		var = ft_strchr(tmp->line, '=');
 		if (var)
 		{
 			name = ft_var_name(tmp->line);
-			ft_putstr_fd(name, exec->f_out);
-			ft_putstr_fd("=", exec->f_out);
-			ft_putstr_fd("\"", exec->f_out);
-			ft_putstr_fd(var + 1, exec->f_out);
-			ft_putstr_fd("\"", exec->f_out);
+			ft_put_line(exec, var, name);
 		}
 		else
 			ft_putstr_fd(tmp->line, exec->f_out);

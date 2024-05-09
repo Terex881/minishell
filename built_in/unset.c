@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:32 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/09 15:13:48 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:26:51 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ static int	ft_valid_unset(char *arg)
 	if ((arg[0] >= 'a' && arg[0] <= 'z')
 		|| (arg[0] >= 'A' && arg[0] <= 'Z') || arg[0] == '_')
 		return (1);
-	ft_error(arg, "': not a valid identifier");
-	// ft_error("minishell: unset: `", arg, "': not a valid identifier");
+	ft_error(ft_strjoin("unset: `", arg), "': not a valid identifier");
 	exit_status(1, 1);
 	return (0);
 }
@@ -54,7 +53,7 @@ void	ft_unset(t_data **data, char **args)
 	int		i;
 
 	i = 0;
-	exit_status(0,1);//
+	exit_status(0, 1);
 	if (!data || !(*data) || !(*data)->env || !args || !*args)
 		return ;
 	while (args && args[++i])
@@ -66,10 +65,18 @@ void	ft_unset(t_data **data, char **args)
 		tmp = NULL;
 		if (ft_strncmp(args[i], "PATH", 5) == 0)
 			ft_lstfind_env(&(*data)->env, "PATH=", "");
-			// (*data)->path = NULL;
 		if (!ft_strcmp(args[i], "PWD") && pwd)
 			(*data)->pwd = ft_strdup(pwd + 4);
 		if (!ft_unset_arg(data, args[i], p, tmp))
 			return ;
 	}
+}
+
+void	ft_put_line(t_var *exec, char *var, char *name)
+{
+	ft_putstr_fd(name, exec->f_out);
+	ft_putstr_fd("=", exec->f_out);
+	ft_putstr_fd("\"", exec->f_out);
+	ft_putstr_fd(var + 1, exec->f_out);
+	ft_putstr_fd("\"", exec->f_out);
 }

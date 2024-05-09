@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:29:34 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/08 18:21:36 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:22:41 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ t_env	*ft_get_env(t_data **data, char **env)
 	(*data)->env = p;
 	(*data)->shlvl = ft_itoa(ft_valid_arg(ft_get_line(*data,
 					"SHLVL", 5), &i) + 1);
-	// (*data)->path = ft_get_line((*data), "PATH", 5);
 	(*data)->no_env = 0;
 	return (p);
 }
