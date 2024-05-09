@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/09 15:10:26 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/09 20:02:46 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	ft_close_pipe(t_data *data)
-{
-	close(data->pipe_ends[0]);
-	close(data->pipe_ends[1]);
-}
 
 void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 {
@@ -27,21 +21,21 @@ void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 
 	i = 0;
 	if (!exec->arg)
-		exit(1);
+		exit(0);
 	arr = ft_cpy_to_2d(env);
 	if (exec->arg && !ft_strncmp(exec->arg[0], "exit", 5))
 		return (ft_exit(exec, exec->arg, len));
 	if (check_builtin(exec, data))
-	{
-		exit(exit_status(0, 0));//
-	}
+		exit(exit_status(0, 0));
 	args = get_args(exec);
-	if (!args || !args[0])
-		return (perror("malloc error!\n"));////to check	
+	if (!args)
+		return (exit(exit_status(0, 1)));
+	if (!args[0])
+		(exit(exit_status(0, 1)));
 	path = valid_path(args[0], ft_get_line(data, "PATH", 5) + 5);
 	if (!path)
-		return (ft_error( args[0], ": No such file or directory"), \
-			exit(exit_status(0, 0)));
+		return (ft_error(args[0], ": No such file or directory")
+			, exit(exit_status(0, 0)));
 	if (execve(path, args, arr) == -1)
 		(perror("execve"), exit(1));
 }
@@ -77,7 +71,6 @@ void	ft_void(t_data *data, t_var *exec, t_env *env)
 			return (perror("fork\n"));
 		else if (data->pid == 0)
 		{
-			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, ft_signal);
 			ft_multi_childs(exec, data, env);
 		}
@@ -97,6 +90,7 @@ void	ft_void(t_data *data, t_var *exec, t_env *env)
 
 void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env)
 {
+	exit_status(0, 1);
 	data->status = 0;
 	data->len = ft_varsize(exec);
 	data->or_in = dup(STDIN_FILENO);
