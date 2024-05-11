@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:06:58 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/01 09:47:32 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/11 19:20:56 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	if (!s || !s[i])
+	if (!s)
+		return (0);
+	if (!s[i])
 		return (0);
 	while (s[i])
 		i++;
