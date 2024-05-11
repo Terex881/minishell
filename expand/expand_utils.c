@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 11:24:55 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/11 10:34:16 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/11 18:02:37 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*ft_search_var(char *str, t_data *data)
 	{
 		if (str[i] == '$' && ft_isalpha(str[i + 1]) == 0)
 			(1) && (fin = ft_charjoin(fin, str[i]), i++);
-		else if (str[i] == '$') // add else if
+		else if (str[i] == '$')
 		{
 			i++;
 			ret = ft_sub_variable(str, &i);
