@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/10 14:25:31 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/11 20:42:22 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env)
 		return (exec->arg++, ft_execution(exec, data, env));
 	if (exec->arg && !ft_strcmp(exec->arg[0], "exit"))
 		return (ft_exit(exec, exec->arg, data->len));
-	data->path = get_path(data, exec->arg[ft_arglen(exec->arg) - 1]);
+	if(data) // this 
+		data->path = get_path(data, exec->arg[ft_arglen(exec->arg) - 1]);
 	if (check_builtin(exec, data))
 		return ;
 	new_env = ft_cpy_to_2d(env);

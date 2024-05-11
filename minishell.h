@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/11 19:57:58 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/11 20:26:49 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 # include <unistd.h>
 # include <limits.h>
 # include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <paths.h>
-# include <stdbool.h>
 # include <stdio.h>
+# include <readline/history.h>
 # include <sys/signal.h>
 # include <sys/wait.h>
+# include <paths.h>
+# include <stdbool.h>
+# include <readline/readline.h>
 
 int	g_stat;
 

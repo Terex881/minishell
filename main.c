@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/11 19:51:06 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/11 21:33:14 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,14 @@ void	ft_success(t_list **list, t_env *env, t_data *data)
 	{
 		ft_expand(list, data);
 		exec = ft_allocate_list(list);
+		if(!exec)
+			return ;
 		ft_open_her_doc(list, exec, data);
 		if (ft_open_files(list, exec, data) == 0 || exec->next)
 		{
 			ft_len_node_elem(list, exec);
 			ft_copy_to_list(list, exec, data);
-			if (exec->next)
+			if (exec->next) //
 				ft_execute_pipe(exec, data, env);
 			else
 				ft_execution(exec, data, env);
@@ -81,7 +83,8 @@ int	ft_all(t_list **list, t_env *env, t_data *data)
 			g_stat = 1;
 			ft_success(list, env, data);
 			g_stat = 0;
-			ft_lstfind_env(&data->env, "_", ft_strjoin("_=", data->path));
+			if (data)
+				ft_lstfind_env(&data->env, "_", ft_strjoin("_=", data->path));
 		}
 	}
 	c_malloc(0, 0);
@@ -99,7 +102,10 @@ int	main(int ac, char **av, char **env)
 	rl_catch_signals = 0;
 	list = NULL;
 	env1 = ft_get_env(&data, env);
-	ft_lstfind_env(&data->env, "SHLVL", ft_strjoin("SHLVL=", data->shlvl));
-	ft_all(&list, env1, data);
+	if (data) //
+	{
+		ft_lstfind_env(&data->env, "SHLVL", ft_strjoin("SHLVL=", data->shlvl));
+		ft_all(&list, env1, data);
+	}
 	return (0);
 }

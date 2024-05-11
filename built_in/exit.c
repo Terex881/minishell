@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:56 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/09 15:44:21 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/11 21:39:45 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ long long	ft_valid_arg(char *str, int *valid)
 	unsigned long long	n;
 	unsigned long long	tmp;
 
+	if (!str)
+		return (*valid = 0, 0);
 	(1) && (s = 1, n = 0, *valid = 0);
 	while (str && (*str == 32 || (*str >= 9 && *str <= 13)))
 		str++;
