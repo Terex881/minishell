@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 19:58:27 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/09 18:11:51 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:56:17 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_var_name(char *line)
 	i = 0;
 	while (line[i] && line[i] != '=')
 		i++;
-	if (line[i - 1] == '+')
+	if (i > 0 && line[i - 1] == '+') // add i > 0
 		i--;
 	return (ft_substr(line, 0, i));
 }

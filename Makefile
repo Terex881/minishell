@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+         #
+#    By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/07 01:30:33 by sdemnati          #+#    #+#              #
-#    Updated: 2024/05/09 18:59:26 by cmasnaou         ###   ########.fr        #
+#    Updated: 2024/05/11 17:51:16 by sdemnati         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,8 @@ OBJ = main.o				syntax_error.o\
 	libft/ft_itoa.o 		libft/ft_putstr_fd.o    libft/ft_lstsize.o \
     libft/ft_lstlast.o      libft/ft_strncmp.o		execution/execution_pipe_utils.o\
 
-CC = cc #-g -fsanitize=address
-# FLAGS = -Wall -Werror -Wextra
+CC = cc 
+FLAGS = -Wall -Werror -Wextra
 
 
 READLINE_INC = -I$(shell brew --prefix readline)/include
@@ -49,9 +49,3 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
-
-m: all clean
-
-
- 
-.SILENT:

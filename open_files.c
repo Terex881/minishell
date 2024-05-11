@@ -6,12 +6,11 @@
 /*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:15:01 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/09 15:11:05 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/11 15:05:20 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int	ft_in_out(t_list *tmp, t_var *var, t_data *data)
 {
@@ -29,7 +28,7 @@ int	ft_in_out(t_list *tmp, t_var *var, t_data *data)
 		var->f_in = open(name, O_RDWR);
 		tmp->skip = true;
 		if (var->f_in == -1)
-			return (ft_error(name, ": No such file or directory"),\
+			return (ft_error(name, ": No such file or directory"), \
 		exit_status(1, 1), 1);
 	}
 	else if (tmp->type == R_OUT)
@@ -67,7 +66,7 @@ void	ft_read_herdoc(t_var *exec, t_data *data, char *limter)
 {
 	char	*line;
 	int		fd;
-	char *res;
+	char	*res;
 
 	while (1)
 	{

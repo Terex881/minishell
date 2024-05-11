@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:47:37 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/09 20:06:15 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/11 15:05:17 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@ void	ft_signal_her(int num)
 
 void	ft_signal_c(int num)
 {
-	if(!g_stat)
+	if (!g_stat)
 	{
-		if(num == SIGINT)
+		if (num == SIGINT)
 		{
-			exit_status(1, 1);	
+			exit_status(1, 1);
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			ft_putstr_fd("\n", 1);
-			rl_redisplay();	
+			rl_redisplay();
 		}
 	}
 }
 
-void	ft_signal()
+void	ft_signal(void)
 {
 	signal(SIGQUIT, ft_signal_c);
-	signal(SIGINT, ft_signal_c);		
+	signal(SIGINT, ft_signal_c);
 }

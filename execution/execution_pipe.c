@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/09 20:02:46 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/11 09:51:52 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <signal.h>
+#include <sys/wait.h>
 
 void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 {
@@ -71,7 +73,7 @@ void	ft_void(t_data *data, t_var *exec, t_env *env)
 			return (perror("fork\n"));
 		else if (data->pid == 0)
 		{
-			signal(SIGQUIT, ft_signal);
+			signal(SIGQUIT, ft_signal_c);
 			ft_multi_childs(exec, data, env);
 		}
 		else
@@ -90,6 +92,9 @@ void	ft_void(t_data *data, t_var *exec, t_env *env)
 
 void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env)
 {
+	int	i;
+
+	i = 0;
 	exit_status(0, 1);
 	data->status = 0;
 	data->len = ft_varsize(exec);
@@ -98,15 +103,16 @@ void	ft_execute_pipe(t_var *exec, t_data *data, t_env *env)
 		(perror("dup error!\n"), exit(1));
 	ft_void(data, exec, env);
 	waitpid(data->pid, &data->status, 0);
-	while (waitpid(-1, NULL, 0) != -1)
-		;
+	while (waitpid(-1, &data->status2, 0) != -1)
+		if (WTERMSIG(data->status2) == 2 || WTERMSIG(data->status) == 2)
+			i = 1;
+	if (i == 1)
+		ft_putstr_fd("\n", 1);
 	if (WIFSIGNALED(data->status))
 	{
 		exit_status(WTERMSIG(data->status) + 128, 1);
 		if (WTERMSIG(data->status) == SIGQUIT)
 			printf("Quit: 3\n");
-		if (WTERMSIG(data->status) == SIGINT)
-			ft_putstr_fd("\n", 1);
 	}
 	else
 		exit_status(WEXITSTATUS(data->status), 1);

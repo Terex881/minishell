@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_pipe_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:53:14 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/09 20:03:38 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/11 10:43:07 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,5 @@ char	*valid_path(char *cmd, char *line)
 		if (ft_strchr(cmd, '/'))
 			(ft_error(cmd, ": No such file or directory"), exit(exit_status(127, 1)));
 	}
-	(ft_error(cmd, ": command not found"), exit_status(127, 1), exit(exit_status(0, 0)));
+	(ft_error(cmd, ": command not found"), exit(exit_status(127, 1)));
 }

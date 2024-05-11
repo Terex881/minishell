@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:29:34 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/09 18:22:41 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/10 14:45:05 by sdemnati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_env	*ft_no_env(t_data **data)
 
 	pwd = getcwd(NULL, 0);
 	p = ft_lstnew_env(ft_strjoin("PWD=", pwd));
-	ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));
+	// ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));
 	ft_lstadd_back_env(&p, ft_lstnew_env(ft_strjoin("PATH=", _PATH_STDPATH)));
 	(*data)->path = "/usr/bin/env";
 	if ((*data)->path)
@@ -96,7 +96,7 @@ t_env	*ft_no_env(t_data **data)
 	(*data)->env = p;
 	(*data)->pwd = ft_strdup(pwd);
 	(*data)->home = ft_gethome(pwd);
-	(*data)->shlvl = "1";
+	// (*data)->shlvl = "1";
 	(*data)->no_env = 1;
 	return (free(pwd), p);
 }
@@ -119,8 +119,8 @@ t_env	*ft_get_env(t_data **data, char **env)
 		env++;
 	}
 	(*data)->env = p;
-	(*data)->shlvl = ft_itoa(ft_valid_arg(ft_get_line(*data,
-					"SHLVL", 5), &i) + 1);
+	// (*data)->shlvl = ft_itoa(ft_valid_arg(ft_get_line(*data,
+	// 				"SHLVL", 5), &i) + 1);
 	(*data)->no_env = 0;
 	return (p);
 }
