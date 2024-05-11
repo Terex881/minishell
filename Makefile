@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+         #
+#    By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/07 01:30:33 by sdemnati          #+#    #+#              #
-#    Updated: 2024/05/11 17:51:16 by sdemnati         ###   ########.fr        #
+#    Updated: 2024/05/11 19:51:22 by cmasnaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,8 @@ OBJ = main.o				syntax_error.o\
 	libft/ft_itoa.o 		libft/ft_putstr_fd.o    libft/ft_lstsize.o \
     libft/ft_lstlast.o      libft/ft_strncmp.o		execution/execution_pipe_utils.o\
 
-CC = cc 
+CC = cc
 FLAGS = -Wall -Werror -Wextra
-
 
 READLINE_INC = -I$(shell brew --prefix readline)/include
 READLINE_LIB = -L$(shell brew --prefix readline)/lib -lreadline
