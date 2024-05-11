@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/11 15:06:22 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/11 19:57:58 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,12 @@
 # include <unistd.h>
 # include <limits.h>
 # include <fcntl.h>
-# include <stdio.h>
 # include <readline/history.h>
-# include <sys/signal.h>
-# include <sys/wait.h>
+# include <readline/readline.h>
 # include <paths.h>
 # include <stdbool.h>
-# include <sys/wait.h>
-# include <sys/signal.h>
-
-# include <readline/readline.h>
-
 # include <stdio.h>
 # include <sys/signal.h>
-# include <sys/wait.h>
-# include <stdio.h>
 # include <sys/wait.h>
 
 int	g_stat;
@@ -77,7 +68,7 @@ typedef struct s_data
 {
 	t_env	*env;
 	char	*path;
-	// char	*shlvl;
+	char	*shlvl;
 	char	*pwd;
 	char	*home;
 	int		no_env;
