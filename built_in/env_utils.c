@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:29:34 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/10 14:45:05 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/11 19:49:58 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	*ft_lstfind_env(t_env **env, char *line, char *new_line)
 {
 	t_env	*tmp;
-	char	*find;
 	int		n;
 
 	if (!env || !*env || !line)
@@ -28,13 +27,9 @@ char	*ft_lstfind_env(t_env **env, char *line, char *new_line)
 			&& (tmp->line[n] == '\0' || tmp->line[n] == '='))
 		{
 			if (!new_line || !*new_line)
-			{
-				find = ft_strdup(tmp->line);
-				return (find);
-			}
-			tmp -> line = ft_strdup(new_line);
-			find = ft_strdup(tmp->line);
-			return (find);
+				return (ft_strdup(tmp->line));
+			tmp->line = ft_strdup(new_line);
+			return (ft_strdup(new_line));
 		}
 		tmp = tmp -> next;
 	}
@@ -88,15 +83,15 @@ t_env	*ft_no_env(t_data **data)
 
 	pwd = getcwd(NULL, 0);
 	p = ft_lstnew_env(ft_strjoin("PWD=", pwd));
-	// ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));
+	ft_lstadd_back_env(&p, ft_lstnew_env(ft_strdup("SHLVL=1")));
 	ft_lstadd_back_env(&p, ft_lstnew_env(ft_strjoin("PATH=", _PATH_STDPATH)));
-	(*data)->path = "/usr/bin/env";
+	(*data)->path = ft_strdup("/usr/bin/env");
 	if ((*data)->path)
 		ft_lstadd_back_env(&p, ft_lstnew_env(ft_strjoin("_=", (*data)->path)));
 	(*data)->env = p;
 	(*data)->pwd = ft_strdup(pwd);
 	(*data)->home = ft_gethome(pwd);
-	// (*data)->shlvl = "1";
+	(*data)->shlvl = ft_strdup("1");
 	(*data)->no_env = 1;
 	return (free(pwd), p);
 }
@@ -119,8 +114,9 @@ t_env	*ft_get_env(t_data **data, char **env)
 		env++;
 	}
 	(*data)->env = p;
-	// (*data)->shlvl = ft_itoa(ft_valid_arg(ft_get_line(*data,
-	// 				"SHLVL", 5), &i) + 1);
+	(*data)->path = ft_strdup("/usr/bin/env");
+	(*data)->shlvl = ft_itoa(ft_valid_arg(ft_get_line(*data, "SHLVL", 5), \
+		&i) + 1);
 	(*data)->no_env = 0;
 	return (p);
 }

@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 20:39:39 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/09 18:19:37 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/11 19:50:32 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	check_no_env(t_data *data)
 	char	*path;
 	int		i;
 
+	path = NULL;
 	if (!ft_get_line(data, "PATH", 4)
 		|| !ft_strlen(ft_get_line(data, "PATH", 4)))
 		return (1);
@@ -27,7 +28,7 @@ static int	check_no_env(t_data *data)
 	while (paths && paths[++i])
 	{
 		(1) && (tmp = ft_strjoin(paths[i], "/"), path = ft_strjoin(tmp, "env"));
-		data->path = path;
+		data->path = ft_strdup(path);
 		if (!access(path, F_OK | X_OK))
 			return (0);
 	}
