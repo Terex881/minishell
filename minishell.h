@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/11 20:26:49 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 09:37:14 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_data
 	char	*path;
 	char	*shlvl;
 	char	*pwd;
+	int		no_pwd;
 	char	*home;
 	int		no_env;
 	int		or_in;
@@ -185,7 +186,7 @@ int			ft_valid_char(char c);
 int			ft_arglen(char **arg);
 char		*ft_gethome(char *pwd);
 long long	ft_valid_arg(char *str, int *valid);
-void		ft_print_export(t_var *exec, t_env *env);
+void		ft_print_export(t_var *exec, t_data *data, t_env *env);
 void		ft_error_export(char *line, t_data *data);
 void		ft_put_line(t_var *exec, char *var, char *name);
 
