@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 20:39:39 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/11 19:50:32 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 09:47:50 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ void	ft_env(t_var *exec, t_data *data)
 		if (ft_strchr(env->line, '='))
 		{
 			if (data->no_env && !ft_strncmp(env->line, "PATH=", 5))
+			{
+				env = env->next;
+				continue ;
+			}
+			if (data->no_pwd && !ft_strncmp(env->line, "OLDPWD=", 7))
 			{
 				env = env->next;
 				continue ;

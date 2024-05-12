@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/09 18:25:17 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 09:09:49 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	ft_export_no_args(t_var *exec, t_data *data, char **args)
 	if (!args[1] || args[1][0] == '#')
 	{
 		env_cpy = ft_lstcpy_env(data->env);
-		ft_print_export(exec, ft_sort_env(env_cpy, ft_strcmp));
+		ft_print_export(exec, data, ft_sort_env(env_cpy, ft_strcmp));
 		return (1);
 	}
 	return (0);

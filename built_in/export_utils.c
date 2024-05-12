@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 19:58:27 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/11 18:02:21 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 09:56:57 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,27 @@ t_env	*ft_sort_env(t_env *env, int (*cmp)(char *, char *))
 	return (env);
 }
 
-void	ft_print_export(t_var *exec, t_env *env)
+void	ft_print_export(t_var *exec, t_data *data, t_env *env)
 {
 	t_env	*tmp;
 	char	*var;
 	char	*name;
-
+	(void)data;
 	tmp = env;
+
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp->line, "_=", 2))
+		{
+			tmp = tmp -> next;
+			continue ;
+		}
+		if (data->no_env && !ft_strncmp(tmp->line, "PATH=", 5))
+		{
+			tmp = tmp -> next;
+			continue ;
+		}
+		if (data->no_pwd && !ft_strncmp(tmp->line, "OLDPWD=", 7))
 		{
 			tmp = tmp -> next;
 			continue ;
