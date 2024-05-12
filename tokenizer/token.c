@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:49:34 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/11 21:32:11 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 10:06:46 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_list	*ft_add_word(char *line, int *i, t_list *node)
 	if (!tmp)
 		return (NULL);
 	node = ft_lstnew(tmp);
-	if(!node)
+	if (!node)
 		return (NULL);
 	node->type = WORD;
 	return (node);

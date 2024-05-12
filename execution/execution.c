@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/12 09:39:42 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 10:07:05 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env)
 		return (exec->arg++, ft_execution(exec, data, env));
 	if (exec->arg && !ft_strcmp(exec->arg[0], "exit"))
 		return (ft_exit(exec, exec->arg, data->len));
-	if(data) // this 
+	if (data)
 		data->path = get_path(data, exec->arg[ft_arglen(exec->arg) - 1]);
 	if (check_builtin(exec, data))
 		return ;

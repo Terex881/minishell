@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 19:58:27 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/12 09:56:57 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 10:09:16 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,23 +82,13 @@ void	ft_print_export(t_var *exec, t_data *data, t_env *env)
 {
 	t_env	*tmp;
 	char	*var;
-	char	*name;
-	(void)data;
-	tmp = env;
 
+	tmp = env;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->line, "_=", 2))
-		{
-			tmp = tmp -> next;
-			continue ;
-		}
-		if (data->no_env && !ft_strncmp(tmp->line, "PATH=", 5))
-		{
-			tmp = tmp -> next;
-			continue ;
-		}
-		if (data->no_pwd && !ft_strncmp(tmp->line, "OLDPWD=", 7))
+		if (!ft_strncmp(tmp->line, "_=", 2)
+			|| (data->no_env && !ft_strncmp(tmp->line, "PATH=", 5))
+			|| (data->no_pwd && !ft_strncmp(tmp->line, "OLDPWD=", 7)))
 		{
 			tmp = tmp -> next;
 			continue ;
@@ -106,10 +96,7 @@ void	ft_print_export(t_var *exec, t_data *data, t_env *env)
 		ft_putstr_fd("declare -x ", exec->f_out);
 		var = ft_strchr(tmp->line, '=');
 		if (var)
-		{
-			name = ft_var_name(tmp->line);
-			ft_put_line(exec, var, name);
-		}
+			ft_put_line(exec, var, ft_var_name(tmp->line));
 		else
 			ft_putstr_fd(tmp->line, exec->f_out);
 		ft_putstr_fd("\n", exec->f_out);

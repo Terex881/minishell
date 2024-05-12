@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:32 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/12 08:08:58 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 10:07:17 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ void	ft_unset(t_data **data, char **args)
 	while (args && args[++i])
 	{
 		ft_valid_unset(args[i]);
-		// if (!ft_valid_unset(args[i]))
-		// 	return ;
 		p = (*data)->env;
 		pwd = ft_lstfind_env(&(*data)->env, "PWD", NULL);
 		tmp = NULL;

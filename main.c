@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 06:20:33 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/11 21:33:14 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 10:14:23 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ void	ft_success(t_list **list, t_env *env, t_data *data)
 	{
 		ft_expand(list, data);
 		exec = ft_allocate_list(list);
-		if(!exec)
+		if (!exec)
 			return ;
 		ft_open_her_doc(list, exec, data);
 		if (ft_open_files(list, exec, data) == 0 || exec->next)
 		{
 			ft_len_node_elem(list, exec);
 			ft_copy_to_list(list, exec, data);
-			if (exec->next) //
+			if (exec->next)
 				ft_execute_pipe(exec, data, env);
 			else
 				ft_execution(exec, data, env);
@@ -102,7 +102,7 @@ int	main(int ac, char **av, char **env)
 	rl_catch_signals = 0;
 	list = NULL;
 	env1 = ft_get_env(&data, env);
-	if (data) //
+	if (data)
 	{
 		ft_lstfind_env(&data->env, "SHLVL", ft_strjoin("SHLVL=", data->shlvl));
 		ft_all(&list, env1, data);

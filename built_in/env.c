@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 20:39:39 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/12 09:47:50 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 10:13:31 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,15 @@ void	ft_env(t_var *exec, t_data *data)
 
 	exit_status(0, 1);
 	if (check_no_env(data))
-	{
-		perror("env");
-		exit_status(127, 1);
-		return ;
-	}
+		return (perror("env"), (void)exit_status(127, 1));
 	env = data->env;
 	ft_lstfind_env(&data->env, "_", ft_strjoin("_=", data->path));
 	while (env)
 	{
 		if (ft_strchr(env->line, '='))
 		{
-			if (data->no_env && !ft_strncmp(env->line, "PATH=", 5))
-			{
-				env = env->next;
-				continue ;
-			}
-			if (data->no_pwd && !ft_strncmp(env->line, "OLDPWD=", 7))
+			if ((data->no_env && !ft_strncmp(env->line, "PATH=", 5))
+				|| (data->no_pwd && !ft_strncmp(env->line, "OLDPWD=", 7)))
 			{
 				env = env->next;
 				continue ;
