@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/11 20:42:22 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 09:39:42 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_builtin(t_var *exec, t_data *data)
 	if (exec->arg && !ft_strncmp(exec->arg[0], "pwd", 4))
 		return (ft_pwd(exec, data->env, data), 1);
 	if (exec->arg &&!ft_strncmp(exec->arg[0], "cd", 3))
-		return (ft_cd(exec->arg[1], data), 1);
+		return (ft_cd(exec->arg[1], data), data->no_pwd = 0, 1);
 	if (exec->arg && !ft_strncmp(exec->arg[0], "unset", 6))
 		return (ft_unset(&data, exec->arg), 1);
 	if (exec->arg &&!ft_strncmp(exec->arg[0], "env", 4))
