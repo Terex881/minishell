@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:36 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/12 09:09:49 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 10:24:43 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,16 @@ void	ft_error_export(char *line, t_data *data)
 static int	ft_valid_export(char *line, t_data *data)
 {
 	int		i;
-	char	*name;
 	int		count;
 
-	name = NULL;
 	count = 0;
 	i = 0;
-	name = ft_var_name(line);
 	if (line[0] == '=' || line[0] == '+' || (line[0] >= '0' && line[0] <= '9'))
 		return (ft_error_export(line, data), 0);
 	if (ft_valid_char(line[i]))
 		i++;
+	if (line[0] == '\0')
+			return (ft_error_export(line, data), 0);
 	while (line[i] && line[i] != '=')
 	{
 		if (line[i] == '+')
