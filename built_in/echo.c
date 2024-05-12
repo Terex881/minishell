@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:24 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/09 18:18:48 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 09:06:22 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,26 @@ static int	check_n(char *s)
 	}
 	return (1);
 }
+static void	put_str(char *s, int fd)//added this to remove '\'
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i])
+	{
+		if (s[i] == '\\' && !s[i + 1])
+			return ;
+		if (s[i] == '\\' && s[i + 1] != '\\')
+		{
+			i++;
+			continue ;
+		}
+		write(fd, &s[i], 1);
+		i++;
+	}
+}
 
 void	ft_echo(char **arg, t_var *exec)
 {
@@ -46,8 +66,8 @@ void	ft_echo(char **arg, t_var *exec)
 	{
 		while (n == 1 && check_n(arg[i]) && count == 1 && i++)
 			continue ;
-		count = 0;
-		ft_putstr_fd(arg[i], exec->f_out);
+		put_str(arg[i], exec->f_out);
+		// ft_putstr_fd(arg[i], exec->f_out);
 		if (arg[i] && arg[i + 1])
 			ft_putstr_fd(" ", exec->f_out);
 		i++;
