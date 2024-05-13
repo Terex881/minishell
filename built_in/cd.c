@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 23:29:46 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/09 18:17:25 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/12 21:41:48 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	ft_change_dir(int n, char *tmp, char *pwd, t_data *data)
 	{
 		if (!tmp)
 			tmp = data->pwd;
-		ft_lstfind_env(&data->env, "OLDPWD", ft_strjoin("OLDPWD=", tmp + 4));
+		ft_lstfind_env(&data->env, "OLDPWD", ft_strjoin("OLDPWD=", tmp));
 		path = getcwd(NULL, 0);
 		if (path)
 			data->pwd = ft_strdup(path);

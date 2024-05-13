@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:53:14 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/11 18:15:04 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:56:04 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,22 @@ void	ft_close_pipe(t_data *data)
 {
 	close(data->pipe_ends[0]);
 	close(data->pipe_ends[1]);
+}
+
+int	is_empty(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (1);
+	while (str[i])
+	{
+		if (str[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 char	*valid_cmd(char *cmd, char **paths, char *path)

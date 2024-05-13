@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 20:39:39 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/12 10:13:31 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/13 18:07:31 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ void	ft_env(t_var *exec, t_data *data)
 
 	exit_status(0, 1);
 	if (check_no_env(data))
-		return (perror("env"), (void)exit_status(127, 1));
+	{
+		ft_error("env: ", "No such file or directory");
+		return ((void)exit_status(127, 1));
+	}
 	env = data->env;
 	ft_lstfind_env(&data->env, "_", ft_strjoin("_=", data->path));
 	while (env)

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemnati <sdemnati@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/11 09:51:52 by sdemnati         ###   ########.fr       */
+/*   Updated: 2024/05/12 21:44:30 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <signal.h>
-#include <sys/wait.h>
 
 void	ft_execution_(t_var *exec, t_data *data, t_env *env, int len)
 {

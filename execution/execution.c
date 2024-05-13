@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 21:20:43 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/12 10:07:05 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/13 18:06:06 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,12 @@ void	ft_execution(t_var *exec, t_data *data, t_env *env)
 	exit_status(0, 1);
 	if (!exec->arg || (!exec->arg[0] && !exec->arg[1]))
 		return ;
+	if (is_empty(exec->arg[0]))
+	{
+		ft_error(exec->arg[0], ": command not found");
+		exit_status(127, 1);
+		return ;
+	}
 	if (!exec->arg[0])
 		return (exec->arg++, ft_execution(exec, data, env));
 	if (exec->arg && !ft_strcmp(exec->arg[0], "exit"))
