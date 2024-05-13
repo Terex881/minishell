@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:20:05 by sdemnati          #+#    #+#             */
-/*   Updated: 2024/05/12 09:37:14 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:56:52 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ void		ft_execution(t_var *exec, t_data *data, t_env *env);
 void		ft_execute_pipe(t_var *exec, t_data *data, t_env *env);
 char		**get_paths(char *path);
 char		**get_args(t_var *exec);
+int			is_empty(char *str);
 void		ft_close_pipe(t_data *data);
 char		*valid_path(char *cmd, char *line);
 int			check_builtin(t_var *exec, t_data *data);
