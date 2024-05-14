@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 18:53:14 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/13 17:56:04 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:07:07 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	is_empty(char *str)
 
 	i = 0;
 	if (!str)
+		return (0);
+	if (!str[0])
 		return (1);
 	while (str[i])
 	{
