@@ -6,7 +6,7 @@
 /*   By: cmasnaou <cmasnaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 23:25:29 by cmasnaou          #+#    #+#             */
-/*   Updated: 2024/05/12 21:44:30 by cmasnaou         ###   ########.fr       */
+/*   Updated: 2024/05/14 09:51:41 by cmasnaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	ft_void(t_data *data, t_var *exec, t_env *env)
 			return (perror("pipe error!\n"));
 		data->pid = fork();
 		if (data->pid == -1)
-			return (perror("fork\n"));
+			return (ft_error("fork: ", "Resource temporarily unavailable"),
+				(void)exit_status(1, 1), exit(1));
 		else if (data->pid == 0)
 		{
 			signal(SIGQUIT, ft_signal_c);
